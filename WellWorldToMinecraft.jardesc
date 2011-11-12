@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
+<jardesc>
+    <jar path="C:/Users/Eddie/Desktop/Minecraft/plugins/WellWorld.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/WellWorld/WellWorldToMinecraft.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <manifest generateManifest="true" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
+        <javaElement handleIdentifier="=WellWorld/src"/>
+        <file path="/WellWorld/README"/>
+        <file path="/WellWorld/plugin.yml"/>
+        <file path="/WellWorld/.project"/>
+        <file path="/WellWorld/.classpath"/>
+        <file path="/WellWorld/wellworld_description.txt"/>
+    </selectedElements>
+</jardesc>
