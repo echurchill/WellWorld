@@ -12,7 +12,6 @@
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
         <javaElement handleIdentifier="=WellWorld/src"/>
-        <file path="/WellWorld/README"/>
         <file path="/WellWorld/plugin.yml"/>
         <file path="/WellWorld/.project"/>
         <file path="/WellWorld/.classpath"/>
