@@ -34,14 +34,14 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 	public byte[] generate(World world, Random random, int chunkX, int chunkZ) {
 		
 		// figure out what everything looks like
-		WellManager well = plugin.getWellManager(world, random, chunkX, chunkZ);
+		WellArchetype well = plugin.getWellManager(world, random, chunkX, chunkZ);
 		if (well != null) {
 			
 			// let the well do it's stuff
 			ByteChunk source = new ByteChunk(chunkX, chunkZ);
 			
 			// let the chunk do it's stuff
-			well.populateChunk(world, random, source);
+			well.populateChunk(world, source);
 			
 			// add walls?
 			int testX = chunkX % WellWorld.Width;
@@ -49,13 +49,19 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 			addWalls(source, testX == 0, testX == WellWorld.Width - 1 || chunkX == -1,
 							 testZ == 0, testZ == WellWorld.Width - 1 || chunkZ == -1);
 			
+			// add a floor
+			source.setBlocksAt(0, Material.BEDROCK);
+			
 			return source.blocks;
 		} else
 			return null;
 	}
 	
+	//TODO railroad along the wall ridge?
 	private void addWalls(ByteChunk source, boolean wallNorth, boolean wallSouth, boolean wallWest, boolean wallEast) {
 		if (wallNorth || wallSouth || wallEast || wallWest) {
+			
+			// place the walls themselves
 			for (int i = 0; i < 8; i++) {
 				int y1 = i * 16;
 				int y2 = (i + 1) * 16;
@@ -68,6 +74,9 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 				if (wallEast)
 					source.setBlocks(0, 16, y1, y2, 16 - 8 + i, 16, Material.BEDROCK);
 			}
+			
+			//TODO add between wells portals
+			//TODO prevent people from climbing over the walls
 		}
 	}
 }

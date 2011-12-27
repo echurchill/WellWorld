@@ -7,7 +7,10 @@ import java.util.logging.Logger;
 import me.daddychurchill.WellWorld.WellTypes.PrototypeWell;
 import me.daddychurchill.WellWorld.WellTypes.KhylandWell;
 import me.daddychurchill.WellWorld.WellTypes.PancakeWell;
+import me.daddychurchill.WellWorld.WellTypes.SimplexNoiseWell;
+import me.daddychurchill.WellWorld.WellTypes.SimplexOctaveWell;
 import me.daddychurchill.WellWorld.WellTypes.WaterWell;
+import me.daddychurchill.WellWorld.WellTypes.codenameBWell;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -73,22 +76,24 @@ public class WellWorld extends JavaPlugin {
 	
 	
 	// Class instance data
-	private Hashtable<Long, WellManager> wells;
+	private Hashtable<Long, WellArchetype> wells;
 
-	public WellManager getWellManager(World world, Random random, int chunkX, int chunkZ) {
+	public WellArchetype getWellManager(World world, Random random, int chunkX, int chunkZ) {
 		// get the list of wells
 		if (wells == null)
-			wells = new Hashtable<Long, WellManager>();
+			wells = new Hashtable<Long, WellArchetype>();
 		
 		// find the origin for the plat
 		int platX = calcOrigin(chunkX);
 		int platZ = calcOrigin(chunkZ);
 
 		// calculate the plat's key
-		Long wellkey = Long.valueOf(((long) platX * (long) Integer.MAX_VALUE + (long) platZ));
+		long wellpos = (long) platX * (long) Integer.MAX_VALUE + (long) platZ;
+		Long wellkey = Long.valueOf(wellpos);
+		long wellseed = wellpos ^ world.getSeed();
 
 		// see if the well is already out there
-		WellManager wellmanager = wells.get(wellkey);
+		WellArchetype wellmanager = wells.get(wellkey);
 		
 		// doesn't exist? then make it!
 		if (wellmanager == null) {
@@ -99,7 +104,7 @@ public class WellWorld extends JavaPlugin {
 			// water flat
 			// lava flat
 			// crystal world
-			wellmanager = randomWellManager(random);
+			wellmanager = randomWellManager(wellseed);
 			
 			// remember it for the next time
 			wells.put(wellkey, wellmanager);
@@ -119,16 +124,25 @@ public class WellWorld extends JavaPlugin {
 		}
 	}
 	
-	private WellManager randomWellManager(Random random) {
-		switch (random.nextInt(4)) {
+	//TODO FluidLevel, FluidType, IncludeGround, IncludeCeiling, GroundLevel, CeilingLevel
+	//TODO Maze
+	
+	private WellArchetype randomWellManager(long seed) {
+		switch (5) {//random.nextInt(4)) {
 		case 1:
-			return new KhylandWell(random);
+			return new KhylandWell(seed);
 		case 2:
-			return new PancakeWell(random);
+			return new PancakeWell(seed);
 		case 3:
-			return new WaterWell(random);
+			return new WaterWell(seed);
+		case 4:
+			return new SimplexNoiseWell(seed);
+		case 5:
+			return new SimplexOctaveWell(seed);
+		case 6:
+			return new codenameBWell(seed);
 		default:
-			return new PrototypeWell(random);
+			return new PrototypeWell(seed);
 		}
 	}
 }

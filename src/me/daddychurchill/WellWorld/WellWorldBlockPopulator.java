@@ -22,8 +22,8 @@ public class WellWorldBlockPopulator extends BlockPopulator {
 	public void populate(World world, Random random, Chunk source) {
 		
 		// figure out what everything looks like
-		WellManager well = plugin.getWellManager(world, random, source.getX(), source.getZ());
+		WellArchetype well = plugin.getWellManager(world, random, source.getX(), source.getZ());
 		if (well != null)
-			well.populateBlocks(world, random, source);
+			well.populateBlocks(world, source);
 	}
 }

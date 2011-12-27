@@ -1,26 +1,24 @@
 package me.daddychurchill.WellWorld.WellTypes;
 
-import java.util.Random;
-
 import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.util.noise.SimplexNoiseGenerator;
 
-import me.daddychurchill.WellWorld.WellManager;
+import me.daddychurchill.WellWorld.WellArchetype;
 import me.daddychurchill.WellWorld.Support.ByteChunk;
 
-public class PancakeWell extends WellManager {
+public class PancakeWell extends WellArchetype {
 
-	public PancakeWell(Random random) {
-		super(random);
+	public PancakeWell(long seed) {
+		super(seed);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public void populateChunk(World world, Random random, ByteChunk chunk) {
+	public void populateChunk(World world, ByteChunk chunk) {
 		// pretty much a direct copy of khyperia.trippyterrain for testing purposes
-		SimplexNoiseGenerator simplex = new SimplexNoiseGenerator(world.getSeed());
+		SimplexNoiseGenerator simplex = new SimplexNoiseGenerator(randseed);
 		int cx = chunk.getX();
 		int cz = chunk.getZ();
 		Material[][][] blocks = new Material[16][128][16];
@@ -59,7 +57,7 @@ public class PancakeWell extends WellManager {
 	}
 
 	@Override
-	public void populateBlocks(World world, Random random, Chunk chunk) {
+	public void populateBlocks(World world, Chunk chunk) {
 		// TODO Auto-generated method stub
 
 	}
