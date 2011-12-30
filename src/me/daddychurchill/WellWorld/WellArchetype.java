@@ -3,6 +3,7 @@ package me.daddychurchill.WellWorld;
 import java.util.Random;
 
 import me.daddychurchill.WellWorld.Support.ByteChunk;
+import me.daddychurchill.WellWorld.Support.WellWall;
 
 import org.bukkit.Chunk;
 import org.bukkit.Material;
@@ -11,14 +12,12 @@ import org.bukkit.util.Vector;
 
 public abstract class WellArchetype {
 	
-	protected Random random;
+	public Random random;
 	protected long randseed;
 	protected Vector minBlock;
 	protected Vector maxBlock;
 	protected int wellX;
 	protected int wellZ;
-	
-	//TODO getBounds to return the bounding rectangle of chunks for this region
 	
 	public WellArchetype(long seed, int wellX, int wellZ) {
 		// make our own random
@@ -34,10 +33,15 @@ public abstract class WellArchetype {
 		int x2 = (wellX + WellWorld.wellWidthInChunks) * 16; 
 		int z1 = wellZ * 16;
 		int z2 = (wellZ + WellWorld.wellWidthInChunks) * 16; 
-		this.minBlock = new Vector(x1 + WellWorld.wallThicknessInBlocks, 1, z1 + WellWorld.wallThicknessInBlocks);
-		this.maxBlock = new Vector(x2 - WellWorld.wallThicknessInBlocks, 127, z2 - WellWorld.wallThicknessInBlocks);
+		this.minBlock = new Vector(x1 + WellWall.wallThicknessInBlocks, 1, z1 + WellWall.wallThicknessInBlocks);
+		this.maxBlock = new Vector(x2 - WellWall.wallThicknessInBlocks, 127, z2 - WellWall.wallThicknessInBlocks);
 	}
 	
+	// override these to make something really happen!
+	public abstract void populateChunk(World world, ByteChunk chunk);
+	public abstract void populateBlocks(World world, Chunk chunk);	
+	
+	// gives you the well's origin chunk position
 	public int getX() {
 		return wellX;
 	}
@@ -46,8 +50,17 @@ public abstract class WellArchetype {
 		return wellZ;
 	}
 	
+	// override these to auto-draw the top and bottom of the well
+	public boolean includeTop() {
+		return false;
+	}
+	
+	public boolean includeBottom() {
+		return true;
+	}
+	
 	protected Material pickRandomMineralAt(int y) {
-		// a VERY rough version of http://www.minecraftwiki.net/wiki/Ore
+		// a VERY VERY rough version of http://www.minecraftwiki.net/wiki/Ore
 		if (y <= 16)
 			return pickRandomMineral(6);
 		else if (y <= 34)
@@ -75,23 +88,23 @@ public abstract class WellArchetype {
 		}
 	}
 	
-	protected int NudgeToBounds(int at, int margin, int min, int max) {
+	protected int nudgeToBounds(int at, int margin, int min, int max) {
         return Math.min(Math.max(at - margin, min) + margin + margin, max) - margin;
 	}
 	
-	protected int NudgeToBounds(int at, int min, int max) {
+	protected int nudgeToBounds(int at, int min, int max) {
         return Math.min(Math.max(at, min), max);
 	}
 	
-	protected int CalcRandomRange(int min, int max) {
+	protected int calcRandomRange(int min, int max) {
 		return min + random.nextInt(max - min);
 	}
 	
-	protected double CalcRandomRange(double min, double max) {
+	protected double calcRandomRange(double min, double max) {
 		return min + random.nextDouble() * (max - min);
 	}
 	
-	protected void drawHalfFilledSphere(World world, Chunk chunk, int centerX, int centerY, int centerZ, int radius, Material material) {
+	protected void drawSolidSphere(World world, Chunk chunk, int centerX, int centerY, int centerZ, int radius, Material material) {
         Vector center = new Vector(centerX, centerY, centerZ);
         int materialId = material.getId();
         
@@ -145,7 +158,4 @@ public abstract class WellArchetype {
             }
         }
 	}
-
-	public abstract void populateChunk(World world, ByteChunk chunk);
-	public abstract void populateBlocks(World world, Chunk chunk);	
 }

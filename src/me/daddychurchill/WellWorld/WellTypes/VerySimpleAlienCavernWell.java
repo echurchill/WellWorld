@@ -74,7 +74,7 @@ public class VerySimpleAlienCavernWell extends WellArchetype {
 		int chunkZ = chunk.getZ();
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
-				for (int y = 0; y < 128; y++) {
+				for (int y = 1; y < 128; y++) {
 					double noise = generator.noise((chunkX * 16 + x) / xFactor, y / yFactor, (chunkZ * 16 + z) / zFactor);
 					
 					if (noise >= 0)
@@ -84,11 +84,8 @@ public class VerySimpleAlienCavernWell extends WellArchetype {
 				}
 			}
 		}
-		
-		// cap it off
-		chunk.setBlocksAt(127, Material.BEDROCK);
 	}
-
+	
 	@Override
 	public void populateBlocks(World world, Chunk chunk) {
 		
@@ -102,5 +99,10 @@ public class VerySimpleAlienCavernWell extends WellArchetype {
 				}
 			}
 		}
+	}
+
+	@Override
+	public boolean includeTop() {
+		return true;
 	}
 }

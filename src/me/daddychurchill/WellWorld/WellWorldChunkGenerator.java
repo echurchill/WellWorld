@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Random;
 
 import me.daddychurchill.WellWorld.Support.ByteChunk;
+import me.daddychurchill.WellWorld.Support.WellWall;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
@@ -17,7 +17,6 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 	private WellWorld plugin;
 	public String worldname;
 	public String worldstyle;
-	public static final Material wallMaterial = Material.BEDROCK;
 	
 	public WellWorldChunkGenerator(WellWorld instance, String name, String style){
 		this.plugin = instance;
@@ -52,42 +51,11 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 			// let the chunk do it's stuff
 			well.populateChunk(world, source);
 			
-			// add walls?
-			int testX = chunkX - well.getX();
-			int testZ = chunkZ - well.getZ();
-			drawWellBounds(source, random, 
-					testX == 0, testX == WellWorld.wellWidthInChunks - 1,
-					testZ == 0, testZ == WellWorld.wellWidthInChunks - 1);
+			// draw the well walls
+			WellWall.generateWalls(well, random, source, chunkX - well.getX(), chunkZ - well.getZ());
 			
 			return source.blocks;
 		} else
 			return null;
-	}
-	
-	//TODO railroad along the wall ridge?
-	private void drawWellBounds(ByteChunk source, Random random, boolean wallNorth, boolean wallSouth, boolean wallWest, boolean wallEast) {
-		if (wallNorth || wallSouth || wallEast || wallWest) {
-			
-			// place the walls themselves
-			for (int i = 0; i < 8; i++) {
-				int y1 = i * 16;
-				int y2 = (i + 1) * 16;
-				
-				// the walls themselves
-				if (wallNorth)
-					source.setBlocks(0, WellWorld.wallThicknessInBlocks - i, y1, y2, 0, 16, wallMaterial);
-				if (wallSouth)
-					source.setBlocks(16 - WellWorld.wallThicknessInBlocks + i, 16, y1, y2, 0, 16, wallMaterial);
-				if (wallWest)
-					source.setBlocks(0, 16, y1, y2, 0, WellWorld.wallThicknessInBlocks - i, wallMaterial);
-				if (wallEast)
-					source.setBlocks(0, 16, y1, y2, 16 - WellWorld.wallThicknessInBlocks + i, 16, wallMaterial);
-			}
-			
-			//TODO add between wells portals
-		}
-		
-		// add a floor
-		source.setBlocksAt(0, wallMaterial);
 	}
 }

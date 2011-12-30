@@ -8,12 +8,12 @@ import org.bukkit.util.noise.SimplexOctaveGenerator;
 import me.daddychurchill.WellWorld.WellArchetype;
 import me.daddychurchill.WellWorld.Support.ByteChunk;
 
-public class codenameBWell extends WellArchetype {
+public class CodenameBWell extends WellArchetype {
 
 	private byte stoneId = (byte) Material.STONE.getId();
 	//private byte airId = (byte) Material.AIR.getId();
 	
-	public codenameBWell(long seed, int wellX, int wellZ) {
+	public CodenameBWell(long seed, int wellX, int wellZ) {
 		super(seed, wellX, wellZ);
 		// TODO Auto-generated constructor stub
 	}

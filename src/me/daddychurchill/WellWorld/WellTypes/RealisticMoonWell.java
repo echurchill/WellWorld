@@ -44,9 +44,9 @@ public class RealisticMoonWell extends WellArchetype {
 		super(seed, wellX, wellZ);
 		
 		// other private bits
-		surfaceAt = CalcRandomRange(MIN_SURFACE_HEIGHT, MAX_SURFACE_HEIGHT);
-		surfaceVariance = CalcRandomRange(MIN_SURFACE_VARIANCE, MAX_SURFACE_VARIANCE);
-		craterChance = CalcRandomRange(MIN_CRATER_CHANCE, MAX_CRATER_CHANCE);
+		surfaceAt = calcRandomRange(MIN_SURFACE_HEIGHT, MAX_SURFACE_HEIGHT);
+		surfaceVariance = calcRandomRange(MIN_SURFACE_VARIANCE, MAX_SURFACE_VARIANCE);
+		craterChance = calcRandomRange(MIN_CRATER_CHANCE, MAX_CRATER_CHANCE);
 		
 		// material
 		switch (random.nextInt(10)) {
@@ -149,14 +149,14 @@ public class RealisticMoonWell extends WellArchetype {
             }
             
             // nudge to fit inside the well (WellWorld addition)
-            centerX = NudgeToBounds(centerX, radius, minBlock.getBlockX(), maxBlock.getBlockX());
-            centerZ = NudgeToBounds(centerZ, radius, minBlock.getBlockZ(), maxBlock.getBlockZ());
+            centerX = nudgeToBounds(centerX, radius, minBlock.getBlockX(), maxBlock.getBlockX());
+            centerZ = nudgeToBounds(centerZ, radius, minBlock.getBlockZ(), maxBlock.getBlockZ());
             
             // how far up? (WellWorld change)
             int centerY = world.getHighestBlockYAt(centerX, centerZ);
             
             // nudge to fit inside the well (WellWorld addition)
-            centerY = NudgeToBounds(centerY, radius, minBlock.getBlockY(), maxBlock.getBlockY());
+            centerY = nudgeToBounds(centerY, radius, minBlock.getBlockY(), maxBlock.getBlockY());
             
             // flood? (WellWorld addition)
             int floodY = random.nextInt(100) <= FLOOD_CHANCE ? centerY - radius / 2 : 0;
@@ -197,9 +197,9 @@ public class RealisticMoonWell extends WellArchetype {
             	int meteoriteY = centerY - random.nextInt(radius * 4) - radius - meteoriteRadius;
             	
             	// make sure it is in bounds
-            	meteoriteX = NudgeToBounds(meteoriteX, meteoriteRadius, minBlock.getBlockX(), maxBlock.getBlockX());
-            	meteoriteZ = NudgeToBounds(meteoriteZ, meteoriteRadius, minBlock.getBlockZ(), maxBlock.getBlockZ());
-            	meteoriteY = NudgeToBounds(meteoriteY, meteoriteRadius, minBlock.getBlockY(), maxBlock.getBlockY());
+            	meteoriteX = nudgeToBounds(meteoriteX, meteoriteRadius, minBlock.getBlockX(), maxBlock.getBlockX());
+            	meteoriteZ = nudgeToBounds(meteoriteZ, meteoriteRadius, minBlock.getBlockZ(), maxBlock.getBlockZ());
+            	meteoriteY = nudgeToBounds(meteoriteY, meteoriteRadius, minBlock.getBlockY(), maxBlock.getBlockY());
                 
             	// what is it made of?
             	Material meteoriteMaterial = pickRandomMineralAt(meteoriteY);
@@ -208,7 +208,7 @@ public class RealisticMoonWell extends WellArchetype {
             	if (meteoriteRadius == 1) {
             		world.getBlockAt(meteoriteX, meteoriteY, meteoriteZ).setType(meteoriteMaterial);
             	} else {
-                    drawHalfFilledSphere(world, chunk, meteoriteX, meteoriteY, meteoriteZ, meteoriteRadius, meteoriteMaterial);
+                    drawSolidSphere(world, chunk, meteoriteX, meteoriteY, meteoriteZ, meteoriteRadius, meteoriteMaterial);
 //            		Vector meteoriteCenter = new BlockVector(meteoriteX, meteoriteY, meteoriteZ);
 //                    for (int x = -meteoriteRadius; x <= meteoriteRadius; x++) {
 //                        for (int y = -meteoriteRadius; y <= meteoriteRadius; y++) {

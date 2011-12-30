@@ -81,7 +81,7 @@ public class KhylandWell extends WellArchetype {
 
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
-				int xz = (x * 16 + z) * 128;
+				int xz = (x * 16 + z) * 128; //EC: small optimization
 				for (int y = 0; y < 128; y++) {
 					chunk.blocks[xz + y] = (byte) blocks[x][y][z].getId();
 				}

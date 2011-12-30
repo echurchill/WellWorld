@@ -2,6 +2,8 @@ package me.daddychurchill.WellWorld;
 
 import java.util.Random;
 
+import me.daddychurchill.WellWorld.Support.WellWall;
+
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
@@ -28,16 +30,8 @@ public class WellWorldBlockPopulator extends BlockPopulator {
 		if (well != null) {
 			well.populateBlocks(world, source);
 			
-			// add walls and floors
-			int testX = chunkX % WellWorld.wellWidthInChunks;
-			int testZ = chunkZ % WellWorld.wellWidthInChunks;
-			populateWalls(source, testX == 0, testX == WellWorld.wellWidthInChunks - 1 || chunkX == -1,
-								  testZ == 0, testZ == WellWorld.wellWidthInChunks - 1 || chunkZ == -1);
-			
+			// draw the well walls
+			WellWall.populateWalls(well, random, source, chunkX - well.getX(), chunkZ - well.getZ());
 		}
-	}
-	
-	private void populateWalls(Chunk source, boolean wallNorth, boolean wallSouth, boolean wallWest, boolean wallEast) {
-		//TODO teleports, railroads, rooms, doors?
 	}
 }

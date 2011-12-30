@@ -17,7 +17,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class WellWorld extends JavaPlugin {
     public static final Logger log = Logger.getLogger("Minecraft.CityWorld");
 	public static final int wellWidthInChunks = 9; 
-	public static final int wallThicknessInBlocks = 8;
    	
 	@Override
 	public ChunkGenerator getDefaultWorldGenerator(String name, String style){
@@ -102,7 +101,7 @@ public class WellWorld extends JavaPlugin {
 			// lava flat
 			// crystal world
 			if (wellX == 0 && wellZ == 0)
-				wellmanager = new VerySimpleHillyWell(wellseed, wellX, wellZ);
+				wellmanager = new VerySimpleKnollsWell(wellseed, wellX, wellZ);
 			else
 				wellmanager = randomWellManager(random, wellseed, wellX, wellZ);
 			
@@ -123,37 +122,41 @@ public class WellWorld extends JavaPlugin {
 		}
 	}
 	
-	//TODO FluidLevel, FluidType, IncludeGround, IncludeCeiling, GroundLevel, CeilingLevel
 	//TODO Maze
+	//TODO Space
+	//TODO Basalt
+	//TODO Volcano
 	
 	private WellArchetype randomWellManager(Random random, long seed, int wellX, int wellZ) {
-		switch (random.nextInt(13)) {
-		case 1:
-			return new VerySimpleFlatWell(seed, wellX, wellZ);
-		case 2:
-			return new VerySimpleWaterWell(seed, wellX, wellZ);
-		case 3:
-			return new VerySimpleHillyWell(seed, wellX, wellZ);
+		switch (random.nextInt(14)) {
+//		case 1:
+//			return new VeryEmptyWell(seed, wellX, wellZ);
+//		case 2:
+//			return new VerySimpleFlatWell(seed, wellX, wellZ);
+//		case 3:
+//			return new VerySimpleWaterWell(seed, wellX, wellZ);
 		case 4:
-			return new VerySimpleAlienWell(seed, wellX, wellZ);
+			return new VerySimpleHillyWell(seed, wellX, wellZ);
 		case 5:
-			return new VerySimpleAlienCavernWell(seed, wellX, wellZ);
+			return new VerySimpleAlienWell(seed, wellX, wellZ);
 		case 6:
-			return new SimplexNoiseWell(seed, wellX, wellZ);
+			return new VerySimpleAlienCavernWell(seed, wellX, wellZ);
 		case 7:
-			return new SimplexOctaveWell(seed, wellX, wellZ);
+			return new SimplexNoiseWell(seed, wellX, wellZ);
 		case 8:
-			return new KhylandWell(seed, wellX, wellZ);
+			return new SimplexOctaveWell(seed, wellX, wellZ);
 		case 9:
-			return new PancakeWell(seed, wellX, wellZ);
+			return new KhylandWell(seed, wellX, wellZ);
 		case 10:
-			return new codenameBWell(seed, wellX, wellZ);
+			return new PancakeWell(seed, wellX, wellZ);
 		case 11:
-			return new DinnerboneMoonWell(seed, wellX, wellZ);
+			return new CodenameBWell(seed, wellX, wellZ);
 		case 12:
+			return new DinnerboneMoonWell(seed, wellX, wellZ);
+		case 13:
 			return new RealisticMoonWell(seed, wellX, wellZ);
 		default:
-			return new VeryEmptyWell(seed, wellX, wellZ);
+			return new VerySimpleKnollsWell(seed, wellX, wellZ);
 		}
 	}
 }

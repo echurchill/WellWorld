@@ -16,7 +16,7 @@ public class VerySimpleFlatWell extends WellArchetype {
 		super(seed, wellX, wellZ);
 		
 		mineralCount = random.nextInt(4) + 4;
-		height = random.nextInt(64) + 32;
+		height = random.nextInt(16) + 32;
 	}
 	
 	@Override

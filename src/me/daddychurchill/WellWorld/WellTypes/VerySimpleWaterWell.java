@@ -17,8 +17,8 @@ public class VerySimpleWaterWell extends WellArchetype {
 		super(seed, wellX, wellZ);
 		
 		mineralCount = random.nextInt(4) + 4;
-		height = random.nextInt(32) + 16;
-		waterLevel = random.nextInt(32) + height;
+		height = random.nextInt(48) + 16;
+		waterLevel = random.nextInt(8) + height;
 	}
 	
 	@Override

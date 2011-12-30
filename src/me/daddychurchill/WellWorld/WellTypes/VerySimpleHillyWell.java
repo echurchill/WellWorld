@@ -15,8 +15,8 @@ public class VerySimpleHillyWell extends WellArchetype {
 	private int mineralsPerLayer; // number of minerals per layer
 	private int height; // how thick is the bottom bit
 	private int liquidLevel; // how thick is the water bit
-	private Material stoneMaterial; // what is the stone made of?
-	private Material liquidMaterial; // what is the liquid made of?
+	private final static Material stoneMaterial = Material.STONE; // what is the stone made of?
+	private final static Material liquidMaterial = Material.STATIONARY_WATER; // what is the liquid made of?
 	
 	private int octives = 3;
 	private double xFactor = 1.0;
@@ -33,9 +33,6 @@ public class VerySimpleHillyWell extends WellArchetype {
 		mineralsPerLayer = random.nextInt(10);
 		height = random.nextInt(32) + 48;
 		liquidLevel = random.nextInt(height / 2) + height / 2;
-		
-		stoneMaterial = Material.STONE;
-		liquidMaterial = Material.STATIONARY_WATER;
 		
 		generator = new SimplexOctaveGenerator(randseed, octives);
 		generator.setScale(hScale);

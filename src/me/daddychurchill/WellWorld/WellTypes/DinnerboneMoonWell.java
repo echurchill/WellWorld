@@ -85,15 +85,15 @@ public class DinnerboneMoonWell extends WellArchetype {
             }
             
             //EC: bounds checking to make more WellWorld happy
-            centerX = NudgeToBounds(centerX, radius, minBlock.getBlockX(), maxBlock.getBlockX());
-            centerZ = NudgeToBounds(centerZ, radius, minBlock.getBlockZ(), maxBlock.getBlockZ());
+            centerX = nudgeToBounds(centerX, radius, minBlock.getBlockX(), maxBlock.getBlockX());
+            centerZ = nudgeToBounds(centerZ, radius, minBlock.getBlockZ(), maxBlock.getBlockZ());
             
             //EC: now we are ready to figure out the center vector
             int centerY = world.getHighestBlockYAt(centerX, centerZ);
-            centerY = NudgeToBounds(centerY, radius, minBlock.getBlockY(), maxBlock.getBlockY());
+            centerY = nudgeToBounds(centerY, radius, minBlock.getBlockY(), maxBlock.getBlockY());
             
             //EC: call the (possibly) optimized filled sphere code instead
-            this.drawHalfFilledSphere(world, chunk, centerX, centerY, centerZ, radius, negativeMaterial);
+            this.drawSolidSphere(world, chunk, centerX, centerY, centerZ, radius, negativeMaterial);
             
 //			for (int x = -radius; x <= radius; x++) {
 //			    for (int y = -radius; y <= radius; y++) {
@@ -117,12 +117,12 @@ public class DinnerboneMoonWell extends WellArchetype {
             int centerZ = (chunk.getZ() << 4) + random.nextInt(16);
             
             //EC: bounds checking to make more WellWorld happy
-            centerX = NudgeToBounds(centerX, minBlock.getBlockX(), maxBlock.getBlockX());
-            centerZ = NudgeToBounds(centerZ, minBlock.getBlockZ(), maxBlock.getBlockZ());
+            centerX = nudgeToBounds(centerX, minBlock.getBlockX(), maxBlock.getBlockX());
+            centerZ = nudgeToBounds(centerZ, minBlock.getBlockZ(), maxBlock.getBlockZ());
             
             //EC: now we are ready to figure out the height
             int centerY = world.getHighestBlockYAt(centerX, centerZ);
-            centerY = NudgeToBounds(centerY, minBlock.getBlockY(), maxBlock.getBlockY());
+            centerY = nudgeToBounds(centerY, minBlock.getBlockY(), maxBlock.getBlockY());
             
             BlockFace direction = null;
             Block top = null;
