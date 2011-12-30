@@ -19,12 +19,12 @@ public class SimplexOctaveWell extends WellArchetype {
 	private double vScale = 16.0;
 	private int yLevel = 64;
 	private byte stoneId = (byte) Material.STONE.getId();
-	private byte airId = (byte) Material.AIR.getId();
+	//private byte airId = (byte) Material.AIR.getId();
 	
 	private SimplexOctaveGenerator generator;
 	
-	public SimplexOctaveWell(long seed) {
-		super(seed);
+	public SimplexOctaveWell(long seed, int wellX, int wellZ) {
+		super(seed, wellX, wellZ);
 		generator = new SimplexOctaveGenerator(randseed, octives);
 		generator.setScale(hScale);
 	}

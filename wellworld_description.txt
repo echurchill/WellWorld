@@ -1,5 +1,21 @@
 == **WellWorld** ==
-===== //Version 0.2// =====
+===== //Version 0.3// =====
 Work in progress
 
-Some of the generators (Khyland and Pancake) are based on work done by khyperia
+Includes the following generators
+
+VeryEmpty            // Big empty box
+VerySimpleFlat       // ... with some stone and a sprinkle of ores
+VerySimpleWater      // ... with some water on top of it
+VerySimpleHilly      // ... sculpted with SimplexOctave
+VerySimpleAlien      // ... sculpted with SimplexNoise
+VerySimpleAlienCavern// ... cavern-ish variation of the SimplexNoise
+
+SimplexNoise         // plain stone sculpted SimplexNoise
+SimplexOctave        // plain stone sculpted SimplexOctave
+
+Pancake              // based on khyperia's TrippyTerrain
+Khyland              // based on khyperia's TrippyTerrain
+codenameB            // based on codenameB's sample
+DinnerboneMoon       // based on Dinnerbone's BukkitFullOfMoon
+RealisticMoon        // based on above but loosely modeled after real moon/planet surfaces

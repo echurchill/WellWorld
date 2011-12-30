@@ -1,23 +1,22 @@
 package me.daddychurchill.WellWorld.WellTypes;
 
 import org.bukkit.Chunk;
-import org.bukkit.Material;
 import org.bukkit.World;
 
 import me.daddychurchill.WellWorld.WellArchetype;
 import me.daddychurchill.WellWorld.Support.ByteChunk;
 
-public class PrototypeWell extends WellArchetype {
+public class VeryEmptyWell extends WellArchetype {
 
-	private int height;
-	public PrototypeWell(long seed) {
-		super(seed);
-		height = random.nextInt(64) + 32;
+	public VeryEmptyWell(long seed, int wellX, int wellZ) {
+		super(seed, wellX, wellZ);
+		// TODO Auto-generated constructor stub
 	}
-	
+
 	@Override
 	public void populateChunk(World world, ByteChunk chunk) {
-		chunk.setBlocksAt(0, height, Material.STONE);
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override

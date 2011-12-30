@@ -11,14 +11,14 @@ import me.daddychurchill.WellWorld.Support.ByteChunk;
 public class SimplexNoiseWell extends WellArchetype {
 
 	private float xFactor = 50.0f;
-	private float yFactor = 50.0f;
+	private float yFactor = 25.0f;
 	private float zFactor = 50.0f;
 	private byte stoneId = (byte) Material.STONE.getId();
 	private byte airId = (byte) Material.AIR.getId();
 	private SimplexNoiseGenerator generator;
 	
-	public SimplexNoiseWell(long seed) {
-		super(seed);
+	public SimplexNoiseWell(long seed, int wellX, int wellZ) {
+		super(seed, wellX, wellZ);
 		generator = new SimplexNoiseGenerator(randseed);
 	}
 

@@ -11,10 +11,10 @@ import me.daddychurchill.WellWorld.Support.ByteChunk;
 public class codenameBWell extends WellArchetype {
 
 	private byte stoneId = (byte) Material.STONE.getId();
-	private byte airId = (byte) Material.AIR.getId();
+	//private byte airId = (byte) Material.AIR.getId();
 	
-	public codenameBWell(long seed) {
-		super(seed);
+	public codenameBWell(long seed, int wellX, int wellZ) {
+		super(seed, wellX, wellZ);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -42,16 +42,18 @@ public class codenameBWell extends WellArchetype {
 				// - 16 is good for hilly terrain.
 				double noise = gen.noise(x + chunkX * 16, z + chunkZ * 16, 0.5, 0.5) * 16;
 				
-				for(int y = 0; y < 32 + noise; y++){
-					
-					// Just some checks I use 
-					// - you don't need this.
-					if(chunk.getBlock(x, y, z) == airId)
-						
-						// Obviously sets that byte[] corresponding to the chunk x,y,z to stone 
-						// - you can use your preferred way of doing this.
-						chunk.setBlock(x, y, z, stoneId);
-				}
+				//EC: optimized this based on how WellWorld chunk class works
+				//for(int y = 0; y < 32 + noise; y++){
+				//	
+				//	// Just some checks I use 
+				//	// - you don't need this.
+				//	if(chunk.getBlock(x, y, z) == airId)
+				//		
+				//		// Obviously sets that byte[] corresponding to the chunk x,y,z to stone 
+				//		// - you can use your preferred way of doing this.
+				//		chunk.setBlock(x, y, z, stoneId);
+				//}
+				chunk.setBlocks(x, 1, (int) (32 + noise), z, stoneId);
 			}
 		}
 	}

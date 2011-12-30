@@ -10,14 +10,16 @@ import me.daddychurchill.WellWorld.Support.ByteChunk;
 
 public class PancakeWell extends WellArchetype {
 
-	public PancakeWell(long seed) {
-		super(seed);
+	// Port of Khyperia's TrippyTerrain/Pancake for testing purposes
+	
+	public PancakeWell(long seed, int wellX, int wellZ) {
+		super(seed, wellX, wellZ);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void populateChunk(World world, ByteChunk chunk) {
-		// pretty much a direct copy of khyperia.trippyterrain for testing purposes
+
 		SimplexNoiseGenerator simplex = new SimplexNoiseGenerator(randseed);
 		int cx = chunk.getX();
 		int cz = chunk.getZ();

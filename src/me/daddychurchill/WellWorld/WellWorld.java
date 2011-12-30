@@ -4,13 +4,7 @@ import java.util.Hashtable;
 import java.util.Random;
 import java.util.logging.Logger;
 
-import me.daddychurchill.WellWorld.WellTypes.PrototypeWell;
-import me.daddychurchill.WellWorld.WellTypes.KhylandWell;
-import me.daddychurchill.WellWorld.WellTypes.PancakeWell;
-import me.daddychurchill.WellWorld.WellTypes.SimplexNoiseWell;
-import me.daddychurchill.WellWorld.WellTypes.SimplexOctaveWell;
-import me.daddychurchill.WellWorld.WellTypes.WaterWell;
-import me.daddychurchill.WellWorld.WellTypes.codenameBWell;
+import me.daddychurchill.WellWorld.WellTypes.*;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -22,11 +16,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class WellWorld extends JavaPlugin {
     public static final Logger log = Logger.getLogger("Minecraft.CityWorld");
+	public static final int wellWidthInChunks = 9; 
+	public static final int wallThicknessInBlocks = 8;
    	
 	@Override
 	public ChunkGenerator getDefaultWorldGenerator(String name, String style){
 		return new WellWorldChunkGenerator(this, name, style);
 	}
+
+	//TODO prevent people from climbing over the walls
 	
 	@Override
 	public void onDisable() {
@@ -74,7 +72,6 @@ public class WellWorld extends JavaPlugin {
 		return primeWellWorld;
 	}
 	
-	
 	// Class instance data
 	private Hashtable<Long, WellArchetype> wells;
 
@@ -83,12 +80,12 @@ public class WellWorld extends JavaPlugin {
 		if (wells == null)
 			wells = new Hashtable<Long, WellArchetype>();
 		
-		// find the origin for the plat
-		int platX = calcOrigin(chunkX);
-		int platZ = calcOrigin(chunkZ);
+		// find the origin for the well
+		int wellX = calcOrigin(chunkX);
+		int wellZ = calcOrigin(chunkZ);
 
 		// calculate the plat's key
-		long wellpos = (long) platX * (long) Integer.MAX_VALUE + (long) platZ;
+		long wellpos = (long) wellX * (long) Integer.MAX_VALUE + (long) wellZ;
 		Long wellkey = Long.valueOf(wellpos);
 		long wellseed = wellpos ^ world.getSeed();
 
@@ -104,7 +101,10 @@ public class WellWorld extends JavaPlugin {
 			// water flat
 			// lava flat
 			// crystal world
-			wellmanager = randomWellManager(wellseed);
+			if (wellX == 0 && wellZ == 0)
+				wellmanager = new VerySimpleHillyWell(wellseed, wellX, wellZ);
+			else
+				wellmanager = randomWellManager(random, wellseed, wellX, wellZ);
 			
 			// remember it for the next time
 			wells.put(wellkey, wellmanager);
@@ -115,34 +115,45 @@ public class WellWorld extends JavaPlugin {
 	}
 	
 	// Supporting code used by getWellManager
-	static final public int Width = 9; 
 	private int calcOrigin(int i) {
 		if (i >= 0) {
-			return i / Width * Width;
+			return i / wellWidthInChunks * wellWidthInChunks;
 		} else {
-			return -((Math.abs(i + 1) / Width * Width) + Width);
+			return -((Math.abs(i + 1) / wellWidthInChunks * wellWidthInChunks) + wellWidthInChunks);
 		}
 	}
 	
 	//TODO FluidLevel, FluidType, IncludeGround, IncludeCeiling, GroundLevel, CeilingLevel
 	//TODO Maze
 	
-	private WellArchetype randomWellManager(long seed) {
-		switch (5) {//random.nextInt(4)) {
+	private WellArchetype randomWellManager(Random random, long seed, int wellX, int wellZ) {
+		switch (random.nextInt(13)) {
 		case 1:
-			return new KhylandWell(seed);
+			return new VerySimpleFlatWell(seed, wellX, wellZ);
 		case 2:
-			return new PancakeWell(seed);
+			return new VerySimpleWaterWell(seed, wellX, wellZ);
 		case 3:
-			return new WaterWell(seed);
+			return new VerySimpleHillyWell(seed, wellX, wellZ);
 		case 4:
-			return new SimplexNoiseWell(seed);
+			return new VerySimpleAlienWell(seed, wellX, wellZ);
 		case 5:
-			return new SimplexOctaveWell(seed);
+			return new VerySimpleAlienCavernWell(seed, wellX, wellZ);
 		case 6:
-			return new codenameBWell(seed);
+			return new SimplexNoiseWell(seed, wellX, wellZ);
+		case 7:
+			return new SimplexOctaveWell(seed, wellX, wellZ);
+		case 8:
+			return new KhylandWell(seed, wellX, wellZ);
+		case 9:
+			return new PancakeWell(seed, wellX, wellZ);
+		case 10:
+			return new codenameBWell(seed, wellX, wellZ);
+		case 11:
+			return new DinnerboneMoonWell(seed, wellX, wellZ);
+		case 12:
+			return new RealisticMoonWell(seed, wellX, wellZ);
 		default:
-			return new PrototypeWell(seed);
+			return new VeryEmptyWell(seed, wellX, wellZ);
 		}
 	}
 }
