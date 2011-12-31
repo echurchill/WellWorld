@@ -2,7 +2,7 @@
 ===== //Version 0.5// =====
 
 === The story ===
-Imagine waking up one day, in Minecraft, and finding yourself surrounded by walls. These walls are not the ones your friends griefed you with but ones that reach all the way to the sky. You are trapped, surrounded... all alone... or are you? 
+Imagine waking up one day, in Minecraft, and finding yourself surrounded by walls. These walls are not the ones your friends griefed you with but ones that reach all the way to the sky. You are trapped, surrounded... all alone... or are you? Did you just see somebody poking their head out of one of those little doors WAY up there? I wonder if they will be friendly? 
 
 {{http://dev.bukkit.org/media/images/37/78/Where_did_those_walls_come_from.jpg|Waking up on WellWorld}}
 
@@ -17,6 +17,7 @@ Poof... both the smoothing and boring problems goes away.
 
 {{http://dev.bukkit.org/media/images/37/84/Four_Corners.jpg|From way above}}
 
+p.s. Not all those little doors up in the wall lead next door.. some are there just to confuse you. One other warning: Creepers (that little green speck in the wall above) love spawning in those doors. Fun eh?
 ----
 === Issues and possible future fixes ===
 * Multiverse – In the long run it might be possible to have this work directly with “real” world generators but for now each generator must be compiled into the WellWorld plugin.
@@ -32,6 +33,8 @@ Poof... both the smoothing and boring problems goes away.
 === Heads up! ===
 
 Like CityWorld, this plugin really "tests" MineCraft/Bukkit when it comes to complex worlds. In fact when you spawn/teleport into the world for the firsttime (or some wildly new location) it takes a while for all of the blocks to generate. This is especially obvious if you are flying around. Once the blocks are generated though everything works just fine. What I recommend is take a tour of your world and just walk/fly up to each "uninitialized chunk" until everything shows up.
+
+From time to time in the Moon wells, the craters will do odd things. It seems that the block and chunk populators get out of sync and cause a glitch. When this happens, you will see a partially created crater and building in it (or digging) will cause blocks to disappear/appear on their own. I am still trying to understand this one but it doesn't seem related to WellWorld as it shows up in Dinnerbone's BukkitFullOfMoon as well.
 
 ----
 === Installing ===
@@ -59,7 +62,7 @@ If you are still confused then rereread [[http://wiki.bukkit.org/Setting_up_a_se
 * AlienCavern          // ... cavern-ish variation of the above generator
 {{http://dev.bukkit.org/media/images/37/81/Makes_the_Neither_look_inviting.jpg|The underground next door}}
 * RealisticMoon        // loosely based on Dinnerbone's BukkitFullOfMoon (see below) but modeled after real moon/planet surfaces
-{{http://dev.bukkit.org/media/images/37/83/How_did_I_get_on_Tethys.jpg|Moons}}
+{{http://dev.bukkit.org/media/images/37/83/How_did_I_get_on_Tethys.jpg|I wonder what is under those craters?}}
 
 ==== proof of concept wells, not enabled (kinda boring to look at) ====
 * SimplexNoise         // plain stone sculpted SimplexNoise
