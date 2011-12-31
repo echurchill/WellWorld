@@ -11,7 +11,9 @@ During my recent break from [[http://dev.bukkit.org/server-mods/cityworld/|CityW
 
 The mod concept is based on a science fiction series by Jack L. Chalker called [[http://en.wikipedia.org/wiki/Well_World|WellWorld]]? In it the "world" divided up into a series of hexagonal regions, each with their wildly different environments for different alien civilizations... It is part zoo and part UN. A good read if you are into grand science fiction. 
 
-Anyway, in addition to the "boring" problem, one of the most difficult things about creating a world generator is making it capable of creating wildly different environments, alas all of those different environments cannot be next to each other or they look weird. Thus we have to create smoothing tech to allow deserts gradually turn into swamps and then into mountains and then into seas. It dawned on me that dividing the world into large square regions (this is Minecraft after all) with walls of obsidian (or bedrock if you want to be "hard core"). Then populate those regions with wildly different environments. Heck, the Nether (big box with a roof) could be next door to a region that is completely filled with water, next to a crystal world made of glass ground with thin-glass trees. :-)
+Anyway, in addition to the "boring" problem, one of the most difficult things about creating a world generator is making it capable of creating wildly different environments, alas all of those different environments cannot be next to each other or they look weird. Thus we have to create smoothing tech to allow deserts gradually turn into swamps and then into mountains and then into seas. 
+
+It dawned on me that dividing the world into large square regions (this is Minecraft after all) with walls of obsidian (or bedrock if you want to be "hard core"). Then populate those regions with wildly different environments. Heck, the Nether (big box with a roof) could be next door to a region that is completely filled with water, next to a crystal world made of glass ground with thin-glass trees. :-)
  
 Poof... both the smoothing and boring problems goes away. 
 
