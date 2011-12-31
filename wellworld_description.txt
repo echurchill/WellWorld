@@ -1,28 +1,33 @@
 == **WellWorld** ==
 ===== //Version 0.5// =====
 
-==== The story ====
+=== The story ===
 Imagine waking up one day, in Minecraft, and finding yourself surrounded by walls. These walls are not the ones your friends griefed you with but ones that reach all the way to the sky. You are trapped, surrounded... all alone... or are you? 
 
-==== The backstory ====
-During my recent break from CityWorld, I have been going over my collection of world generator attempts. Most of them are pretty darn unexciting.. or too weird to do anything with. In addition I have been surfing to see what my fellow world creators have been up to. There are a number of cool ideas out there but they all suffer (CityWorld included) from one little problem.. eventually the generator repeats itself and the world gets boring. It got me thinking of old notion: The WellWorld.
+{{http://dev.bukkit.org/media/images/37/78/Where_did_those_walls_come_from.jpg|Waking up on WellWorld}}
 
-The mod concept is based on a science fiction series by Jack L. Chalker called WellWorld (http://en.wikipedia.org/wiki/Well_World)? In it the "world" divided up into a series of hexagonal regions, each with their wildly different environments for different alien civilizations... It is part zoo and part UN. A good read if you are into grand science fiction. 
+=== The backstory ===
+During my recent break from [[http://dev.bukkit.org/server-mods/cityworld/|CityWorld]], I have been going over my collection of world generator attempts. Most of them are pretty darn unexciting.. or too weird to do anything with. In addition I have been surfing to see what my fellow world creators have been up to. There are a number of cool ideas out there but they all suffer ([[http://dev.bukkit.org/server-mods/cityworld/|CityWorld ]]included) from one little problem.. eventually the generator repeats itself and the world gets boring. It got me thinking of old notion: The WellWorld.
 
-Anyway, one of the most difficult things about creating a world generator is making it capable of creating wildly different environments, alas all of those different environments cannot be next to each other or they look weird. Thus we have to create smoothing tech to allow deserts gradually turn into swamps and then into mountains and then into seas. It dawned on me that dividing the world into large square regions (this is Minecraft after all) with walls of obsidian (or bedrock if you want to be "hard core"). Then populate those regions with wildly different environments. Heck, the Nether (big box with a roof) could be next door to a region that is completely filled with water, next to a crystal world made of glass ground with thin-glass trees. :-)
+The mod concept is based on a science fiction series by Jack L. Chalker called [[http://en.wikipedia.org/wiki/Well_World|WellWorld]]? In it the "world" divided up into a series of hexagonal regions, each with their wildly different environments for different alien civilizations... It is part zoo and part UN. A good read if you are into grand science fiction. 
+
+Anyway, in addition to the "boring" problem, one of the most difficult things about creating a world generator is making it capable of creating wildly different environments, alas all of those different environments cannot be next to each other or they look weird. Thus we have to create smoothing tech to allow deserts gradually turn into swamps and then into mountains and then into seas. It dawned on me that dividing the world into large square regions (this is Minecraft after all) with walls of obsidian (or bedrock if you want to be "hard core"). Then populate those regions with wildly different environments. Heck, the Nether (big box with a roof) could be next door to a region that is completely filled with water, next to a crystal world made of glass ground with thin-glass trees. :-)
  
-Poof... the smoothing problem goes away. 
+Poof... both the smoothing and boring problems goes away. 
 
-==== Issues and possible future fixes ====
-Multiverse – In the long run it might be possible to have this work directly with “real” world generators but for now each generator must be compiled into the WellWorld plugin.
+{{http://dev.bukkit.org/media/images/37/84/Four_Corners.jpg|From way above}}
 
-Biomes – right now, WellWorld doesn’t attempt to do anything with Biomes. Ideally each well could have its own.
+----
+=== Issues and possible future fixes ===
+* Multiverse – In the long run it might be possible to have this work directly with “real” world generators but for now each generator must be compiled into the WellWorld plugin.
 
-Physics – right now each Well shares lighting and time-of-day with each other. This makes fully enclosed wells like caverns brighter than they should be.
+* Biomes – right now, WellWorld doesn’t attempt to do anything with Biomes. Ideally each well could have its own.
 
-No built in commands – like with CityWorld, I have kept this plugin simple.
+* Physics – right now each Well shares lighting and time-of-day with each other. This makes fully enclosed wells like caverns brighter than they should be.
 
-Need more variety – Right now there are less than a half a dozen generators enabled. Like with world generators themselves, it is pretty easy to add new well generators to WellWorld. In fact during the creation of WellWorld I ported some generators from Khyperia (http://dev.bukkit.org/server-mods/trippy-terrain/), CodenameB (http://forums.bukkit.org/threads/intermediate-infinite-terrain-generation-using-simplexoctaves.28855/) and Dinnerbone (https://github.com/Dinnerbone/BukkitFullOfMoon) but since I don’t have their permission, I have left them disabled. Ok, that's not entirely true, I am including one generator loosely based on BukkitFullOfMoon
+* No built in commands – like with CityWorld, I have kept this plugin simple.
+
+* Needs more variety – Right now there are less than a half a dozen generators enabled. Like with world generators themselves, it is pretty easy to add new well generators to WellWorld. In fact during the creation of WellWorld I ported some generators from Khyperia (http://dev.bukkit.org/server-mods/trippy-terrain/), CodenameB (http://forums.bukkit.org/threads/intermediate-infinite-terrain-generation-using-simplexoctaves.28855/) and Dinnerbone (https://github.com/Dinnerbone/BukkitFullOfMoon) but since I don’t have their permission, I have left them disabled. Ok, that's not entirely true, I am including one generator loosely based on BukkitFullOfMoon
 
 === Heads up! ===
 
@@ -44,22 +49,27 @@ There are two options...
 
 If you are still confused then rereread [[http://wiki.bukkit.org/Setting_up_a_server|this]]. :-)
 
-//Included well generators
-KnollsWells          // a simple world generator that looks like MineCraft... sorta
-AlienWorld           // a simple alien-esque world generator
-AlienCavern          // ... cavern-ish variation of the above generator
-RealisticMoon        // loosely based on Dinnerbone's BukkitFullOfMoon but modeled after real moon/planet surfaces
+----
+=== Included Well Generators ===
+==== ones so far ====
+* KnollsWells          // a simple world generator that looks like MineCraft... sorta
+{{http://dev.bukkit.org/media/images/37/85/Almost_looks_like_home.jpg|Minecraft like}}
+* AlienWorld           // a simple alien-esque world generator
+{{http://dev.bukkit.org/media/images/37/79/Where_Creepers_come_from.jpg|Creeper's domain}}
+* AlienCavern          // ... cavern-ish variation of the above generator
+{{http://dev.bukkit.org/media/images/37/81/Makes_the_Neither_look_inviting.jpg|The underground next door}}
+* RealisticMoon        // loosely based on Dinnerbone's BukkitFullOfMoon (see below) but modeled after real moon/planet surfaces
+{{http://dev.bukkit.org/media/images/37/83/How_did_I_get_on_Tethys.jpg|Moons}}
 
-// proof of concept wells, not enabled (kinda boring to look at)
-SimplexNoise         // plain stone sculpted SimplexNoise
-SimplexOctave        // plain stone sculpted SimplexOctave
-VeryEmpty            // Big empty box
-VerySimpleFlat       // ... with some stone and a sprinkle of ores
-VerySimpleWater      // ... with some water on top of it
-VerySimpleHilly      // ... sculpted with SimplexOctave
+==== proof of concept wells, not enabled (kinda boring to look at) ====
+* SimplexNoise         // plain stone sculpted SimplexNoise
+* SimplexOctave        // plain stone sculpted SimplexOctave
+* VeryEmpty            // Big empty box
+* VerySimpleFlat       // ... with some stone and a sprinkle of ores
+* VerySimpleWater      // ... with some water on top of it
+* VerySimpleHilly      // ... sculpted with SimplexOctave
 
-// conversions of other folks world generators, not enabled as I don't have their permission
-Pancake              // based on khyperia's TrippyTerrain
-Khyland              // based on khyperia's TrippyTerrain
-CodenameB            // based on codenameB's sample
-DinnerboneMoon       // based on Dinnerbone's BukkitFullOfMoon
+==== conversions of other folks world generators, not enabled as I don't have their permission ====
+* Pancake & Khyland              // based on khyperia's TrippyTerrain
+* CodenameB            // based on codenameB's sample (he has lots of mini-world generators that would be great in WellWorld)
+* DinnerboneMoon       // based on Dinnerbone's BukkitFullOfMoon
