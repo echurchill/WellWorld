@@ -11,7 +11,7 @@ import org.bukkit.util.noise.SimplexOctaveGenerator;
 import me.daddychurchill.WellWorld.WellArchetype;
 import me.daddychurchill.WellWorld.Support.ByteChunk;
 
-public class VerySimpleKnollsWell extends WellArchetype {
+public class KnollsWell extends WellArchetype {
 
 
 	private int specialBlockOdds; // 1/n chance that there is minerals on this level
@@ -42,13 +42,19 @@ public class VerySimpleKnollsWell extends WellArchetype {
 	private double vScale = 16.0;
 	private SimplexOctaveGenerator generator;
 	
-	public VerySimpleKnollsWell(long seed, int wellX, int wellZ) {
+	public KnollsWell(long seed, int wellX, int wellZ) {
 		super(seed, wellX, wellZ);
 		specialBlockOdds = random.nextInt(3) + 1;
 		specialsPerLayer = random.nextInt(20) + 10;
 		stoneLevel = random.nextInt(32) + 48;
 		liquidLevel = stoneLevel + random.nextInt(8) - 4;
 		dirtThickness = random.nextInt(5) + 1;
+		
+		xFactor = calcRandomRange(0.75, 1.25);
+		zFactor = calcRandomRange(0.75, 1.25);
+		fequency = calcRandomRange(0.40, 0.60);
+		amplitude = calcRandomRange(0.40, 0.60);
+		vScale = calcRandomRange(13.0, 19.0);
 		
 		stoneMaterial = Material.STONE;
 		dirtMaterial = Material.DIRT;

@@ -11,7 +11,7 @@ import me.daddychurchill.WellWorld.Support.ByteChunk;
 
 public class RealisticMoonWell extends WellArchetype {
 
-	// based on loose extension of DinnerboneMoonWell
+	// loosely based on Dinnerbone's Cheese Moon World Generator
 	
 	// original options
     //private static final int CRATER_CHANCE = 30; // down from 45 // Out of 100
@@ -21,22 +21,17 @@ public class RealisticMoonWell extends WellArchetype {
     private static final int BIG_CRATER_CHANCE = 10; // Out of 100
     
     // wellworld additions
-    private static final int MIN_SURFACE_HEIGHT = 40;
-    private static final int MAX_SURFACE_HEIGHT = 80;
-    private static final double MIN_SURFACE_VARIANCE = 1.5;
-    private static final double MAX_SURFACE_VARIANCE = 4;
 	private static final int WATER_CHANCE = 30; // out of 100... the rest of the time it is lava
     private static final int FLOOD_CHANCE = 50; // out of 100
     private static final int METEORITE_RATIO = 3; // 1/n the size of the crater
     private static final int MIN_METEORITE_SIZE = 1;
-    private static final int MIN_CRATER_CHANCE = 20;
-    private static final int MAX_CRATER_CHANCE = 50;
     private static final Material negativeMaterial = Material.AIR;
     
     private Material interiorMaterial;
     private Material surfaceMaterial;
     private Material floodMaterial;
     private int surfaceAt;
+    private int surfaceThickness;
     private int craterChance;
     private double surfaceVariance;
 
@@ -44,17 +39,13 @@ public class RealisticMoonWell extends WellArchetype {
 		super(seed, wellX, wellZ);
 		
 		// other private bits
-		surfaceAt = calcRandomRange(MIN_SURFACE_HEIGHT, MAX_SURFACE_HEIGHT);
-		surfaceVariance = calcRandomRange(MIN_SURFACE_VARIANCE, MAX_SURFACE_VARIANCE);
-		craterChance = calcRandomRange(MIN_CRATER_CHANCE, MAX_CRATER_CHANCE);
+		surfaceAt = calcRandomRange(40, 80);
+		surfaceThickness = random.nextInt(3) + 1;
+		surfaceVariance = calcRandomRange(1.5, 3.0);
+		craterChance = calcRandomRange(20, 50);
 		
 		// material
-		switch (random.nextInt(10)) {
-		case 0: // cheese
-			interiorMaterial = Material.SPONGE;
-			surfaceMaterial = Material.SPONGE;
-			floodMaterial = negativeMaterial;
-			break;
+		switch (random.nextInt(5)) {
 		case 1: // mars 
 			interiorMaterial = Material.SOUL_SAND;
 			surfaceMaterial = Material.NETHERRACK;
@@ -78,8 +69,8 @@ public class RealisticMoonWell extends WellArchetype {
 				floodMaterial = Material.ICE;
 			else
 				floodMaterial = negativeMaterial;
-			surfaceVariance = MIN_SURFACE_VARIANCE;
-			craterChance = MAX_CRATER_CHANCE;
+			surfaceVariance = 1.5;
+			craterChance = 50;
 			break;
 		case 4: // rhea
 			interiorMaterial = Material.COBBLESTONE;
@@ -126,8 +117,8 @@ public class RealisticMoonWell extends WellArchetype {
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
                 int height = getHeight(world, chunkX + x * 0.0625, chunkZ + z * 0.0625, surfaceVariance) + surfaceAt;
-                chunk.setBlocks(x, 1, height, z, interiorMaterial);
-                chunk.setBlock(x, height, z, surfaceMaterial);
+                chunk.setBlocks(x, 1, height - surfaceThickness, z, interiorMaterial);
+                chunk.setBlocks(x, height - surfaceThickness, height, z, surfaceMaterial);
             }
         }
 	}
@@ -164,27 +155,6 @@ public class RealisticMoonWell extends WellArchetype {
             // clear the sphere
             drawSolidSphere(world, chunk, centerX, centerY, centerZ, radius, negativeMaterial, floodY, floodMaterial);
 
-//            // make it a thing
-//            Vector center = new BlockVector(centerX, centerY, centerZ);
-//            
-//            // clear the sphere
-//            for (int x = -radius; x <= radius; x++) {
-//                for (int y = -radius; y <= radius; y++) {
-//                    for (int z = -radius; z <= radius; z++) {
-//                        Vector position = center.clone().add(new Vector(x, y, z));
-//                        
-//                        // within the sphere's zone
-//                        if (center.distance(position) <= radius + 0.5) {
-//                        	Location loc = position.toLocation(world);
-//                        	if (floodIt && loc.getBlockY() <= floodY)
-//                        		world.getBlockAt(loc).setType(floodMaterial);
-//                        	else
-//                        		world.getBlockAt(loc).setType(negativeMaterial);
-//                        }
-//                    }
-//                }
-//            }
-//            
             // place meteorite
             int meteoriteRadius = Math.max(MIN_METEORITE_SIZE, radius / METEORITE_RATIO);
             if (meteoriteRadius > 0) {
@@ -209,20 +179,6 @@ public class RealisticMoonWell extends WellArchetype {
             		world.getBlockAt(meteoriteX, meteoriteY, meteoriteZ).setType(meteoriteMaterial);
             	} else {
                     drawSolidSphere(world, chunk, meteoriteX, meteoriteY, meteoriteZ, meteoriteRadius, meteoriteMaterial);
-//            		Vector meteoriteCenter = new BlockVector(meteoriteX, meteoriteY, meteoriteZ);
-//                    for (int x = -meteoriteRadius; x <= meteoriteRadius; x++) {
-//                        for (int y = -meteoriteRadius; y <= meteoriteRadius; y++) {
-//                            for (int z = -meteoriteRadius; z <= meteoriteRadius; z++) {
-//                                Vector meteoritePosition = meteoriteCenter.clone().add(new Vector(x, y, z));
-//                                
-//                                // within the sphere's zone
-//                                if (meteoriteCenter.distance(meteoritePosition) <= meteoriteRadius + 0.5) {
-//                                	Location loc = meteoritePosition.toLocation(world);
-//                               		world.getBlockAt(loc).setType(meteoriteMaterial);
-//                                }
-//                            }
-//                        }
-//                    }
             	}
             }
         }

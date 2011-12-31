@@ -1,9 +1,9 @@
 name: WellWorld
 main: me.daddychurchill.WellWorld.WellWorld
-version: 0.3
+version: 0.5
 load: startup
 author: DaddyChurchill
 commands:
   wellworld:
-    description: Sends you to the wellworld.
+    description: Sends you to the WellWorld.
     usage: /wellworld

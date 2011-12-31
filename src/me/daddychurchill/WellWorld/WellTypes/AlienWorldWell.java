@@ -9,7 +9,7 @@ import org.bukkit.util.noise.SimplexNoiseGenerator;
 import me.daddychurchill.WellWorld.WellArchetype;
 import me.daddychurchill.WellWorld.Support.ByteChunk;
 
-public class VerySimpleAlienWell extends WellArchetype {
+public class AlienWorldWell extends WellArchetype {
 
 	private int mineralOdds; // 1/n chance that there is minerals on this level
 	private int mineralsPerLayer; // number of minerals per layer
@@ -23,7 +23,7 @@ public class VerySimpleAlienWell extends WellArchetype {
 	private double zFactor = 50.0;
 	private SimplexNoiseGenerator generator;
 	
-	public VerySimpleAlienWell(long seed, int wellX, int wellZ) {
+	public AlienWorldWell(long seed, int wellX, int wellZ) {
 		super(seed, wellX, wellZ);
 		mineralOdds = random.nextInt(5) + 1;
 		mineralsPerLayer = random.nextInt(10);

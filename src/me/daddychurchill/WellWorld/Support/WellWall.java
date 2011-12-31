@@ -44,25 +44,29 @@ public class WellWall {
 			}
 			
 			// punch some random holes in the walls... for now
-			int y1 = wallHeightInBlocks - 2 * (wallHeightInBlocks / wallThicknessInBlocks) + random.nextInt(portalLevels) * 3;
+			int y1 = wallHeightInBlocks - 2 * (wallHeightInBlocks / wallThicknessInBlocks) + (random.nextInt(portalLevels) + 1) * 3;
 			int y2 = y1 + 2;
 
 			// punch the door
 			if (wallNorth) {
 				source.setBlocks(0, 2, y1, y2, 9, 10, negativeMaterial); // door
 				source.setBlocks(0, 1, y1, y2, 7, 9, negativeMaterial); // hall
+				source.setBlocks(2, 3, y1 - 1, y1, 8, 11, wallMaterial); // balcony
 			}
 			if (wallSouth) {
 				source.setBlocks(14, 16, y1, y2, 6, 7, negativeMaterial); // door
 				source.setBlocks(15, 16, y1, y2, 7, 9, negativeMaterial); // hall
+				source.setBlocks(13, 14, y1 - 1, y1, 5, 8, wallMaterial); // balcony
 			}
 			if (wallWest) {
 				source.setBlocks(9, 10, y1, y2, 0, 2, negativeMaterial); // door
 				source.setBlocks(7, 9, y1, y2, 0, 1, negativeMaterial); // hall
+				source.setBlocks(8, 11, y1 - 1, y1, 2, 3, wallMaterial); // balcony
 			}
 			if (wallEast) {
 				source.setBlocks(6, 7, y1, y2, 14, 16, negativeMaterial); // door
 				source.setBlocks(7, 9, y1, y2, 15, 16, negativeMaterial); // hall
+				source.setBlocks(5, 8, y1 - 1, y1, 13, 14, wallMaterial); // balcony
 			}
 		}
 		

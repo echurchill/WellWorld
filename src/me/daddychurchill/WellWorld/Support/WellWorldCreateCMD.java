@@ -1,4 +1,6 @@
-package me.daddychurchill.WellWorld;
+package me.daddychurchill.WellWorld.Support;
+
+import me.daddychurchill.WellWorld.WellWorld;
 
 import org.bukkit.entity.Player;
 import org.bukkit.command.Command;

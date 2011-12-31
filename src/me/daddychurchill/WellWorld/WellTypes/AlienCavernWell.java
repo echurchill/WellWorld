@@ -9,57 +9,63 @@ import org.bukkit.util.noise.SimplexNoiseGenerator;
 import me.daddychurchill.WellWorld.WellArchetype;
 import me.daddychurchill.WellWorld.Support.ByteChunk;
 
-public class VerySimpleAlienCavernWell extends WellArchetype {
+public class AlienCavernWell extends WellArchetype {
 
 	private int mineralOdds; // 1/n chance that there is minerals on this level
 	private int mineralsPerLayer; // number of minerals per layer
 	private int liquidLevel; // how thick is the water bit
-	private Material stoneMaterial; // what is the stone made of?
+	private Material solidMaterial; // what is the stone made of?
 	private Material liquidMaterial; // what is the liquid made of?
 	//private int leakOdds; // 1/n chance, how often does liquid leak down
 	
-	private double xFactor = 50.0;
-	private double yFactor = 25.0;
-	private double zFactor = 50.0;
+	private double xFactor;
+	private double yFactor;
+	private double zFactor;
 	private SimplexNoiseGenerator generator;
 	
-	public VerySimpleAlienCavernWell(long seed, int wellX, int wellZ) {
+	public AlienCavernWell(long seed, int wellX, int wellZ) {
 		super(seed, wellX, wellZ);
 		mineralOdds = random.nextInt(5) + 1;
 		mineralsPerLayer = random.nextInt(10);
 		liquidLevel = random.nextInt(32) + 48;
 		
+		// spice it up
+		xFactor = calcRandomRange(35, 55);
+		yFactor = calcRandomRange(15, 35);
+		zFactor = calcRandomRange(35, 55);
+		
+		// pick some materials
 		switch (random.nextInt(7)) {
 		case 1:
-			stoneMaterial = Material.CLAY;
+			solidMaterial = Material.CLAY;
 			liquidMaterial = Material.STATIONARY_LAVA;
 			break;
 		case 2:
-			stoneMaterial = Material.SPONGE;
+			solidMaterial = Material.SPONGE;
 			liquidMaterial = Material.STATIONARY_WATER;
 			break;
 		case 3:
-			stoneMaterial = Material.ICE;
+			solidMaterial = Material.ICE;
 			liquidMaterial = Material.STATIONARY_WATER;
 			break;
 		case 4:
-			stoneMaterial = Material.NETHERRACK;
+			solidMaterial = Material.NETHERRACK;
 			liquidMaterial = Material.STATIONARY_LAVA;
 			break;
 		case 5:
-			stoneMaterial = Material.OBSIDIAN;
+			solidMaterial = Material.OBSIDIAN;
 			liquidMaterial = Material.STATIONARY_LAVA;
 			break;
 		case 6:
-			stoneMaterial = Material.LAPIS_BLOCK;
+			solidMaterial = Material.LAPIS_BLOCK;
 			liquidMaterial = Material.STATIONARY_WATER;
 			break;
 		case 7:
-			stoneMaterial = Material.ENDER_STONE;
+			solidMaterial = Material.ENDER_STONE;
 			liquidMaterial = Material.ICE;
 			break;
 		default:
-			stoneMaterial = Material.STONE;
+			solidMaterial = Material.STONE;
 			liquidMaterial = Material.STATIONARY_WATER;
 			break;
 		}
@@ -78,7 +84,7 @@ public class VerySimpleAlienCavernWell extends WellArchetype {
 					double noise = generator.noise((chunkX * 16 + x) / xFactor, y / yFactor, (chunkZ * 16 + z) / zFactor);
 					
 					if (noise >= 0)
-						chunk.setBlock(x, y, z, stoneMaterial);
+						chunk.setBlock(x, y, z, solidMaterial);
 					else if (y < liquidLevel)
 						chunk.setBlock(x, y, z, liquidMaterial);
 				}
@@ -94,7 +100,7 @@ public class VerySimpleAlienCavernWell extends WellArchetype {
 			if (random.nextInt(mineralOdds) == 0) {
 				for (int i = 0; i < mineralsPerLayer; i++) {
 					Block block = chunk.getBlock(random.nextInt(16), y, random.nextInt(16));
-					if (block.getType() == stoneMaterial)
+					if (block.getType() == solidMaterial)
 						block.setTypeId(pickRandomMineralAt(y).getId(), false);
 				}
 			}

@@ -4,6 +4,7 @@ import java.util.Hashtable;
 import java.util.Random;
 import java.util.logging.Logger;
 
+import me.daddychurchill.WellWorld.Support.WellWorldCreateCMD;
 import me.daddychurchill.WellWorld.WellTypes.*;
 
 import org.bukkit.Bukkit;
@@ -101,7 +102,7 @@ public class WellWorld extends JavaPlugin {
 			// lava flat
 			// crystal world
 			if (wellX == 0 && wellZ == 0)
-				wellmanager = new VerySimpleKnollsWell(wellseed, wellX, wellZ);
+				wellmanager = new KnollsWell(wellseed, wellX, wellZ);
 			else
 				wellmanager = randomWellManager(random, wellseed, wellX, wellZ);
 			
@@ -122,41 +123,52 @@ public class WellWorld extends JavaPlugin {
 		}
 	}
 	
-	//TODO Maze
-	//TODO Space
-	//TODO Basalt
-	//TODO Volcano
+	//TODO Maze of rooms
+	//TODO Space with a few moons
+	//TODO Basalt field (http://www.flickr.com/photos/golfie88/3712377542/)
+	//TODO Volcano with lava
+	//TODO Desert with cactus
+	//TODO Silicon with crystal trees
+	//TODO Captured farm
+	//TODO Captured village/town
+	//TODO Captured city block
+	//TODO Captured space station/ship
+	//TODO Captured futuristic town (domed city on RealisticMoon?)
 	
 	private WellArchetype randomWellManager(Random random, long seed, int wellX, int wellZ) {
-		switch (random.nextInt(14)) {
-//		case 1:
-//			return new VeryEmptyWell(seed, wellX, wellZ);
-//		case 2:
-//			return new VerySimpleFlatWell(seed, wellX, wellZ);
-//		case 3:
-//			return new VerySimpleWaterWell(seed, wellX, wellZ);
-		case 4:
-			return new VerySimpleHillyWell(seed, wellX, wellZ);
-		case 5:
-			return new VerySimpleAlienWell(seed, wellX, wellZ);
-		case 6:
-			return new VerySimpleAlienCavernWell(seed, wellX, wellZ);
-		case 7:
-			return new SimplexNoiseWell(seed, wellX, wellZ);
-		case 8:
-			return new SimplexOctaveWell(seed, wellX, wellZ);
-		case 9:
-			return new KhylandWell(seed, wellX, wellZ);
-		case 10:
-			return new PancakeWell(seed, wellX, wellZ);
-		case 11:
-			return new CodenameBWell(seed, wellX, wellZ);
-		case 12:
-			return new DinnerboneMoonWell(seed, wellX, wellZ);
-		case 13:
+		switch (random.nextInt(4)) {
+		case 1:
+			return new AlienWorldWell(seed, wellX, wellZ);
+		case 2:
+			return new AlienCavernWell(seed, wellX, wellZ);
+		case 3:
 			return new RealisticMoonWell(seed, wellX, wellZ);
+
+// not enabled as they are kind of boring :-)
+//		case 4:
+//			return new VeryEmptyWell(seed, wellX, wellZ);
+//		case 5:
+//			return new VerySimpleFlatWell(seed, wellX, wellZ);
+//		case 6:
+//			return new VerySimpleWaterWell(seed, wellX, wellZ);
+//		case 7:
+//			return new VerySimpleHillyWell(seed, wellX, wellZ);
+//		case 9:
+//			return new SimplexNoiseWell(seed, wellX, wellZ);
+//		case 10:
+//			return new SimplexOctaveWell(seed, wellX, wellZ);
+
+// not enabled as I don't have permission to do so
+//		case 8:
+//			return new CodenameBWell(seed, wellX, wellZ);
+//		case 11:
+//			return new KhylandWell(seed, wellX, wellZ);
+//		case 12:
+//			return new PancakeWell(seed, wellX, wellZ);
+//		case 13:
+//			return new DinnerboneMoonWell(seed, wellX, wellZ);
 		default:
-			return new VerySimpleKnollsWell(seed, wellX, wellZ);
+			return new KnollsWell(seed, wellX, wellZ);
 		}
 	}
 }
