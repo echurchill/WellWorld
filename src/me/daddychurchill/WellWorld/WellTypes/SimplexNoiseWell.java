@@ -17,13 +17,13 @@ public class SimplexNoiseWell extends WellArchetype {
 	private byte airId = (byte) Material.AIR.getId();
 	private SimplexNoiseGenerator generator;
 	
-	public SimplexNoiseWell(long seed, int wellX, int wellZ) {
-		super(seed, wellX, wellZ);
+	public SimplexNoiseWell(World world, long seed, int wellX, int wellZ) {
+		super(world, seed, wellX, wellZ);
 		generator = new SimplexNoiseGenerator(randseed);
 	}
 
 	@Override
-	public void populateChunk(World world, ByteChunk chunk) {
+	public void populateChunk(ByteChunk chunk) {
 		int chunkX = chunk.getX();
 		int chunkZ = chunk.getZ();
 
@@ -39,7 +39,7 @@ public class SimplexNoiseWell extends WellArchetype {
 	}
 
 	@Override
-	public void populateBlocks(World world, Chunk chunk) {
+	public void populateBlocks(Chunk chunk) {
 		// TODO Auto-generated method stub
 
 	}

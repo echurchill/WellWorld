@@ -1,25 +1,24 @@
-package me.daddychurchill.WellWorld.WellTypes;
+package me.daddychurchill.WellWorld.WellTypes.Codename_B;
 
-import org.bukkit.Chunk;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
-import me.daddychurchill.WellWorld.WellArchetype;
 import me.daddychurchill.WellWorld.Support.ByteChunk;
 
-public class CodenameBWell extends WellArchetype {
+public class BananaOctaveWell extends BananaWellArchetype {
 
-	private byte stoneId = (byte) Material.STONE.getId();
-	//private byte airId = (byte) Material.AIR.getId();
+	private int surfaceAt;
+	private int surfaceThickness;
 	
-	public CodenameBWell(long seed, int wellX, int wellZ) {
-		super(seed, wellX, wellZ);
-		// TODO Auto-generated constructor stub
+	public BananaOctaveWell(World world, long seed, int wellX, int wellZ) {
+		super(world, seed, wellX, wellZ);
+
+		surfaceAt = random.nextInt(64) + 32;
+		surfaceThickness = random.nextInt(3) + 1;
 	}
 
 	@Override
-	public void populateChunk(World world, ByteChunk chunk) {
+	public void populateChunk(ByteChunk chunk) {
 		
 		// pretty much a direct copy of codename_B's post for testing purposes
 		// http://forums.bukkit.org/threads/intermediate-infinite-terrain-generation-using-simplexoctaves.28855/
@@ -42,7 +41,7 @@ public class CodenameBWell extends WellArchetype {
 				// - 16 is good for hilly terrain.
 				double noise = gen.noise(x + chunkX * 16, z + chunkZ * 16, 0.5, 0.5) * 16;
 				
-				//EC: optimized this based on how WellWorld chunk class works
+				//EC: optimized this based on how WellWorld chunk class works and added some dirt on top
 				//for(int y = 0; y < 32 + noise; y++){
 				//	
 				//	// Just some checks I use 
@@ -53,15 +52,11 @@ public class CodenameBWell extends WellArchetype {
 				//		// - you can use your preferred way of doing this.
 				//		chunk.setBlock(x, y, z, stoneId);
 				//}
-				chunk.setBlocks(x, 1, (int) (32 + noise), z, stoneId);
+				int y = surfaceAt + (int) noise;
+				chunk.setBlocks(x, 1, y, z, byteStone);
+				chunk.setBlocks(x, y, y + surfaceThickness, z, byteDirt);
+				chunk.setBlocks(x, y + surfaceThickness, y + surfaceThickness + 1, z, byteGrass);
 			}
 		}
 	}
-
-	@Override
-	public void populateBlocks(World world, Chunk chunk) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

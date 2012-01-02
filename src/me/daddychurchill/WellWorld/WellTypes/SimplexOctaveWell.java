@@ -23,14 +23,15 @@ public class SimplexOctaveWell extends WellArchetype {
 	
 	private SimplexOctaveGenerator generator;
 	
-	public SimplexOctaveWell(long seed, int wellX, int wellZ) {
-		super(seed, wellX, wellZ);
+	public SimplexOctaveWell(World world, long seed, int wellX, int wellZ) {
+		super(world, seed, wellX, wellZ);
+
 		generator = new SimplexOctaveGenerator(randseed, octives);
 		generator.setScale(hScale);
 	}
 
 	@Override
-	public void populateChunk(World world, ByteChunk chunk) {
+	public void populateChunk(ByteChunk chunk) {
 		int chunkX = chunk.getX();
 		int chunkZ = chunk.getZ();
 
@@ -43,7 +44,7 @@ public class SimplexOctaveWell extends WellArchetype {
 	}
 
 	@Override
-	public void populateBlocks(World world, Chunk chunk) {
+	public void populateBlocks(Chunk chunk) {
 		// TODO Auto-generated method stub
 
 	}

@@ -13,8 +13,8 @@ public class VerySimpleWaterWell extends WellArchetype {
 	private int height; // how thick is the bottom bit
 	private int waterLevel; // how thick is the water bit
 	
-	public VerySimpleWaterWell(long seed, int wellX, int wellZ) {
-		super(seed, wellX, wellZ);
+	public VerySimpleWaterWell(World world, long seed, int wellX, int wellZ) {
+		super(world, seed, wellX, wellZ);
 		
 		mineralCount = random.nextInt(4) + 4;
 		height = random.nextInt(48) + 16;
@@ -22,7 +22,7 @@ public class VerySimpleWaterWell extends WellArchetype {
 	}
 	
 	@Override
-	public void populateChunk(World world, ByteChunk chunk) {
+	public void populateChunk(ByteChunk chunk) {
 		// fill up with stone (don't need to do 0 as that will be handled for me
 		chunk.setBlocksAt(1, height, Material.STONE);
 		
@@ -38,7 +38,7 @@ public class VerySimpleWaterWell extends WellArchetype {
 	}
 
 	@Override
-	public void populateBlocks(World world, Chunk chunk) {
+	public void populateBlocks(Chunk chunk) {
 		// TODO Auto-generated method stub
 
 	}

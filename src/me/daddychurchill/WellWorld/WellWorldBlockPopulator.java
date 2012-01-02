@@ -28,10 +28,10 @@ public class WellWorldBlockPopulator extends BlockPopulator {
 		// figure out what everything looks like
 		WellArchetype well = plugin.getWellManager(world, random, source.getX(), source.getZ());
 		if (well != null) {
-			well.populateBlocks(world, source);
+			well.populateBlocks(source);
 			
 			// draw the well walls
-			WellWall.populateWalls(well, random, source, chunkX - well.getX(), chunkZ - well.getZ());
+			WellWall.populateWalls(well, source, chunkX - well.getX(), chunkZ - well.getZ());
 		}
 	}
 }

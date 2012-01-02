@@ -49,10 +49,10 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 			ByteChunk source = new ByteChunk(chunkX, chunkZ);
 			
 			// let the chunk do it's stuff
-			well.populateChunk(world, source);
+			well.populateChunk(source);
 			
 			// draw the well walls
-			WellWall.generateWalls(well, random, source, chunkX - well.getX(), chunkZ - well.getZ());
+			WellWall.generateWalls(well, source, chunkX - well.getX(), chunkZ - well.getZ());
 			
 			return source.blocks;
 		} else

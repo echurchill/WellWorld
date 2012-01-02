@@ -12,13 +12,13 @@ public class KhylandWell extends WellArchetype {
 
 	// Port of Khyperia's TrippyTerrain/Khyland for testing purposes
 	
-	public KhylandWell(long seed, int wellX, int wellZ) {
-		super(seed, wellX, wellZ);
+	public KhylandWell(World world, long seed, int wellX, int wellZ) {
+		super(world, seed, wellX, wellZ);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public void populateChunk(World world, ByteChunk chunk) {
+	public void populateChunk(ByteChunk chunk) {
 
 		SimplexNoiseGenerator simplex = new SimplexNoiseGenerator(randseed);
 		int cx = chunk.getX();
@@ -90,7 +90,7 @@ public class KhylandWell extends WellArchetype {
 	}
 
 	@Override
-	public void populateBlocks(World world, Chunk chunk) {
+	public void populateBlocks(Chunk chunk) {
 		// TODO Auto-generated method stub
 
 	}

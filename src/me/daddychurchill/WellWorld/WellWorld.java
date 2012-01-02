@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import me.daddychurchill.WellWorld.Support.WellWorldCreateCMD;
 import me.daddychurchill.WellWorld.WellTypes.*;
+import me.daddychurchill.WellWorld.WellTypes.Codename_B.*;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -17,7 +18,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class WellWorld extends JavaPlugin {
     public static final Logger log = Logger.getLogger("Minecraft.CityWorld");
-	public static final int wellWidthInChunks = 9; 
+	public static final int wellWidthInChunks = 8; 
    	
 	@Override
 	public ChunkGenerator getDefaultWorldGenerator(String name, String style){
@@ -102,9 +103,9 @@ public class WellWorld extends JavaPlugin {
 			// lava flat
 			// crystal world
 			if (wellX == 0 && wellZ == 0)
-				wellmanager = new KnollsWell(wellseed, wellX, wellZ);
+				wellmanager = new KnollsWell(world, wellseed, wellX, wellZ);
 			else
-				wellmanager = randomWellManager(random, wellseed, wellX, wellZ);
+				wellmanager = randomWellManager(world, random, wellseed, wellX, wellZ);
 			
 			// remember it for the next time
 			wells.put(wellkey, wellmanager);
@@ -125,50 +126,60 @@ public class WellWorld extends JavaPlugin {
 	
 	//TODO Maze of rooms
 	//TODO Space with a few moons
-	//TODO Basalt field (http://www.flickr.com/photos/golfie88/3712377542/)
+	//DONE Basalt field (http://www.flickr.com/photos/golfie88/3712377542/)
 	//TODO Volcano with lava
-	//TODO Desert with cactus
-	//TODO Silicon with crystal trees
+	//DONE Desert with cactus
+	//DONE Silicon with crystal trees
 	//TODO Captured farm
 	//TODO Captured village/town
 	//TODO Captured city block
 	//TODO Captured space station/ship
 	//TODO Captured futuristic town (domed city on RealisticMoon?)
 	
-	private WellArchetype randomWellManager(Random random, long seed, int wellX, int wellZ) {
-		switch (random.nextInt(4)) {
+	private WellArchetype randomWellManager(World world, Random random, long seed, int wellX, int wellZ) {
+		switch (random.nextInt(8)) {
 		case 1:
-			return new AlienWorldWell(seed, wellX, wellZ);
+			return new AlienWorldWell(world, seed, wellX, wellZ);
 		case 2:
-			return new AlienCavernWell(seed, wellX, wellZ);
+			return new AlienCavernWell(world, seed, wellX, wellZ);
 		case 3:
-			return new RealisticMoonWell(seed, wellX, wellZ);
+			return new RealisticMoonWell(world, seed, wellX, wellZ);
+		case 4:
+			return new BasaltFieldWell(world, seed, wellX, wellZ);
+			
+		// Codename_B's Banana wells
+		case 5:
+			return new BananaOctaveWell(world, seed, wellX, wellZ);
+		case 6:
+			return new BananaSkyWell(world, seed, wellX, wellZ);
+		case 7:
+			return new BananaTrigWell(world, seed, wellX, wellZ);
 
 // not enabled as they are kind of boring :-)
 //		case 4:
-//			return new VeryEmptyWell(seed, wellX, wellZ);
+//			return new VeryEmptyWell(world, seed, wellX, wellZ);
 //		case 5:
-//			return new VerySimpleFlatWell(seed, wellX, wellZ);
+//			return new VerySimpleFlatWell(world, seed, wellX, wellZ);
 //		case 6:
-//			return new VerySimpleWaterWell(seed, wellX, wellZ);
+//			return new VerySimpleWaterWell(world, seed, wellX, wellZ);
 //		case 7:
-//			return new VerySimpleHillyWell(seed, wellX, wellZ);
+//			return new VerySimpleHillyWell(world, seed, wellX, wellZ);
 //		case 9:
-//			return new SimplexNoiseWell(seed, wellX, wellZ);
+//			return new SimplexNoiseWell(world, seed, wellX, wellZ);
 //		case 10:
-//			return new SimplexOctaveWell(seed, wellX, wellZ);
+//			return new SimplexOctaveWell(world, seed, wellX, wellZ);
 
 // not enabled as I don't have permission to do so
 //		case 8:
-//			return new CodenameBWell(seed, wellX, wellZ);
+//			return new CodenameBWell(world, seed, wellX, wellZ);
 //		case 11:
-//			return new KhylandWell(seed, wellX, wellZ);
+//			return new KhylandWell(world, seed, wellX, wellZ);
 //		case 12:
-//			return new PancakeWell(seed, wellX, wellZ);
+//			return new PancakeWell(world, seed, wellX, wellZ);
 //		case 13:
 //			return new DinnerboneMoonWell(seed, wellX, wellZ);
 		default:
-			return new KnollsWell(seed, wellX, wellZ);
+			return new KnollsWell(world, seed, wellX, wellZ);
 		}
 	}
 }

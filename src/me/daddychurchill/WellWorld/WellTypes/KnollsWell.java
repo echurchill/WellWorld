@@ -42,8 +42,8 @@ public class KnollsWell extends WellArchetype {
 	private double vScale = 16.0;
 	private SimplexOctaveGenerator generator;
 	
-	public KnollsWell(long seed, int wellX, int wellZ) {
-		super(seed, wellX, wellZ);
+	public KnollsWell(World world, long seed, int wellX, int wellZ) {
+		super(world, seed, wellX, wellZ);
 		specialBlockOdds = random.nextInt(3) + 1;
 		specialsPerLayer = random.nextInt(20) + 10;
 		stoneLevel = random.nextInt(32) + 48;
@@ -72,7 +72,7 @@ public class KnollsWell extends WellArchetype {
 	}
 
 	@Override
-	public void populateChunk(World world, ByteChunk chunk) {
+	public void populateChunk(ByteChunk chunk) {
 		int chunkX = chunk.getX();
 		int chunkZ = chunk.getZ();
 
@@ -92,7 +92,7 @@ public class KnollsWell extends WellArchetype {
 	}
 
 	@Override
-	public void populateBlocks(World world, Chunk chunk) {
+	public void populateBlocks(Chunk chunk) {
 
 		// sprinkle minerals for each y layer, one of millions of ways to do this!
 		for (int y = 1; y < 127; y++) {

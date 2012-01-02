@@ -8,23 +8,26 @@ import me.daddychurchill.WellWorld.Support.WellWall;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Biome;
 import org.bukkit.util.Vector;
 
 public abstract class WellArchetype {
 	
 	public Random random;
+	protected World world;
 	protected long randseed;
 	protected Vector minBlock;
 	protected Vector maxBlock;
 	protected int wellX;
 	protected int wellZ;
 	
-	public WellArchetype(long seed, int wellX, int wellZ) {
+	public WellArchetype(World world, long seed, int wellX, int wellZ) {
 		// make our own random
 		this.randseed = seed;
 		this.random = new Random(randseed);
 		
 		// where are we?
+		this.world = world;
 		this.wellX = wellX;
 		this.wellZ = wellZ;
 		
@@ -38,8 +41,8 @@ public abstract class WellArchetype {
 	}
 	
 	// override these to make something really happen!
-	public abstract void populateChunk(World world, ByteChunk chunk);
-	public abstract void populateBlocks(World world, Chunk chunk);	
+	public abstract void populateChunk(ByteChunk chunk);
+	public abstract void populateBlocks(Chunk chunk);	
 	
 	// gives you the well's origin chunk position
 	public int getX() {
@@ -48,6 +51,18 @@ public abstract class WellArchetype {
 	
 	public int getZ() {
 		return wellZ;
+	}
+	
+	public Biome getBiome() {
+		return world.getBiome(wellX * ByteChunk.Width + 8, wellZ * ByteChunk.Width + 8);
+	}
+	
+	protected int getBlockX(ByteChunk chunk, int x) {
+		return (chunk.getX() - wellX) * ByteChunk.Width + x;
+	}
+	
+	protected int getBlockZ(ByteChunk chunk, int z) {
+		return (chunk.getZ() - wellZ) * ByteChunk.Width + z;
 	}
 	
 	// override these to auto-draw the top and bottom of the well

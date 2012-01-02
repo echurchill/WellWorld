@@ -19,12 +19,24 @@ public class ByteChunk {
 		blocks = new byte[Width * Width * Height];
 	}
 	
+	public static int getWorldCoord(int chunkN, int n) {
+		return chunkN * Width + n;
+	}
+	
 	public int getX() {
 		return X;
 	}
 	
 	public int getZ() {
 		return Z;
+	}
+	
+	public int getBlockX(int x) {
+		return X * Width + x;
+	}
+	
+	public int getBlockZ(int z) {
+		return Z * Width + z;
 	}
 	
 	public byte getBlock(int x, int y, int z) {
@@ -95,5 +107,16 @@ public class ByteChunk {
 
 	public void setAllBlocks(Material material) {
 		setAllBlocks((byte) material.getId());
+	}
+	
+	public void replaceBlocks(byte fromId, byte toId) {
+		for (int i = 0; i < blocks.length; i++) {
+			if (blocks[i] == fromId)
+				blocks[i] = toId;
+		}
+	}
+
+	public void replaceBlocks(Material fromMaterial, Material toMaterial) {
+		replaceBlocks((byte) fromMaterial.getId(), (byte) toMaterial.getId());
 	}
 }

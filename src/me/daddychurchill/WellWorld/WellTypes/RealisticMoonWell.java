@@ -35,8 +35,8 @@ public class RealisticMoonWell extends WellArchetype {
     private int craterChance;
     private double surfaceVariance;
 
-	public RealisticMoonWell(long seed, int wellX, int wellZ) {
-		super(seed, wellX, wellZ);
+	public RealisticMoonWell(World world, long seed, int wellX, int wellZ) {
+		super(world, seed, wellX, wellZ);
 		
 		// other private bits
 		surfaceAt = calcRandomRange(40, 80);
@@ -110,7 +110,7 @@ public class RealisticMoonWell extends WellArchetype {
     }
    
 	@Override
-	public void populateChunk(World world, ByteChunk chunk) {
+	public void populateChunk(ByteChunk chunk) {
 		int chunkX = chunk.getX();
 		int chunkZ = chunk.getZ();
 		
@@ -124,7 +124,7 @@ public class RealisticMoonWell extends WellArchetype {
 	}
     
 	@Override
-	public void populateBlocks(World world, Chunk chunk) {
+	public void populateBlocks(Chunk chunk) {
         if (random.nextInt(100) <= craterChance) {
         	
         	// location

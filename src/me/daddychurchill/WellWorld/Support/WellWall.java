@@ -1,7 +1,5 @@
 package me.daddychurchill.WellWorld.Support;
 
-import java.util.Random;
-
 import me.daddychurchill.WellWorld.WellArchetype;
 import me.daddychurchill.WellWorld.WellWorld;
 
@@ -17,7 +15,7 @@ public class WellWall {
 	public static final Material negativeMaterial = Material.AIR;
 	public static final int portalLevels = 3; // how many levels of portals are there
 	
-	public static final void generateWalls(WellArchetype well, Random random, ByteChunk source, int wellChunkX, int wellChunkZ) {
+	public static final void generateWalls(WellArchetype well, ByteChunk source, int wellChunkX, int wellChunkZ) {
 		// top
 		if (well.includeTop())
 			source.setBlocksAt(wallHeightInBlocks - ceilingThicknessInBlocks, wallHeightInBlocks, wallMaterial);
@@ -44,7 +42,7 @@ public class WellWall {
 			}
 			
 			// punch some random holes in the walls... for now
-			int y1 = wallHeightInBlocks - 2 * (wallHeightInBlocks / wallThicknessInBlocks) + (random.nextInt(portalLevels) + 1) * 3;
+			int y1 = wallHeightInBlocks - 2 * (wallHeightInBlocks / wallThicknessInBlocks) + (well.random.nextInt(portalLevels) + 1) * 3;
 			int y2 = y1 + 2;
 
 			// punch the door
@@ -75,7 +73,7 @@ public class WellWall {
 			source.setBlocksAt(0, floorThicknessInBlocks, wallMaterial);
 	}
 	
-	public static final void populateWalls(WellArchetype well, Random random, Chunk source, int wellChunkX, int wellChunkZ) {
+	public static final void populateWalls(WellArchetype well, Chunk source, int wellChunkX, int wellChunkZ) {
 		//TODO teleports, railroads, rooms, doors?
 	}
 }

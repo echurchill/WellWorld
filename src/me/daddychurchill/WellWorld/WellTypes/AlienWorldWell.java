@@ -23,8 +23,8 @@ public class AlienWorldWell extends WellArchetype {
 	private double zFactor = 50.0;
 	private SimplexNoiseGenerator generator;
 	
-	public AlienWorldWell(long seed, int wellX, int wellZ) {
-		super(seed, wellX, wellZ);
+	public AlienWorldWell(World world, long seed, int wellX, int wellZ) {
+		super(world, seed, wellX, wellZ);
 		mineralOdds = random.nextInt(5) + 1;
 		mineralsPerLayer = random.nextInt(10);
 		height = random.nextInt(32) + 48;
@@ -71,7 +71,7 @@ public class AlienWorldWell extends WellArchetype {
 	}
 
 	@Override
-	public void populateChunk(World world, ByteChunk chunk) {
+	public void populateChunk(ByteChunk chunk) {
 		int chunkX = chunk.getX();
 		int chunkZ = chunk.getZ();
 		for (int x = 0; x < 16; x++) {
@@ -90,7 +90,7 @@ public class AlienWorldWell extends WellArchetype {
 	}
 
 	@Override
-	public void populateBlocks(World world, Chunk chunk) {
+	public void populateBlocks(Chunk chunk) {
 
 		// sprinkle minerals for each y layer, one of millions of ways to do this!
 		for (int y = 1; y < 127; y++) {

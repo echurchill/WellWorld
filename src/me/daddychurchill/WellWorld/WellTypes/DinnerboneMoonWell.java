@@ -28,44 +28,37 @@ public class DinnerboneMoonWell extends WellArchetype {
     private static final Material negativeMaterial = Material.AIR;
     private static final Material surfaceMaterial = Material.SPONGE;
 
-	public DinnerboneMoonWell(long seed, int wellX, int wellZ) {
-		super(seed, wellX, wellZ);
+	public DinnerboneMoonWell(World world, long seed, int wellX, int wellZ) {
+		super(world, seed, wellX, wellZ);
 	}
 
+	//EC: simplified this code a bit
     private NoiseGenerator generator;
-
-    private NoiseGenerator getGenerator(World world) {
-        if (generator == null) {
+    private int getHeight(double x, double z, double variance) {
+        if (generator == null)
             generator = new SimplexNoiseGenerator(randseed);
-        }
 
-        return generator;
-    }
-
-    private int getHeight(World world, double x, double z, double variance) {
-        NoiseGenerator gen = getGenerator(world);
-
-        double result = gen.noise(x, z);
+        double result = generator.noise(x, z);
         result *= variance;
         return NoiseGenerator.floor(result);
     }
    
 	@Override
-	public void populateChunk(World world, ByteChunk chunk) {
+	public void populateChunk(ByteChunk chunk) {
 		//EC: we don't need to additional bounds checking since the caller will overwrite what it needs to
 		int chunkX = chunk.getX();
 		int chunkZ = chunk.getZ();
 		
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
-                int height = getHeight(world, chunkX + x * 0.0625, chunkZ + z * 0.0625, 2) + 60;
+                int height = getHeight(chunkX + x * 0.0625, chunkZ + z * 0.0625, 2) + 60;
                 chunk.setBlocks(x, 1, height, z, surfaceMaterial);
             }
         }
 	}
     
 	@Override
-	public void populateBlocks(World world, Chunk chunk) {
+	public void populateBlocks(Chunk chunk) {
 		//EC: in this simplified block populators we use "chunk" instead of the original code's "source"...
 		//    and, more importantly, shows that we need to unify multiple block populators into a single one
 		

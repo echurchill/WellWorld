@@ -8,19 +8,19 @@ import me.daddychurchill.WellWorld.Support.ByteChunk;
 
 public class VeryEmptyWell extends WellArchetype {
 
-	public VeryEmptyWell(long seed, int wellX, int wellZ) {
-		super(seed, wellX, wellZ);
+	public VeryEmptyWell(World world, long seed, int wellX, int wellZ) {
+		super(world, seed, wellX, wellZ);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public void populateChunk(World world, ByteChunk chunk) {
+	public void populateChunk(ByteChunk chunk) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void populateBlocks(World world, Chunk chunk) {
+	public void populateBlocks(Chunk chunk) {
 		// TODO Auto-generated method stub
 
 	}
