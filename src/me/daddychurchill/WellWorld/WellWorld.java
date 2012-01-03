@@ -84,6 +84,11 @@ public class WellWorld extends JavaPlugin {
 		// find the origin for the well
 		int wellX = calcOrigin(chunkX);
 		int wellZ = calcOrigin(chunkZ);
+		//int origWellZ = wellZ;
+		
+		// hex offset? SIGH... I haven't been able to get this to work... sorry
+		//if ((Math.abs(wellX) / wellWidthInChunks) % 2 == 1)
+		//	wellZ += wellWidthInChunks / 2;
 
 		// calculate the plat's key
 		long wellpos = (long) wellX * (long) Integer.MAX_VALUE + (long) wellZ;
@@ -95,6 +100,10 @@ public class WellWorld extends JavaPlugin {
 		
 		// doesn't exist? then make it!
 		if (wellmanager == null) {
+			//if (origWellZ != wellZ)
+			//	log.info("Well: " + wellX + ", " + wellZ + " SHIFTED, was at " + origWellZ);
+			//else
+			//	log.info("Well: " + wellX + ", " + wellZ);
 			
 			//TODO add other possible well types
 			// bottom noise
@@ -126,18 +135,18 @@ public class WellWorld extends JavaPlugin {
 	
 	//TODO Maze of rooms
 	//TODO Space with a few moons
-	//DONE Basalt field (http://www.flickr.com/photos/golfie88/3712377542/)
 	//TODO Volcano with lava
-	//DONE Desert with cactus
-	//DONE Silicon with crystal trees
 	//TODO Captured farm
 	//TODO Captured village/town
 	//TODO Captured city block
 	//TODO Captured space station/ship
 	//TODO Captured futuristic town (domed city on RealisticMoon?)
+	//DONE Basalt field (http://www.flickr.com/photos/golfie88/3712377542/)
+	//DONE Desert with cactus
+	//DONE Silicon with crystal trees
 	
 	private WellArchetype randomWellManager(World world, Random random, long seed, int wellX, int wellZ) {
-		switch (random.nextInt(8)) {
+		switch (random.nextInt(9)) {
 		case 1:
 			return new AlienWorldWell(world, seed, wellX, wellZ);
 		case 2:
@@ -146,13 +155,15 @@ public class WellWorld extends JavaPlugin {
 			return new RealisticMoonWell(world, seed, wellX, wellZ);
 		case 4:
 			return new BasaltFieldWell(world, seed, wellX, wellZ);
+		case 5:
+			return new PlatformWell(world, seed, wellX, wellZ);
 			
 		// Codename_B's Banana wells
-		case 5:
-			return new BananaOctaveWell(world, seed, wellX, wellZ);
 		case 6:
-			return new BananaSkyWell(world, seed, wellX, wellZ);
+			return new BananaOctaveWell(world, seed, wellX, wellZ);
 		case 7:
+			return new BananaSkyWell(world, seed, wellX, wellZ);
+		case 8:
 			return new BananaTrigWell(world, seed, wellX, wellZ);
 
 // not enabled as they are kind of boring :-)

@@ -1,6 +1,6 @@
 name: WellWorld
 main: me.daddychurchill.WellWorld.WellWorld
-version: 0.6
+version: 0.7
 load: startup
 author: DaddyChurchill
 commands:

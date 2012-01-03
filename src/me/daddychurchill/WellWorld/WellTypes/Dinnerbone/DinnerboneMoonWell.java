@@ -1,4 +1,4 @@
-package me.daddychurchill.WellWorld.WellTypes;
+package me.daddychurchill.WellWorld.WellTypes.Dinnerbone;
 
 import org.bukkit.Chunk;
 import org.bukkit.Material;

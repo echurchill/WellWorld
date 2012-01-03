@@ -1,4 +1,4 @@
-package me.daddychurchill.WellWorld.WellTypes;
+package me.daddychurchill.WellWorld.WellTypes.NotUsed;
 
 import org.bukkit.Chunk;
 import org.bukkit.World;

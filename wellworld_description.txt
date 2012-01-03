@@ -1,5 +1,5 @@
 == **WellWorld** ==
-===== //Version 0.6// =====
+===== //Version 0.7// =====
 //(coming as soon as the update get's approved by the bukkit keepers)//
 Now includes well generators from Codename_B, thx
 
@@ -32,7 +32,7 @@ p.s. Not all those little doors up in the wall lead next door.. some are there j
 
 * No built in commands – like with CityWorld, I have kept this plugin simple.
 
-* Needs more variety – Right now there are less than a half a dozen generators enabled. Like with world generators themselves, it is pretty easy to add new well generators to WellWorld. In fact during the creation of WellWorld I ported some generators from Khyperia (http://dev.bukkit.org/server-mods/trippy-terrain/), CodenameB (http://forums.bukkit.org/threads/intermediate-infinite-terrain-generation-using-simplexoctaves.28855/) and Dinnerbone (https://github.com/Dinnerbone/BukkitFullOfMoon) but since I don’t have their permission, I have left them disabled. Ok, that's not entirely true, I am including one generator loosely based on BukkitFullOfMoon
+* Needs more variety – Right now there are less than a half a dozen generators enabled. Like with world generators themselves, it is pretty easy to add new well generators to WellWorld. In fact during the creation of WellWorld I ported some generators from Khyperia (http://dev.bukkit.org/server-mods/trippy-terrain/) and Dinnerbone (https://github.com/Dinnerbone/BukkitFullOfMoon) but since I don’t have their permission, I have left them disabled. Ok, that's not entirely true, I am including one generator loosely based on BukkitFullOfMoon
 
 === Heads up! ===
 
