@@ -22,7 +22,7 @@ public class VerySimpleWaterWell extends WellArchetype {
 	}
 	
 	@Override
-	public void populateChunk(ByteChunk chunk) {
+	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
 		// fill up with stone (don't need to do 0 as that will be handled for me
 		chunk.setBlocksAt(1, height, Material.STONE);
 		
@@ -38,7 +38,7 @@ public class VerySimpleWaterWell extends WellArchetype {
 	}
 
 	@Override
-	public void populateBlocks(Chunk chunk) {
+	public void populateBlocks(Chunk chunk, int chunkX, int chunkZ) {
 		// TODO Auto-generated method stub
 
 	}

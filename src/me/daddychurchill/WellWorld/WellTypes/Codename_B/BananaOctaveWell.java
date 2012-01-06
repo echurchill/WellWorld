@@ -18,12 +18,13 @@ public class BananaOctaveWell extends BananaWellArchetype {
 	}
 
 	@Override
-	public void populateChunk(ByteChunk chunk) {
+	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
 		
-		// pretty much a direct copy of codename_B's post for testing purposes
+		// pretty much a direct copy of codename_B's post 
 		// http://forums.bukkit.org/threads/intermediate-infinite-terrain-generation-using-simplexoctaves.28855/
-		int chunkX = chunk.getX();
-		int chunkZ = chunk.getZ();
+		//EC: use the one passed in instead
+		//int chunkX = chunk.getX();
+		//int chunkZ = chunk.getZ();
 		
 		// This generates an "octave generator" from the random - the same one each time
 		SimplexOctaveGenerator gen =  new SimplexOctaveGenerator(randseed, 8);

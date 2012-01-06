@@ -34,6 +34,7 @@ public class RealisticMoonWell extends WellArchetype {
     private int surfaceThickness;
     private int craterChance;
     private double surfaceVariance;
+    private NoiseGenerator generator;
 
 	public RealisticMoonWell(World world, long seed, int wellX, int wellZ) {
 		super(world, seed, wellX, wellZ);
@@ -43,6 +44,7 @@ public class RealisticMoonWell extends WellArchetype {
 		surfaceThickness = random.nextInt(3) + 1;
 		surfaceVariance = calcRandomRange(1.5, 3.0);
 		craterChance = calcRandomRange(20, 50);
+        generator = new SimplexNoiseGenerator(randseed);
 		
 		// material
 		switch (random.nextInt(5)) {
@@ -91,32 +93,25 @@ public class RealisticMoonWell extends WellArchetype {
 		}
 	}
 
-    private NoiseGenerator generator;
+//    private NoiseGenerator getGenerator(World world) {
+//        if (generator == null) {
+//        }
+//
+//        return generator;
+//    }
+//
+//    private int getHeight(World world, double x, double z, double variance) {
+//        double result = gen.noise(x, z);
+//        result *= variance;
+//        return NoiseGenerator.floor(generator.noise);
+//    }
 
-    private NoiseGenerator getGenerator(World world) {
-        if (generator == null) {
-            generator = new SimplexNoiseGenerator(randseed);
-        }
-
-        return generator;
-    }
-
-    private int getHeight(World world, double x, double z, double variance) {
-        NoiseGenerator gen = getGenerator(world);
-
-        double result = gen.noise(x, z);
-        result *= variance;
-        return NoiseGenerator.floor(result);
-    }
-   
 	@Override
-	public void populateChunk(ByteChunk chunk) {
-		int chunkX = chunk.getX();
-		int chunkZ = chunk.getZ();
-		
+	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
-                int height = getHeight(world, chunkX + x * 0.0625, chunkZ + z * 0.0625, surfaceVariance) + surfaceAt;
+            	int height = NoiseGenerator.floor(generator.noise(getNoiseValue(chunkX, x) * 0.0625, getNoiseValue(chunkZ, z) * 0.0625) * surfaceVariance) + surfaceAt;
+//                int height = getHeight(world, chunkX + x * 0.0625, chunkZ + z * 0.0625, surfaceVariance) + surfaceAt;
                 chunk.setBlocks(x, 1, height - surfaceThickness, z, interiorMaterial);
                 chunk.setBlocks(x, height - surfaceThickness, height, z, surfaceMaterial);
             }
@@ -124,7 +119,7 @@ public class RealisticMoonWell extends WellArchetype {
 	}
     
 	@Override
-	public void populateBlocks(Chunk chunk) {
+	public void populateBlocks(Chunk chunk, int chunkX, int chunkZ) {
         if (random.nextInt(100) <= craterChance) {
         	
         	// location

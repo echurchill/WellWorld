@@ -74,10 +74,7 @@ public class AlienCavernWell extends WellArchetype {
 	}
 
 	@Override
-	public void populateChunk(ByteChunk chunk) {
-		// fill it in
-		int chunkX = chunk.getX();
-		int chunkZ = chunk.getZ();
+	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
 				for (int y = 1; y < 128; y++) {
@@ -93,7 +90,7 @@ public class AlienCavernWell extends WellArchetype {
 	}
 	
 	@Override
-	public void populateBlocks(Chunk chunk) {
+	public void populateBlocks(Chunk chunk, int chunkX, int chunkZ) {
 		
 		// sprinkle minerals for each y layer, one of millions of ways to do this!
 		for (int y = 1; y < 127; y++) {

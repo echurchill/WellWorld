@@ -43,10 +43,7 @@ public class BasaltFieldWell extends WellArchetype {
 	}
 
 	@Override
-	public void populateChunk(ByteChunk chunk) {
-		int chunkX = chunk.getX();
-		int chunkZ = chunk.getZ();
-
+	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
 		for (int x = 0; x < 16; x += 4) {
 			for (int z = 0; z < 16; z += 4) {
 				double noise = generator.noise((chunkX * 16 + x) / xFactor, (chunkZ * 16 + z) / zFactor, fequency, amplitude) * vScale;
@@ -62,7 +59,7 @@ public class BasaltFieldWell extends WellArchetype {
 	}
 
 	@Override
-	public void populateBlocks(Chunk chunk) {
+	public void populateBlocks(Chunk chunk, int chunkX, int chunkZ) {
 		// TODO Auto-generated method stub
 
 	}

@@ -38,15 +38,15 @@ public class BananaSkyWell extends BananaWellArchetype {
 	}
 
 	@Override
-	public void populateChunk(ByteChunk chunk) {
+	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
 		double y;
 		double py;
 		double highest;
 
 		for(int x=0; x<16; x++) {
 			for(int z=0; z<16; z++) {
-				y = l1.noise(getBlockX(chunk, x), getBlockZ(chunk, z), 7, 1);
-				py = l2.noise(getBlockX(chunk, x), getBlockZ(chunk, z), 7, 1);
+				y = l1.noise(getNoiseValue(chunkX, x), getNoiseValue(chunkZ, z), 7, 1);
+				py = l2.noise(getNoiseValue(chunkX, x), getNoiseValue(chunkZ, z), 7, 1);
 
 				// This generates the "mushroom" stalk
 				if(y > 0.5) {

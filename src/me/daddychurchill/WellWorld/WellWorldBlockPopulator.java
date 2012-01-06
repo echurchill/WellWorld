@@ -26,12 +26,18 @@ public class WellWorldBlockPopulator extends BlockPopulator {
 		int chunkZ = source.getZ();
 		
 		// figure out what everything looks like
-		WellArchetype well = plugin.getWellManager(world, random, source.getX(), source.getZ());
+		WellArchetype well = plugin.getWellManager(world, random, chunkX, chunkZ);
 		if (well != null) {
-			well.populateBlocks(source);
+			
+			// well centric chunkX/Z
+			int adjustedX = chunkX - well.getX();
+			int adjustedZ = chunkZ - well.getZ();
+			
+			// populate the chunk
+			well.populateBlocks(source, adjustedX, adjustedZ);
 			
 			// draw the well walls
-			WellWall.populateWalls(well, source, chunkX - well.getX(), chunkZ - well.getZ());
+			WellWall.populateWalls(well, source, adjustedX, adjustedZ);
 		}
 	}
 }

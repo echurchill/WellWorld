@@ -18,17 +18,18 @@ public class KhylandWell extends WellArchetype {
 	}
 
 	@Override
-	public void populateChunk(ByteChunk chunk) {
+	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
 
 		SimplexNoiseGenerator simplex = new SimplexNoiseGenerator(randseed);
-		int cx = chunk.getX();
-		int cz = chunk.getZ();
+		//EC: use the one passed in instead
+		//int chunkX = chunk.getX();
+		//int chunkZ = chunk.getZ();
 		Material[][][] blocks = new Material[16][128][16];
 
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
 				for (int y = 0; y < 128; y++) {
-					double noise = simplex.noise((cx * 16 + x) / 50.0f, y / 50.0f, (cz * 16 + z) / 50.0f);
+					double noise = simplex.noise((chunkX * 16 + x) / 50.0f, y / 50.0f, (chunkZ * 16 + z) / 50.0f);
 					noise += (64 - y) * (1 / 32f);
 					blocks[x][y][z] = (noise > 0) ? Material.STONE : Material.AIR;
 				}
@@ -51,9 +52,9 @@ public class KhylandWell extends WellArchetype {
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
 				for (int y = 0; y < 128; y++) {
-					double noise = Math.abs(simplex.noise((cx * 16 + x) / 50.0f, y / 40.0f + 200,
-							(cz * 16 + z) / 50.0f));
-					noise += Math.abs(simplex.noise((cx * 16 + x) / 50.0f, y / 40.0f + 400, (cz * 16 + z) / 50.0f));
+					double noise = Math.abs(simplex.noise((chunkX * 16 + x) / 50.0f, y / 40.0f + 200,
+							(chunkZ * 16 + z) / 50.0f));
+					noise += Math.abs(simplex.noise((chunkX * 16 + x) / 50.0f, y / 40.0f + 400, (chunkZ * 16 + z) / 50.0f));
 					if (noise < 0.2)
 						blocks[x][y][z] = Material.AIR;
 				}
@@ -90,7 +91,7 @@ public class KhylandWell extends WellArchetype {
 	}
 
 	@Override
-	public void populateBlocks(Chunk chunk) {
+	public void populateBlocks(Chunk chunk, int chunkX, int chunkZ) {
 		// TODO Auto-generated method stub
 
 	}

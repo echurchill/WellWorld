@@ -15,14 +15,15 @@ public class BananaTrigWell extends BananaWellArchetype {
 	}
 	
 	@Override
-	public void populateChunk(ByteChunk chunk) {
-		int chunkx = chunk.getX();
-		int chunkz = chunk.getZ();
+	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
+		//EC: use the one passed in instead
+		//int chunkX = chunk.getX();
+		//int chunkZ = chunk.getZ();
 		
 		for(int x=0; x<16; x++) {
 			for(int z=0; z<16; z++) {
-				int trueX = chunkx*16+x;
-				int trueZ = chunkz*16+z;
+				int trueX = chunkX*16+x;
+				int trueZ = chunkZ*16+z;
 
 				chunk.setBlocks(x, 1, surfaceAt, z, byteLiquid);
 //				chunk.setBlocks(x, 1, surfaceAt, z, 64);

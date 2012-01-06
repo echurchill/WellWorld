@@ -84,7 +84,6 @@ public class WellWorld extends JavaPlugin {
 		// find the origin for the well
 		int wellX = calcOrigin(chunkX);
 		int wellZ = calcOrigin(chunkZ);
-		//int origWellZ = wellZ;
 		
 		// hex offset? SIGH... I haven't been able to get this to work... sorry
 		//if ((Math.abs(wellX) / wellWidthInChunks) % 2 == 1)
@@ -100,17 +99,8 @@ public class WellWorld extends JavaPlugin {
 		
 		// doesn't exist? then make it!
 		if (wellmanager == null) {
-			//if (origWellZ != wellZ)
-			//	log.info("Well: " + wellX + ", " + wellZ + " SHIFTED, was at " + origWellZ);
-			//else
-			//	log.info("Well: " + wellX + ", " + wellZ);
 			
-			//TODO add other possible well types
-			// bottom noise
-			// cave noise
-			// water flat
-			// lava flat
-			// crystal world
+			// make sure the initial spawn location is "safe-ish"
 			if (wellX == 0 && wellZ == 0)
 				wellmanager = new KnollsWell(world, wellseed, wellX, wellZ);
 			else
@@ -135,7 +125,9 @@ public class WellWorld extends JavaPlugin {
 	
 	//TODO Maze of rooms
 	//TODO Space with a few moons
-	//TODO Volcano with lava
+	//TODO Create a variant of BananaVoid with multiple vertical levels of pathways
+	//TODO Giant tree
+	//TODO Forested well
 	//TODO Captured farm
 	//TODO Captured village/town
 	//TODO Captured city block
@@ -144,9 +136,11 @@ public class WellWorld extends JavaPlugin {
 	//DONE Basalt field (http://www.flickr.com/photos/golfie88/3712377542/)
 	//DONE Desert with cactus
 	//DONE Silicon with crystal trees
+	//DONE Volcano with lava
+	//DONE Port BananaIce, BananaVoid and BananaForest
 	
 	private WellArchetype randomWellManager(World world, Random random, long seed, int wellX, int wellZ) {
-		switch (random.nextInt(9)) {
+		switch (random.nextInt(13)) {
 		case 1:
 			return new AlienWorldWell(world, seed, wellX, wellZ);
 		case 2:
@@ -157,14 +151,22 @@ public class WellWorld extends JavaPlugin {
 			return new BasaltFieldWell(world, seed, wellX, wellZ);
 		case 5:
 			return new PlatformWell(world, seed, wellX, wellZ);
+		case 6:
+			return new VolcanoWell(world, seed, wellX, wellZ);
 			
 		// Codename_B's Banana wells
-		case 6:
-			return new BananaOctaveWell(world, seed, wellX, wellZ);
 		case 7:
-			return new BananaSkyWell(world, seed, wellX, wellZ);
+			return new BananaOctaveWell(world, seed, wellX, wellZ);
 		case 8:
+			return new BananaSkyWell(world, seed, wellX, wellZ);
+		case 9:
 			return new BananaTrigWell(world, seed, wellX, wellZ);
+		case 10:
+			return new BananaIceWell(world, seed, wellX, wellZ);
+		case 11:
+			return new BananaVoidWell(world, seed, wellX, wellZ);
+		case 12:
+			return new BananaForestWell(world, seed, wellX, wellZ);
 
 // not enabled as they are kind of boring :-)
 //		case 4:
@@ -181,8 +183,6 @@ public class WellWorld extends JavaPlugin {
 //			return new SimplexOctaveWell(world, seed, wellX, wellZ);
 
 // not enabled as I don't have permission to do so
-//		case 8:
-//			return new CodenameBWell(world, seed, wellX, wellZ);
 //		case 11:
 //			return new KhylandWell(world, seed, wellX, wellZ);
 //		case 12:

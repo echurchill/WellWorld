@@ -8,35 +8,31 @@ public class ByteChunk {
 	public final static int Width = 16;
 	public final static int Height = 128;
 	
-	private int X;
-	private int Z;
+	private int chunkX;
+	private int chunkZ;
 	public byte[] blocks;
 		
 	public ByteChunk (int chunkX, int chunkZ) {
 		super();
-		X = chunkX;
-		Z = chunkZ;
+		this.chunkX = chunkX;
+		this.chunkZ = chunkZ;
 		blocks = new byte[Width * Width * Height];
 	}
 	
-	public static int getWorldCoord(int chunkN, int n) {
-		return chunkN * Width + n;
-	}
-	
 	public int getX() {
-		return X;
+		return chunkX;
 	}
 	
 	public int getZ() {
-		return Z;
+		return chunkZ;
 	}
 	
 	public int getBlockX(int x) {
-		return X * Width + x;
+		return chunkX * Width + x;
 	}
 	
 	public int getBlockZ(int z) {
-		return Z * Width + z;
+		return chunkZ * Width + z;
 	}
 	
 	public byte getBlock(int x, int y, int z) {
@@ -52,8 +48,10 @@ public class ByteChunk {
 	}
 	
 	public void setBlocks(int x, int y1, int y2, int z, byte materialId) {
-		int xz = (x * Width + z) * Height;
-		Arrays.fill(blocks, xz + y1, xz + y2, materialId);
+		if (y1 < y2) {
+			int xz = (x * Width + z) * Height;
+			Arrays.fill(blocks, xz + y1, xz + y2, materialId);
+		}
 	}
 	
 	public void setBlocks(int x, int y1, int y2, int z, Material material) {
@@ -61,11 +59,13 @@ public class ByteChunk {
 	}
 	
 	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, byte materialId) {
-		for (int x = x1; x < x2; x++) {
-			int xw = x * Width;
-			for (int z = z1; z < z2; z++) {
-				int xz = (xw + z) * Height;
-				Arrays.fill(blocks, xz + y1, xz + y2, materialId);
+		if (y1 < y2) {
+			for (int x = x1; x < x2; x++) {
+				int xw = x * Width;
+				for (int z = z1; z < z2; z++) {
+					int xz = (xw + z) * Height;
+					Arrays.fill(blocks, xz + y1, xz + y2, materialId);
+				}
 			}
 		}
 	}
@@ -88,11 +88,13 @@ public class ByteChunk {
 	}
 	
 	public void setBlocksAt(int y1, int y2, byte materialId) {
-		for (int x = 0; x < Width; x++) {
-			int xw = x * Width;
-			for (int z = 0; z < Width; z++) {
-				int xz = (xw + z) * Height;
-				Arrays.fill(blocks, xz + y1, xz + y2, materialId);
+		if (y1 < y2) {
+			for (int x = 0; x < Width; x++) {
+				int xw = x * Width;
+				for (int z = 0; z < Width; z++) {
+					int xz = (xw + z) * Height;
+					Arrays.fill(blocks, xz + y1, xz + y2, materialId);
+				}
 			}
 		}
 	}

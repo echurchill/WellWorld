@@ -39,10 +39,7 @@ public class VerySimpleHillyWell extends WellArchetype {
 	}
 
 	@Override
-	public void populateChunk(ByteChunk chunk) {
-		int chunkX = chunk.getX();
-		int chunkZ = chunk.getZ();
-
+	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
 				double noise = generator.noise((chunkX * 16 + x) / xFactor, (chunkZ * 16 + z) / zFactor, fequency, amplitude) * vScale;
@@ -55,7 +52,7 @@ public class VerySimpleHillyWell extends WellArchetype {
 	}
 
 	@Override
-	public void populateBlocks(Chunk chunk) {
+	public void populateBlocks(Chunk chunk, int chunkX, int chunkZ) {
 
 		// sprinkle minerals for each y layer, one of millions of ways to do this!
 		for (int y = 1; y < 127; y++) {

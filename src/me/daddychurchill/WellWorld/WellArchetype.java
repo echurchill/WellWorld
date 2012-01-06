@@ -41,8 +41,8 @@ public abstract class WellArchetype {
 	}
 	
 	// override these to make something really happen!
-	public abstract void populateChunk(ByteChunk chunk);
-	public abstract void populateBlocks(Chunk chunk);	
+	public abstract void generateChunk(ByteChunk chunk, int chunkX, int chunkZ);
+	public abstract void populateBlocks(Chunk chunk, int chunkX, int chunkZ);	
 	
 	// gives you the well's origin chunk position
 	public int getX() {
@@ -63,6 +63,10 @@ public abstract class WellArchetype {
 	
 	protected int getBlockZ(ByteChunk chunk, int z) {
 		return (chunk.getZ() - wellZ) * ByteChunk.Width + z;
+	}
+	
+	protected int getNoiseValue(int chunkAt, int at) {
+		return chunkAt * ByteChunk.Width + at;
 	}
 	
 	// override these to auto-draw the top and bottom of the well
@@ -109,6 +113,22 @@ public abstract class WellArchetype {
 	
 	protected int nudgeToBounds(int at, int min, int max) {
         return Math.min(Math.max(at, min), max);
+	}
+	
+	protected boolean inBounds(int x, int z) {
+		return inXBounds(x) && inZBounds(z);
+	}
+	
+	protected boolean inXBounds(int x) {
+		return x >= minBlock.getBlockX() && x < maxBlock.getBlockX();
+	}
+	
+	protected boolean inZBounds(int z) {
+		return z >= minBlock.getBlockZ() && z < maxBlock.getBlockZ();
+	}
+	
+	protected boolean calcOdds(int percentage) {
+		return random.nextInt(100) < percentage;
 	}
 	
 	protected int calcRandomRange(int min, int max) {

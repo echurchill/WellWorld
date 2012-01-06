@@ -29,8 +29,6 @@ public class AlienWorldWell extends WellArchetype {
 		mineralsPerLayer = random.nextInt(10);
 		height = random.nextInt(32) + 48;
 		liquidLevel = random.nextInt(height / 2) + height / 2;
-//		height = random.nextInt(32) + 16;
-//		liquidLevel = random.nextInt(32) + height;
 		
 		switch (random.nextInt(7)) {
 		case 1:
@@ -71,9 +69,7 @@ public class AlienWorldWell extends WellArchetype {
 	}
 
 	@Override
-	public void populateChunk(ByteChunk chunk) {
-		int chunkX = chunk.getX();
-		int chunkZ = chunk.getZ();
+	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
 				for (int y = 0; y < 128; y++) {
@@ -90,7 +86,7 @@ public class AlienWorldWell extends WellArchetype {
 	}
 
 	@Override
-	public void populateBlocks(Chunk chunk) {
+	public void populateBlocks(Chunk chunk, int chunkX, int chunkZ) {
 
 		// sprinkle minerals for each y layer, one of millions of ways to do this!
 		for (int y = 1; y < 127; y++) {

@@ -14,11 +14,14 @@ public abstract class BananaWellArchetype extends WellArchetype {
 	protected byte byteStone = (byte) Material.STONE.getId();
 	protected byte byteDirt = (byte) Material.DIRT.getId();
 	protected byte byteGrass = (byte) Material.GRASS.getId();
+	protected byte byteLog = (byte) Material.LOG.getId();
+	protected byte byteLeaves = (byte) Material.LEAVES.getId();
 	protected byte byteAir = (byte) Material.AIR.getId();
-	protected int intOre = Material.STONE.getId();
-	protected int intTreeBase = Material.GRASS.getId();
-	protected int intTreeTrunk = Material.LOG.getId();
-	protected int intTreeLeaves = Material.LEAVES.getId();
+	protected int intOre = byteStone;
+	protected int intTreeBase = byteGrass;
+	protected int intTreeTrunk = byteLog;
+	protected int intTreeLeaves = byteLeaves;
+	
 	protected byte byteTreeData = 0;
 	protected int intAir = Material.AIR.getId();
 	protected int minTreeHeight = 5;
@@ -26,8 +29,21 @@ public abstract class BananaWellArchetype extends WellArchetype {
 	
 	public BananaWellArchetype(World world, long seed, int wellX, int wellZ) {
 		super(world, seed, wellX, wellZ);
-		// TODO Auto-generated constructor stub
 		
+		// figure out materials
+		calculateMaterials();
+	}
+	
+	// override this if you want something special
+	protected void calculateMaterials() {
+		randomizeMaterials();
+		
+		//  copy over the "seed" materials used by populateOres and populateFoliage
+		intOre = byteStone;
+		intTreeBase = byteGrass;
+	}
+	
+	protected void randomizeMaterials() {
 		switch (random.nextInt(5)) {
 		case 0:
 			// lava, sand/sandstone/stone, mushroom stalks
@@ -64,14 +80,10 @@ public abstract class BananaWellArchetype extends WellArchetype {
 			byteTreeData = (byte) random.nextInt(3);
 			break;
 		}
-		
-		// flag values
-		intOre = byteStone;
-		intTreeBase = byteGrass;
 	}
 	
 	@Override
-	public void populateBlocks(Chunk chunk) {
+	public void populateBlocks(Chunk chunk, int chunkX, int chunkZ) {
 		// ores
 		populateOres(chunk);
 		
@@ -79,6 +91,12 @@ public abstract class BananaWellArchetype extends WellArchetype {
 		populateFoliage(chunk);
 	}
 
+	/**
+	 * Populates the world with ores.
+	 *
+	 * @author Nightgunner5
+	 * @author Markus Persson
+	 */
 	private static final int[] iterations = new int[] {10, 20, 20, 2, 8, 1, 1, 1};
 	private static final int[] amount = new int[] {32, 16, 8, 8, 7, 7, 6};
 	private static final int[] type = new int[] {Material.GRAVEL.getId(), Material.COAL_ORE.getId(),
@@ -87,7 +105,7 @@ public abstract class BananaWellArchetype extends WellArchetype {
 	private static final int[] maxHeight = new int[] {128, 128, 128, 128, 128, 64,
 		32, 16, 16, 32};
 
-	private void populateOres(Chunk chunk) {
+	protected void populateOres(Chunk chunk) {
 		// ores
 		for (int i = 0; i < type.length; i++) {
 			for (int j = 0; j < iterations[i]; j++) {
@@ -122,12 +140,6 @@ public abstract class BananaWellArchetype extends WellArchetype {
 		
 //		int centerX = (chunk.getX() << 4) + random.nextInt(16);
 //		int centerZ = (chunk.getZ() << 4) + random.nextInt(16);
-
-		byte data = (byte) random.nextInt(3);
-		int chance = chanceRange / 2;
-		int height = minTreeHeight + random.nextInt(maxTreeHeight);
-		int multiplier = 3 + random.nextInt(7);
-
 //		if (random.nextBoolean()) {
 //			data = 2;
 //			height = 5 + random.nextInt(3);
@@ -177,6 +189,11 @@ public abstract class BananaWellArchetype extends WellArchetype {
 //			chance = 5;
 //			return;
 //		}
+
+		byte data = (byte) random.nextInt(3);
+		int chance = chanceRange / 2;
+		int height = minTreeHeight + random.nextInt(maxTreeHeight);
+		int multiplier = 3 + random.nextInt(7);
 
 		for (int i = 0; i < multiplier; i++) {
 			int centerX = (chunk.getX() << 4) + random.nextInt(16);
@@ -284,13 +301,31 @@ public abstract class BananaWellArchetype extends WellArchetype {
 		}
 	}
 	
-	private void setBlock(int x, int y, int z, int blockId, byte blockData) {
+	protected void setBlock(int x, int y, int z, int blockId, byte blockData) {
 		Block block = world.getBlockAt(x, y, z);
 		if (block.getTypeId() == intAir)
 			block.setTypeIdAndData(blockId, blockData, false);
 	}
 	
-	private void clearBlock(int x, int y, int z) {
+	protected void setBlock(int x, int y, int z, int blockId) {
+		Block block = world.getBlockAt(x, y, z);
+		if (block.getTypeId() == intAir)
+			block.setTypeIdAndData(blockId, (byte) 0, false);
+	}
+	
+	protected void setBlock(int x, int y, int z, int blockId, byte blockData, boolean blockPhysics) {
+		Block block = world.getBlockAt(x, y, z);
+		if (block.getTypeId() == intAir)
+			block.setTypeIdAndData(blockId, blockData, blockPhysics);
+	}
+	
+	protected void setBlock(int x, int y, int z, int blockId, boolean blockPhysics) {
+		Block block = world.getBlockAt(x, y, z);
+		if (block.getTypeId() == intAir)
+			block.setTypeIdAndData(blockId, (byte) 0, blockPhysics);
+	}
+	
+	protected void clearBlock(int x, int y, int z) {
 		Block block = world.getBlockAt(x, y, z);
 		if (block.getTypeId() != intAir)
 			block.setTypeIdAndData(intAir, (byte) 0, false);

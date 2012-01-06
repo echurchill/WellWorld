@@ -1,6 +1,5 @@
 == **WellWorld** ==
 ===== //Version 0.7// =====
-//(coming as soon as the update get's approved by the bukkit keepers)//
 Now includes well generators from Codename_B, thx
 
 === The story ===
@@ -36,7 +35,7 @@ p.s. Not all those little doors up in the wall lead next door.. some are there j
 
 === Heads up! ===
 
-Like CityWorld, this plugin really "tests" MineCraft/Bukkit when it comes to complex worlds. In fact when you spawn/teleport into the world for the firsttime (or some wildly new location) it takes a while for all of the blocks to generate. This is especially obvious if you are flying around. Once the blocks are generated though everything works just fine. What I recommend is take a tour of your world and just walk/fly up to each "uninitialized chunk" until everything shows up.
+Like CityWorld, this plugin really "tests" MineCraft/Bukkit when it comes to complex worlds. In fact when you spawn/teleport into the world for the first time (or some wildly new location) it takes a while for all of the blocks to generate. This is especially obvious if you are flying around. Once the blocks are generated though everything works just fine. What I recommend is take a tour of your world and just walk/fly up to each "uninitialized chunk" until everything shows up.
 
 From time to time in the Moon wells, the craters will do odd things. It seems that the block and chunk populators get out of sync and cause a glitch. When this happens, you will see a partially created crater and building in it (or digging) will cause blocks to disappear/appear on their own. I am still trying to understand this one but it doesn't seem related to WellWorld as it shows up in Dinnerbone's BukkitFullOfMoon as well.
 

@@ -14,6 +14,7 @@ public class WellWall {
 	public static final Material wallMaterial = Material.OBSIDIAN;
 	public static final Material negativeMaterial = Material.AIR;
 	public static final int portalLevels = 3; // how many levels of portals are there
+	public static final int lowestDoors = wallHeightInBlocks - 2 * (wallHeightInBlocks / wallThicknessInBlocks);
 	
 	public static final void generateWalls(WellArchetype well, ByteChunk source, int wellChunkX, int wellChunkZ) {
 		// top
@@ -42,7 +43,7 @@ public class WellWall {
 			}
 			
 			// punch some random holes in the walls... for now
-			int y1 = wallHeightInBlocks - 2 * (wallHeightInBlocks / wallThicknessInBlocks) + (well.random.nextInt(portalLevels) + 1) * 3;
+			int y1 = lowestDoors + (well.random.nextInt(portalLevels) + 1) * 3;
 			int y2 = y1 + 2;
 
 			// punch the door

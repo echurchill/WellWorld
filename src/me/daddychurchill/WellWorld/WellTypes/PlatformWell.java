@@ -9,45 +9,58 @@ import me.daddychurchill.WellWorld.Support.ByteChunk;
 
 public class PlatformWell extends WellArchetype {
 
-	private final static int oddsFloor = 50; // % of the time
+	private final static int oddsFloor = 95; // % of the time
+	private final static int oddsLiquid = 95; // % of the time
+	private final static int oddsLava = 5; // % of the time
 	private final static int oddsPlatform = 75; // % of the time
 	private final static int oddsConnection = 75; // % of the time
 	private byte byteFloor = (byte) Material.IRON_BLOCK.getId();
 	private byte byteColumn = (byte) Material.IRON_BLOCK.getId();
 	private byte bytePlatform = (byte) Material.IRON_BLOCK.getId();
+	private byte byteLiquid = (byte) Material.STATIONARY_WATER.getId();
 	private boolean hasFloor;
+	private boolean hasLiquid;
+	private int liquidLevel;
 	
 	public PlatformWell(World world, long seed, int wellX, int wellZ) {
 		super(world, seed, wellX, wellZ);
-		hasFloor = random.nextInt(100) < oddsFloor;
+		hasLiquid = calcOdds(oddsLiquid);
+		hasFloor = hasLiquid || calcOdds(oddsFloor);
+		liquidLevel = calcRandomRange(6, 12);
+		if (calcOdds(oddsLava))
+			byteLiquid = (byte) Material.STATIONARY_LAVA.getId();
+			
 	}
 
 	@Override
-	public void populateChunk(ByteChunk chunk) {
+	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
+		
+		// add to the floor?
+		if (hasFloor) {
+			chunk.setBlocksAt(1, byteFloor);
+			if (hasLiquid)
+				chunk.setBlocksAt(2, liquidLevel, byteLiquid);
+		}
 		
 		// hold's things up
-		chunk.setBlocks(7, 9, 0, 127, 7, 9, byteColumn);
+		chunk.setBlocks(7, 9, 1, 127, 7, 9, byteColumn);
 		for (int y = 0; y < 127; y += 16)
-			if (random.nextInt(100) < oddsPlatform) {
+			if (calcOdds(oddsPlatform)) {
 				chunk.setBlocks(4, 12, y, y + 1, 4, 12, bytePlatform);
-				if (random.nextInt(100) < oddsConnection)
+				if (calcOdds(oddsConnection))
 					chunk.setBlocks(7, 9, y, y + 1, 0, 16, bytePlatform);
-				if (random.nextInt(100) < oddsConnection)
+				if (calcOdds(oddsConnection))
 					chunk.setBlocks(0, 16, y, y + 1, 7, 9, bytePlatform);
 			}
-		
-		// draw the floor?
-		if (hasFloor)
-			chunk.setBlocksAt(0, byteFloor);
 	}
 	
 	@Override
 	public boolean includeBottom() {
-		return false;
+		return hasFloor;
 	}
 
 	@Override
-	public void populateBlocks(Chunk chunk) {
+	public void populateBlocks(Chunk chunk, int chunkX, int chunkZ) {
 		// TODO Auto-generated method stub
 
 	}

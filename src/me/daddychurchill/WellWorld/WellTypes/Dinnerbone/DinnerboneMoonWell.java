@@ -44,10 +44,10 @@ public class DinnerboneMoonWell extends WellArchetype {
     }
    
 	@Override
-	public void populateChunk(ByteChunk chunk) {
-		//EC: we don't need to additional bounds checking since the caller will overwrite what it needs to
-		int chunkX = chunk.getX();
-		int chunkZ = chunk.getZ();
+	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
+		//EC: use the one passed in instead
+		//int chunkX = chunk.getX();
+		//int chunkZ = chunk.getZ();
 		
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
@@ -58,7 +58,7 @@ public class DinnerboneMoonWell extends WellArchetype {
 	}
     
 	@Override
-	public void populateBlocks(Chunk chunk) {
+	public void populateBlocks(Chunk chunk, int chunkX, int chunkZ) {
 		//EC: in this simplified block populators we use "chunk" instead of the original code's "source"...
 		//    and, more importantly, shows that we need to unify multiple block populators into a single one
 		

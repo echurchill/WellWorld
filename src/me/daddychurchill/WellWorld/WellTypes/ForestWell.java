@@ -1,4 +1,4 @@
-package me.daddychurchill.WellWorld.WellTypes.NotUsed;
+package me.daddychurchill.WellWorld.WellTypes;
 
 import org.bukkit.Chunk;
 import org.bukkit.World;
@@ -6,9 +6,9 @@ import org.bukkit.World;
 import me.daddychurchill.WellWorld.WellArchetype;
 import me.daddychurchill.WellWorld.Support.ByteChunk;
 
-public class VeryEmptyWell extends WellArchetype {
+public class ForestWell extends WellArchetype {
 
-	public VeryEmptyWell(World world, long seed, int wellX, int wellZ) {
+	public ForestWell(World world, long seed, int wellX, int wellZ) {
 		super(world, seed, wellX, wellZ);
 		// TODO Auto-generated constructor stub
 	}

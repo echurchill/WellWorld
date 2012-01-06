@@ -45,16 +45,18 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 		WellArchetype well = plugin.getWellManager(world, random, chunkX, chunkZ);
 		if (well != null) {
 			
-			// let the well do it's stuff
-			ByteChunk source = new ByteChunk(chunkX, chunkZ);
+			// well centric chunkX/Z
+			int adjustedX = chunkX - well.getX();
+			int adjustedZ = chunkZ - well.getZ();
 			
-			// let the chunk do it's stuff
-			well.populateChunk(source);
+			// generate the chunk
+			ByteChunk chunk = new ByteChunk(adjustedX, adjustedZ);
+			well.generateChunk(chunk, adjustedX, adjustedZ);
 			
 			// draw the well walls
-			WellWall.generateWalls(well, source, chunkX - well.getX(), chunkZ - well.getZ());
+			WellWall.generateWalls(well, chunk, adjustedX, adjustedZ);
 			
-			return source.blocks;
+			return chunk.blocks;
 		} else
 			return null;
 	}
