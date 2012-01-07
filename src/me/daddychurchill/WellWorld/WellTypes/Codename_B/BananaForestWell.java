@@ -36,7 +36,7 @@ public class BananaForestWell extends BananaWellArchetype {
 				int noiseZ = getNoiseValue(chunkZ, z);
 					
 				y = l1.noise(noiseX, noiseZ, 7, 1);
-				double my = l1.noise(noiseX / 2, noiseZ / 2, 7, 1);
+				double my = l1.noise(noiseX / 2.0, noiseZ / 2.0, 7, 1);
 				sh = l2.noise(noiseX, noiseZ, 7, 1);
 				double ry = 1 - my;
 				int ht = (int) (ry * 4 + 64);

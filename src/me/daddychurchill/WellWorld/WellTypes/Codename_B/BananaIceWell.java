@@ -88,7 +88,7 @@ public class BananaIceWell extends BananaWellArchetype {
 				double shimmy = cliffgen.noise((x+chunkX*16)/100.0f, (z+chunkZ*16)/100.0f, 0.6, 0.4)*multiple;
 				
 				if(shimmy > multiple/2+4) {
-					for(int i=32; i<64+(multiple/2-shimmy/2); i++) {
+					for(int i=32; i<64+(multiple/2.0-shimmy/2.0); i++) {
 //						set(Material.SNOW_BLOCK, x, i, z);
                     	chunk.setBlock(x, i, z, byteSnowBlock);
 					}

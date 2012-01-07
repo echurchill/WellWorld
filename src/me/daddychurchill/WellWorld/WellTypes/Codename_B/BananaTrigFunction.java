@@ -1,7 +1,8 @@
 package me.daddychurchill.WellWorld.WellTypes.Codename_B;
 
 public class BananaTrigFunction {
-	public static boolean[] bools = null;
+	//EC: changed this to private. the getList function should be the only way to access this variable
+//	private static boolean[] bools;// = null; should not be set here due to multi-threading issues associated with doing so
 
 	public static double normalise(int x) {
 
@@ -28,24 +29,24 @@ public class BananaTrigFunction {
 		return calc==1?true:false;
 	}
 
-	public static boolean[] getList() {
-		if(bools!=null)
-			return bools;
-		else
-			bools = new boolean[16*16];
-		for(int x=-8; x<8; x++)
-			for(int z=-8; z<8; z++)
-			{
-				double spin = Math.tan(normalise(x*x*4+z*z*4));
-				spin = Math.abs(spin);
-				if(spin>=1)
-					spin = 1;
-				else
-					spin = 0;
-				bools[x+z*16] = spin==1?true:false;
-			}
-		return bools;
-	}
+//EC: FindErrors still does not list this... don't know why or how to fix it... sigh
+//	public static boolean[] getList() {
+//		if (bools == null) {
+//			bools = new boolean[16*16];
+//			for(int x=-8; x<8; x++)
+//				for(int z=-8; z<8; z++)
+//				{
+//					double spin = Math.tan(normalise(x*x*4+z*z*4));
+//					spin = Math.abs(spin);
+//					if(spin>=1)
+//						spin = 1;
+//					else
+//						spin = 0;
+//					bools[x+z*16] = spin==1?true:false;
+//				}
+//		}
+//		return bools;
+//	}
 
 	public static double get(int x, int z) {
 		double calc;

@@ -71,7 +71,7 @@ public class BananaTrigWell extends BananaWellArchetype {
 				if(highest>40) {
 					double height = (Math.sin(BananaTrigFunction.normalise(trueX+trueZ))+Math.sin(BananaTrigFunction.normalise(trueX))+Math.sin(BananaTrigFunction.normalise(trueZ)))*5+5;
 					if(height>5) {
-						chunk.setBlocks(x, (int)(highest/2), (int)(highest/2+height), z, byteAir);
+						chunk.setBlocks(x, (int)(highest/2.0), (int)(highest/2.0+height), z, byteAir);
 //						for(int y=highest/2; y<highest/2+height; y++) {
 //							result[xyzToByte(x,y,z)] = 0;
 //						}
