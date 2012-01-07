@@ -31,7 +31,7 @@ p.s. Not all those little doors up in the wall lead next door.. some are there j
 
 * No built in commands – like with CityWorld, I have kept this plugin simple.
 
-* Needs more variety – Right now there are less than a half a dozen generators enabled. Like with world generators themselves, it is pretty easy to add new well generators to WellWorld. In fact during the creation of WellWorld I ported some generators from Khyperia (http://dev.bukkit.org/server-mods/trippy-terrain/) and Dinnerbone (https://github.com/Dinnerbone/BukkitFullOfMoon) but since I don’t have their permission, I have left them disabled. Ok, that's not entirely true, I am including one generator loosely based on BukkitFullOfMoon
+* Needs more variety – Right now there are about a dozen generators enabled. Like with world generators themselves, it is pretty easy to add new well generators to WellWorld. In fact during the creation of WellWorld I ported some generators from Khyperia (http://dev.bukkit.org/server-mods/trippy-terrain/) and Dinnerbone (https://github.com/Dinnerbone/BukkitFullOfMoon) but since I don’t have their permission, I have left them disabled. Ok, that's not entirely true, I am including one generator loosely based on BukkitFullOfMoon
 
 === Heads up! ===
 
@@ -58,24 +58,26 @@ If you are still confused then rereread [[http://wiki.bukkit.org/Setting_up_a_se
 ----
 === Included Well Generators ===
 ==== ones so far ====
-* KnollsWells          // a simple world generator that looks like MineCraft... sorta
-{{http://dev.bukkit.org/media/images/37/85/Almost_looks_like_home.jpg|Minecraft like}}
-* AlienWorld           // a simple alien-esque world generator
-{{http://dev.bukkit.org/media/images/37/79/Where_Creepers_come_from.jpg|Creeper's domain}}
-* AlienCavern          // ... cavern-ish variation of the above generator
-{{http://dev.bukkit.org/media/images/37/81/Makes_the_Neither_look_inviting.jpg|The underground next door}}
-* RealisticMoon        // loosely based on Dinnerbone's BukkitFullOfMoon (see below) but modeled after real moon/planet surfaces
-{{http://dev.bukkit.org/media/images/37/83/How_did_I_get_on_Tethys.jpg|I wonder what is under those craters?}}
-* BasaltField          // loosely based on basalt columns (http://science.nationalgeographic.com/wallpaper/science/photos/rocks/giants-causeway/)
-{{http://dev.bukkit.org/media/images/37/122/Basalt_Fields.jpg|Watch your step!}}
-* CodenameB (thx sir!)
-** BananaOctave
-{{http://dev.bukkit.org/media/images/37/125/BananaOctave_Desert.jpg|CodenameB's BananaOctave Generator}}
-** BananaTrig
-{{http://dev.bukkit.org/media/images/37/123/BananaTrig_Lava_Field.jpg|CodenameB's BananaTrig Generator}}
-** BananaSky
-{{http://dev.bukkit.org/media/images/37/124/BananaSky.jpg|CodenameB's BananaSky Generator}}
-** more to come...
+* Knolls Well           // a simple world generator that looks like MineCraft... sorta
+* Alien World           // a simple alien-esque world generator
+* Alien Cavern          // ... cavern-ish variation of the above generator
+* Realistic Moon        // loosely based on Dinnerbone's BukkitFullOfMoon (see below) but modeled after real moon/planet surfaces
+* Basalt Field          // loosely based on basalt columns (http://science.nationalgeographic.com/wallpaper/science/photos/rocks/giants-causeway/)
+* Volcano Island
+* Platform of Doom
+
+{{http://dev.bukkit.org/media/images/37/284/BuiltinWells.jpg|Our built in wells}}
+
+==== Ones from CodenameB (thx sir!) ====
+* BananaOctave
+* BananaTrig
+* BananaSky
+* BananaVoid
+* BananaForest
+* BananaIce
+
+{{http://dev.bukkit.org/media/images/37/285/BananaWells.jpg|CodenameB's Banana wells}}
+
 
 ==== proof of concept wells, not enabled (kinda boring to look at) ====
 * SimplexNoise         // plain stone sculpted SimplexNoise
