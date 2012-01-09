@@ -5,7 +5,6 @@ import java.util.Random;
 import java.util.logging.Logger;
 
 import me.daddychurchill.WellWorld.Support.WellWorldCreateCMD;
-import me.daddychurchill.WellWorld.Support.WellWorldWellCalcCMD;
 import me.daddychurchill.WellWorld.WellTypes.*;
 import me.daddychurchill.WellWorld.WellTypes.Codename_B.*;
 
