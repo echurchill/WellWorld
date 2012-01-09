@@ -14,22 +14,34 @@ public class PlatformWell extends WellArchetype {
 	private final static int oddsLava = 5; // % of the time
 	private final static int oddsPlatform = 75; // % of the time
 	private final static int oddsConnection = 75; // % of the time
+	
 	private byte byteFloor = (byte) Material.IRON_BLOCK.getId();
 	private byte byteColumn = (byte) Material.IRON_BLOCK.getId();
 	private byte bytePlatform = (byte) Material.IRON_BLOCK.getId();
 	private byte byteLiquid = (byte) Material.STATIONARY_WATER.getId();
+
 	private boolean hasFloor;
 	private boolean hasLiquid;
 	private int liquidLevel;
 	
+	private byte byteGlass = (byte) Material.GLASS.getId();
+	private byte byteLava = (byte) Material.STATIONARY_LAVA.getId();
+
 	public PlatformWell(World world, long seed, int wellX, int wellZ) {
 		super(world, seed, wellX, wellZ);
+		
+		// ground?
 		hasLiquid = calcOdds(oddsLiquid);
 		hasFloor = hasLiquid || calcOdds(oddsFloor);
 		liquidLevel = calcRandomRange(6, 12);
+		
+		// swizzle things around
 		if (calcOdds(oddsLava))
-			byteLiquid = (byte) Material.STATIONARY_LAVA.getId();
-			
+			byteLiquid = byteLava;
+		if (random.nextBoolean())
+			byteColumn = byteGlass;
+		if (random.nextBoolean())
+			bytePlatform = byteGlass;
 	}
 
 	@Override

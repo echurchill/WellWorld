@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.logging.Logger;
 
 import me.daddychurchill.WellWorld.Support.WellWorldCreateCMD;
+import me.daddychurchill.WellWorld.Support.WellWorldWellCalcCMD;
 import me.daddychurchill.WellWorld.WellTypes.*;
 import me.daddychurchill.WellWorld.WellTypes.Codename_B.*;
 
@@ -19,6 +20,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class WellWorld extends JavaPlugin {
     public static final Logger log = Logger.getLogger("Minecraft.CityWorld");
 	public static final int wellWidthInChunks = 8; 
+	private static final int wellWidthInChunksHalf = wellWidthInChunks / 2;
    	
 	@Override
 	public ChunkGenerator getDefaultWorldGenerator(String name, String style){
@@ -37,6 +39,7 @@ public class WellWorld extends JavaPlugin {
 		//PluginManager pm = getServer().getPluginManager();
 		
 		addCommand("wellworld", new WellWorldCreateCMD(this));
+//		addCommand("wellcalc", new WellWorldWellCalcCMD(this));
 
 		// configFile can be retrieved via getConfig()
 		log.info(getDescription().getFullName() + " is enabled" );
@@ -86,19 +89,24 @@ public class WellWorld extends JavaPlugin {
 		int wellZ = calcOrigin(chunkZ);
 		
 		// hex offset? SIGH... I haven't been able to get this to work... sorry
-		//if ((Math.abs(wellX) / wellWidthInChunks) % 2 == 1)
-		//	wellZ += wellWidthInChunks / 2;
+		if ((Math.abs(wellX) / wellWidthInChunks) % 2 == 1)
+			if (wellZ + wellWidthInChunksHalf > chunkZ)
+				wellZ -= wellWidthInChunksHalf;
+			else
+				wellZ += wellWidthInChunksHalf;
 
 		// calculate the plat's key
 		long wellpos = (long) wellX * (long) Integer.MAX_VALUE + (long) wellZ;
 		Long wellkey = Long.valueOf(wellpos);
-		long wellseed = wellpos ^ world.getSeed();
 
 		// see if the well is already out there
 		WellArchetype wellmanager = wells.get(wellkey);
 		
 		// doesn't exist? then make it!
 		if (wellmanager == null) {
+			
+			// calculate the well's random seed
+			long wellseed = wellpos ^ world.getSeed();
 			
 			// make sure the initial spawn location is "safe-ish"
 			if (wellX == 0 && wellZ == 0)
