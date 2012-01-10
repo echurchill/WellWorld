@@ -15,36 +15,37 @@ public class WellWorldWellCalcCMD implements CommandExecutor {
     }
 
 	int wellWidthInChunks = 4;
-	int halfWellWidth = wellWidthInChunks / 2;
+//	int halfWellWidth = wellWidthInChunks / 2;
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] split) {
-		for (int chunkX = -wellWidthInChunks * 2; chunkX < wellWidthInChunks * 2; chunkX++) {
-			int wellX = calcOrigin(chunkX);
-
-			String contentZ = "";
-			for (int chunkZ = -wellWidthInChunks * 2; chunkZ < wellWidthInChunks * 2; chunkZ++) {
-				int wellZ = calcOrigin(chunkZ);
-				
-				// shift it?
-				if ((Math.abs(wellX) / wellWidthInChunks) % 2 == 1)
-					if (wellZ + halfWellWidth > chunkZ)
-						wellZ -= halfWellWidth;
-					else
-						wellZ += halfWellWidth;
-//					wellZ += wellWidthInChunks / 2;
-				
-				int adjustedX = chunkX - wellX;
-				int adjustedZ = chunkZ - wellZ;
-				
-				//contentZ = contentZ + " (" + wellZ + ")" + chunkZ;
-				contentZ = contentZ + " " + chunkZ + "[" + wellZ + "," + adjustedZ + "]" + generateWalls(adjustedX, adjustedZ);
-			}
-			
-			WellWorld.log.info("" + wellX + "->" + contentZ);
-		}
-		
-		return true;
+//		for (int chunkX = -wellWidthInChunks * 2; chunkX < wellWidthInChunks * 2; chunkX++) {
+//			int wellX = calcOrigin(chunkX);
+//
+//			String contentZ = "";
+//			for (int chunkZ = -wellWidthInChunks * 2; chunkZ < wellWidthInChunks * 2; chunkZ++) {
+//				int wellZ = calcOrigin(chunkZ);
+//				
+//				// shift it?
+//				if ((Math.abs(wellX) / wellWidthInChunks) % 2 != 0)
+//					if (wellZ + halfWellWidth > chunkZ)
+//						wellZ -= halfWellWidth;
+//					else
+//						wellZ += halfWellWidth;
+////					wellZ += wellWidthInChunks / 2;
+//				
+//				int adjustedX = chunkX - wellX;
+//				int adjustedZ = chunkZ - wellZ;
+//				
+//				//contentZ = contentZ + " (" + wellZ + ")" + chunkZ;
+//				contentZ = contentZ + " " + chunkZ + "[" + wellZ + "," + adjustedZ + "]" + generateWalls(adjustedX, adjustedZ);
+//			}
+//			
+//			WellWorld.log.info("" + wellX + "->" + contentZ);
+//		}
+//		
+//		return true;
+		return calcOrigin(4) == 0;
 	}
 
 	private int calcOrigin(int i) {

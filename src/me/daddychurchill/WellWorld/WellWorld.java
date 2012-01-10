@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import me.daddychurchill.WellWorld.Support.WellWorldCreateCMD;
 import me.daddychurchill.WellWorld.WellTypes.*;
 import me.daddychurchill.WellWorld.WellTypes.Codename_B.*;
+import me.daddychurchill.WellWorld.WellTypes.Khyperia.*;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -88,7 +89,7 @@ public class WellWorld extends JavaPlugin {
 		int wellZ = calcOrigin(chunkZ);
 		
 		// hex offset? SIGH... I haven't been able to get this to work... sorry
-		if ((Math.abs(wellX) / wellWidthInChunks) % 2 == 1)
+		if ((Math.abs(wellX) / wellWidthInChunks) % 2 != 0)
 			if (wellZ + wellWidthInChunksHalf > chunkZ)
 				wellZ -= wellWidthInChunksHalf;
 			else
@@ -134,7 +135,6 @@ public class WellWorld extends JavaPlugin {
 	//TODO Space with a few moons
 	//TODO Create a variant of BananaVoid with multiple vertical levels of pathways
 	//TODO Giant tree
-	//TODO Forested well
 	//TODO Captured farm
 	//TODO Captured village/town
 	//TODO Captured city block
@@ -144,10 +144,12 @@ public class WellWorld extends JavaPlugin {
 	//DONE Desert with cactus
 	//DONE Silicon with crystal trees
 	//DONE Volcano with lava
+	//DONE Forested well
 	//DONE Port BananaIce, BananaVoid and BananaForest
+	//DONE Included Khyperia's wells
 	
 	private WellArchetype randomWellManager(World world, Random random, long seed, int wellX, int wellZ) {
-		switch (random.nextInt(13)) {
+		switch (random.nextInt(17)) {
 		case 1:
 			return new AlienWorldWell(world, seed, wellX, wellZ);
 		case 2:
@@ -160,21 +162,31 @@ public class WellWorld extends JavaPlugin {
 			return new PlatformWell(world, seed, wellX, wellZ);
 		case 6:
 			return new VolcanoWell(world, seed, wellX, wellZ);
+		case 7:
+			return new ForestWell(world, seed, wellX, wellZ);
+		case 8:
+			return new SnowWell(world, seed, wellX, wellZ);
 			
 		// Codename_B's Banana wells
-		case 7:
-			return new BananaOctaveWell(world, seed, wellX, wellZ);
-		case 8:
-			return new BananaSkyWell(world, seed, wellX, wellZ);
 		case 9:
-			return new BananaTrigWell(world, seed, wellX, wellZ);
+			return new BananaOctaveWell(world, seed, wellX, wellZ);
 		case 10:
-			return new BananaIceWell(world, seed, wellX, wellZ);
+			return new BananaSkyWell(world, seed, wellX, wellZ);
 		case 11:
-			return new BananaVoidWell(world, seed, wellX, wellZ);
+			return new BananaTrigWell(world, seed, wellX, wellZ);
 		case 12:
+			return new BananaIceWell(world, seed, wellX, wellZ);
+		case 13:
+			return new BananaVoidWell(world, seed, wellX, wellZ);
+		case 14:
 			return new BananaForestWell(world, seed, wellX, wellZ);
 
+		// Khyperia's TrippyTerrain based wells
+		case 15:
+			return new KhylandWell(world, seed, wellX, wellZ);
+		case 16:
+			return new PancakeWell(world, seed, wellX, wellZ);
+			
 // not enabled as they are kind of boring :-)
 //		case 4:
 //			return new VeryEmptyWell(world, seed, wellX, wellZ);
@@ -190,10 +202,6 @@ public class WellWorld extends JavaPlugin {
 //			return new SimplexOctaveWell(world, seed, wellX, wellZ);
 
 // not enabled as I don't have permission to do so
-//		case 11:
-//			return new KhylandWell(world, seed, wellX, wellZ);
-//		case 12:
-//			return new PancakeWell(world, seed, wellX, wellZ);
 //		case 13:
 //			return new DinnerboneMoonWell(seed, wellX, wellZ);
 		default:

@@ -14,7 +14,6 @@ public class RealisticMoonWell extends WellArchetype {
 	// loosely based on Dinnerbone's Cheese Moon World Generator
 	
 	// original options
-    //private static final int CRATER_CHANCE = 30; // down from 45 // Out of 100
     private static final int MIN_CRATER_SIZE = 3;
     private static final int SMALL_CRATER_SIZE = 6; // down from 8
     private static final int BIG_CRATER_SIZE = 14; // down from 16
@@ -93,25 +92,11 @@ public class RealisticMoonWell extends WellArchetype {
 		}
 	}
 
-//    private NoiseGenerator getGenerator(World world) {
-//        if (generator == null) {
-//        }
-//
-//        return generator;
-//    }
-//
-//    private int getHeight(World world, double x, double z, double variance) {
-//        double result = gen.noise(x, z);
-//        result *= variance;
-//        return NoiseGenerator.floor(generator.noise);
-//    }
-
 	@Override
 	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
             	int height = NoiseGenerator.floor(generator.noise(getNoiseValue(chunkX, x) * 0.0625, getNoiseValue(chunkZ, z) * 0.0625) * surfaceVariance) + surfaceAt;
-//                int height = getHeight(world, chunkX + x * 0.0625, chunkZ + z * 0.0625, surfaceVariance) + surfaceAt;
                 chunk.setBlocks(x, 1, height - surfaceThickness, z, interiorMaterial);
                 chunk.setBlocks(x, height - surfaceThickness, height, z, surfaceMaterial);
             }

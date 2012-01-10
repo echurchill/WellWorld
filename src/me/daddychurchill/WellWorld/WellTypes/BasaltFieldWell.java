@@ -33,6 +33,7 @@ public class BasaltFieldWell extends WellArchetype {
 		
 		solidLevel = random.nextInt(64) + 32;
 		liquidLevel = solidLevel - random.nextInt(32);
+		vScale = calcRandomRange(20.0, 30.0);
 		if (random.nextBoolean()) {
 			liquidId = (byte) Material.STATIONARY_LAVA.getId();
 			backfillId = random.nextBoolean() ? liquidId : (byte) Material.GLASS.getId();

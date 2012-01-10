@@ -300,34 +300,4 @@ public abstract class BananaWellArchetype extends WellArchetype {
 			}
 		}
 	}
-	
-	protected void setBlock(int x, int y, int z, int blockId, byte blockData) {
-		Block block = world.getBlockAt(x, y, z);
-		if (block.getTypeId() == intAir)
-			block.setTypeIdAndData(blockId, blockData, false);
-	}
-	
-	protected void setBlock(int x, int y, int z, int blockId) {
-		Block block = world.getBlockAt(x, y, z);
-		if (block.getTypeId() == intAir)
-			block.setTypeIdAndData(blockId, (byte) 0, false);
-	}
-	
-	protected void setBlock(int x, int y, int z, int blockId, byte blockData, boolean blockPhysics) {
-		Block block = world.getBlockAt(x, y, z);
-		if (block.getTypeId() == intAir)
-			block.setTypeIdAndData(blockId, blockData, blockPhysics);
-	}
-	
-	protected void setBlock(int x, int y, int z, int blockId, boolean blockPhysics) {
-		Block block = world.getBlockAt(x, y, z);
-		if (block.getTypeId() == intAir)
-			block.setTypeIdAndData(blockId, (byte) 0, blockPhysics);
-	}
-	
-	protected void clearBlock(int x, int y, int z) {
-		Block block = world.getBlockAt(x, y, z);
-		if (block.getTypeId() != intAir)
-			block.setTypeIdAndData(intAir, (byte) 0, false);
-	}
 }

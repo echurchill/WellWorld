@@ -6,9 +6,12 @@ import me.daddychurchill.WellWorld.Support.ByteChunk;
 import me.daddychurchill.WellWorld.Support.WellWall;
 
 import org.bukkit.Chunk;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.TreeType;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
+import org.bukkit.block.Block;
 import org.bukkit.util.Vector;
 
 public abstract class WellArchetype {
@@ -192,5 +195,99 @@ public abstract class WellArchetype {
                 }
             }
         }
+	}
+	
+	private int grassId = Material.GRASS.getId();
+	private int stoneId = Material.STONE.getId();
+	private int noFoliageId = Material.CAKE.getId();
+	protected void sprinkleGoodness(Chunk chunk, 
+			int specialBlockOdds, int specialsPerLayer, 
+			int transmutableId, int plantableId,
+			int flowerOdds, Material flowerMaterial, Material bladesMaterial) {
+		
+		// sprinkle minerals for each y layer, one of millions of ways to do this!
+		for (int y = 1; y < 127; y++) {
+			if (random.nextInt(specialBlockOdds) == 0) {
+				for (int i = 0; i < specialsPerLayer; i++) {
+					Block block = chunk.getBlock(random.nextInt(16), y, random.nextInt(16));
+					int id = block.getTypeId();
+					
+					// Transmutation?
+					if (id == transmutableId)
+						block.setTypeId(pickRandomMineralAt(y).getId(), false);
+					
+					// If the block supports foliage, then what type will go here?
+					else if (id == plantableId) {
+						Location foliageAt = block.getLocation().add(0, 1, 0);
+						if (random.nextInt(flowerOdds) == 0)
+							world.getBlockAt(foliageAt).setType(flowerMaterial);
+						else {
+							Block grass = world.getBlockAt(foliageAt);
+							grass.setType(bladesMaterial);
+							grass.setData((byte)1);
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	protected void sprinkleGoodness(Chunk chunk, 
+			int specialBlockOdds, int specialsPerLayer, 
+			int flowerOdds, Material flowerMaterial, Material bladesMaterial) {
+		sprinkleGoodness(chunk, specialBlockOdds, specialsPerLayer, stoneId, grassId, flowerOdds, flowerMaterial, bladesMaterial);
+	}
+	
+	protected void sprinkleGoodness(Chunk chunk, 
+			int specialBlockOdds, int specialsPerLayer) {
+		sprinkleGoodness(chunk, specialBlockOdds, specialsPerLayer, stoneId, noFoliageId, 1000, Material.AIR, Material.AIR);
+	}
+	
+	protected void sprinkleTrees(Chunk chunk, int treesPerChunk, TreeType treeType) {
+
+		// plant lots of trees
+		int worldX = chunk.getX() * 16; // these use the chunk's world relative location instead..
+		int worldZ = chunk.getZ() * 16; // ..of well's as generateTree needs world coordinates
+		for (int t = 0; t < treesPerChunk; t++) {
+			int centerX = worldX + random.nextInt(16);
+			int centerZ = worldZ + random.nextInt(16);
+			int centerY = world.getHighestBlockYAt(centerX, centerZ);
+			Block rootBlock = world.getBlockAt(centerX, centerY - 1, centerZ);
+			if (rootBlock.getTypeId() == grassId) {
+				Location treeAt = rootBlock.getLocation().add(0, 1, 0);
+				world.generateTree(treeAt, treeType);
+			}
+		}
+	}
+	
+	private int intAir = Material.AIR.getId();
+	protected void setBlock(int x, int y, int z, int blockId, byte blockData) {
+		Block block = world.getBlockAt(x, y, z);
+		if (block.getTypeId() == intAir)
+			block.setTypeIdAndData(blockId, blockData, false);
+	}
+	
+	protected void setBlock(int x, int y, int z, int blockId) {
+		Block block = world.getBlockAt(x, y, z);
+		if (block.getTypeId() == intAir)
+			block.setTypeIdAndData(blockId, (byte) 0, false);
+	}
+	
+	protected void setBlock(int x, int y, int z, int blockId, byte blockData, boolean blockPhysics) {
+		Block block = world.getBlockAt(x, y, z);
+		if (block.getTypeId() == intAir)
+			block.setTypeIdAndData(blockId, blockData, blockPhysics);
+	}
+	
+	protected void setBlock(int x, int y, int z, int blockId, boolean blockPhysics) {
+		Block block = world.getBlockAt(x, y, z);
+		if (block.getTypeId() == intAir)
+			block.setTypeIdAndData(blockId, (byte) 0, blockPhysics);
+	}
+	
+	protected void clearBlock(int x, int y, int z) {
+		Block block = world.getBlockAt(x, y, z);
+		if (block.getTypeId() != intAir)
+			block.setTypeIdAndData(intAir, (byte) 0, false);
 	}
 }

@@ -1,28 +1,25 @@
 package me.daddychurchill.WellWorld.WellTypes;
 
-import org.bukkit.Chunk;
+import org.bukkit.TreeType;
 import org.bukkit.World;
 
-import me.daddychurchill.WellWorld.WellArchetype;
-import me.daddychurchill.WellWorld.Support.ByteChunk;
-
-public class ForestWell extends WellArchetype {
+public class ForestWell extends StandardWellArchetype {
 
 	public ForestWell(World world, long seed, int wellX, int wellZ) {
 		super(world, seed, wellX, wellZ);
-		// TODO Auto-generated constructor stub
+		
+		// no water please
+		liquidLevel = -1;
+
+		// how about those trees?
+		if (random.nextBoolean()) {
+			treeType = TreeType.BIG_TREE;
+			vScale = calcRandomRange(5.0, 10.0);
+			treesPerChunk = 10;
+		} else {
+			treeType = TreeType.TALL_REDWOOD;
+			vScale = calcRandomRange(25.0, 30.0);
+			treesPerChunk = 20;
+		}
 	}
-
-	@Override
-	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void populateBlocks(Chunk chunk, int chunkX, int chunkZ) {
-		// TODO Auto-generated method stub
-
-	}
-
 }
