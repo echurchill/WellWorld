@@ -1,6 +1,6 @@
 == **WellWorld** ==
 ===== //Version 0.7// =====
-Now includes well generators from Codename_B, thx
+Now includes well generators from Codename_B and Khyperia, thx
 
 === The story ===
 Imagine waking up one day, in Minecraft, and finding yourself surrounded by walls. These walls are not the ones your friends griefed you with but ones that reach all the way to the sky. You are trapped, surrounded... all alone... or are you? Did you just see somebody poking their head out of one of those little doors WAY up there? I wonder if they will be friendly? 
@@ -56,15 +56,31 @@ There are two options...
 If you are still confused then rereread [[http://wiki.bukkit.org/Setting_up_a_server|this]]. :-)
 
 ----
+=== YML Options ===
+# WellWorld Global Options
+Global:
+    BedrockWalls: false
+    WallDoorways: true
+
+----
 === Included Well Generators ===
 ==== ones so far ====
-* Knolls Well           // a simple world generator that looks like MineCraft... sorta
-* Alien World           // a simple alien-esque world generator
-* Alien Cavern          // ... cavern-ish variation of the above generator
-* Realistic Moon        // loosely based on Dinnerbone's BukkitFullOfMoon (see below) but modeled after real moon/planet surfaces
-* Basalt Field          // loosely based on basalt columns (http://science.nationalgeographic.com/wallpaper/science/photos/rocks/giants-causeway/)
+* Knolls 
+** a simple world generator that looks like MineCraft... sorta
+* Alien World       
+** a simple alien-esque world generator
+* Alien Cavern          
+** ... cavern-ish variation of the above generator
+* Realistic Moon        
+** loosely based on Dinnerbone's BukkitFullOfMoon (see below) but modeled after real moon/planet surfaces
+* Basalt Field          
+** loosely based on basalt columns (http://science.nationalgeographic.com/wallpaper/science/photos/rocks/giants-causeway/)
 * Volcano Island
+** an erupting volcano surrounded by water
 * Platform of Doom
+** a maze of platforms, watch your step
+* Smooth Snowland
+** an experiment using variable high snow blocks. almost a smooth landscape, very non-Minecraft looking... 
 
 {{http://dev.bukkit.org/media/images/37/284/BuiltinWells.jpg|Our built in wells}}
 
@@ -78,6 +94,11 @@ If you are still confused then rereread [[http://wiki.bukkit.org/Setting_up_a_se
 
 {{http://dev.bukkit.org/media/images/37/285/BananaWells.jpg|CodenameB's Banana wells}}
 
+==== Ones from Khyperia's TrippyTerrain (thx sir!) ====
+* Khyland
+* Pancake
+
+{{http://dev.bukkit.org/media/images/37/285/KhyperiaWells.jpg|Khyperia's TrippyTerrain wells}}
 
 ==== proof of concept wells, not enabled (kinda boring to look at) ====
 * SimplexNoise         // plain stone sculpted SimplexNoise
@@ -88,5 +109,5 @@ If you are still confused then rereread [[http://wiki.bukkit.org/Setting_up_a_se
 * VerySimpleHilly      // ... sculpted with SimplexOctave
 
 ==== conversions of other folks world generators, not enabled as I don't have their permission ====
-* Pancake & Khyland              // based on khyperia's TrippyTerrain
 * DinnerboneMoon       // based on Dinnerbone's BukkitFullOfMoon
+* MicroNordic          // based on s1mpl3x's 50 line WGEN 

@@ -1,27 +1,77 @@
 package me.daddychurchill.WellWorld;
 
-import java.util.Hashtable;
-import java.util.Random;
 import java.util.logging.Logger;
 
 import me.daddychurchill.WellWorld.Support.WellWorldCreateCMD;
-import me.daddychurchill.WellWorld.WellTypes.*;
-import me.daddychurchill.WellWorld.WellTypes.Codename_B.*;
-import me.daddychurchill.WellWorld.WellTypes.Khyperia.*;
-
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
+
+/* TODO 
+ * Well regenerate
+ * Predictable Well types and seeds, use noise instead of random
+ * Shuffle instead of Random.NextInt
+ * Dynamically load wells from plugins/wellworld
+ * YML
+ *    BedrockWalls = true/false (false)
+ *    WallDoorways = true/false (true)
+ *    HexishWells = true/false (true)
+ */
 
 public class WellWorld extends JavaPlugin {
     public static final Logger log = Logger.getLogger("Minecraft.CityWorld");
 	public static final int wellWidthInChunks = 8; 
-	private static final int wellWidthInChunksHalf = wellWidthInChunks / 2;
+	
+	private FileConfiguration config;
+	
+	private Material wallMaterial;
+	private Material negativeMaterial;
+	private boolean wallDoorways;
+	private boolean hexishWells;
    	
+	public WellWorld() {
+		super();
+		
+		setBedrockWalls(false); // default to obsidian for prettiness
+		setWallDoorways(true); // assume we want ways through
+		setHexishWells(true); // assume we are hexagonally laying out the wells
+		negativeMaterial = Material.AIR;
+	}
+
+	public void setBedrockWalls(boolean doit) {
+		wallMaterial = doit ? Material.BEDROCK : Material.OBSIDIAN;
+	}
+	
+	public Material getWallMaterial() {
+		return wallMaterial;
+	}
+	
+	public Material getNegativeWallMaterial() {
+		return negativeMaterial;
+	}
+	
+	public void setWallDoorways(boolean doit) {
+		wallDoorways = doit;
+	}
+	
+	public boolean getWallDoorways() {
+		return wallDoorways;
+	}
+	
+	public void setHexishWells(boolean doit) {
+		hexishWells = doit;
+	}
+	
+	public boolean getHexishWells() {
+		return hexishWells;
+	}
+	
 	@Override
 	public ChunkGenerator getDefaultWorldGenerator(String name, String style){
 		return new WellWorldChunkGenerator(this, name, style);
@@ -31,6 +81,10 @@ public class WellWorld extends JavaPlugin {
 	
 	@Override
 	public void onDisable() {
+		// remember for the next time
+		saveConfig();
+		
+		// goodbye cruel world
 		log.info(getDescription().getFullName() + " has been disabled" );
 	}
 
@@ -38,10 +92,34 @@ public class WellWorld extends JavaPlugin {
 	public void onEnable() {
 		//PluginManager pm = getServer().getPluginManager();
 		
+		// add the commands
 		addCommand("wellworld", new WellWorldCreateCMD(this));
-//		addCommand("wellcalc", new WellWorldWellCalcCMD(this));
+		// wellworld:
+		//    description: create/goto/leave WellWorld
+		//    usage: /wellworld [leave]
+		
+//		addCommand("well", new WellWorldWellCMD(this));
+		// well:
+		//    description: modify the current well
+		//    usage: /well regenerate
 
-		// configFile can be retrieved via getConfig()
+//		addCommand("wellcalc", new WellWorldWellCalcCMD(this));
+		
+		// add/get the configuration
+		config = getConfig();
+		config.options().header("WellWorld Global Options");
+		config.addDefault("Global.BedrockWalls", false);
+		config.addDefault("Global.WallDoorways", true);
+		config.addDefault("Global.HexishWells", true);
+		config.options().copyDefaults(true);
+		saveConfig();
+		
+		// now read out the bits for real
+		setBedrockWalls(config.getBoolean("Global.BedrockWalls"));
+		setWallDoorways(config.getBoolean("Global.WallDoorways"));
+		setHexishWells(config.getBoolean("Global.HexishWells"));
+		
+		// announce our happiness
 		log.info(getDescription().getFullName() + " is enabled" );
 	}
 	
@@ -76,136 +154,4 @@ public class WellWorld extends JavaPlugin {
 		return primeWellWorld;
 	}
 	
-	// Class instance data
-	private Hashtable<Long, WellArchetype> wells;
-
-	public WellArchetype getWellManager(World world, Random random, int chunkX, int chunkZ) {
-		// get the list of wells
-		if (wells == null)
-			wells = new Hashtable<Long, WellArchetype>();
-		
-		// find the origin for the well
-		int wellX = calcOrigin(chunkX);
-		int wellZ = calcOrigin(chunkZ);
-		
-		// hex offset? SIGH... I haven't been able to get this to work... sorry
-		if ((Math.abs(wellX) / wellWidthInChunks) % 2 != 0)
-			if (wellZ + wellWidthInChunksHalf > chunkZ)
-				wellZ -= wellWidthInChunksHalf;
-			else
-				wellZ += wellWidthInChunksHalf;
-
-		// calculate the plat's key
-		long wellpos = (long) wellX * (long) Integer.MAX_VALUE + (long) wellZ;
-		Long wellkey = Long.valueOf(wellpos);
-
-		// see if the well is already out there
-		WellArchetype wellmanager = wells.get(wellkey);
-		
-		// doesn't exist? then make it!
-		if (wellmanager == null) {
-			
-			// calculate the well's random seed
-			long wellseed = wellpos ^ world.getSeed();
-			
-			// make sure the initial spawn location is "safe-ish"
-			if (wellX == 0 && wellZ == 0)
-				wellmanager = new KnollsWell(world, wellseed, wellX, wellZ);
-			else
-				wellmanager = randomWellManager(world, random, wellseed, wellX, wellZ);
-			
-			// remember it for the next time
-			wells.put(wellkey, wellmanager);
-		}
-		
-		// return it
-		return wellmanager;
-	}
-	
-	// Supporting code used by getWellManager
-	private int calcOrigin(int i) {
-		if (i >= 0) {
-			return i / wellWidthInChunks * wellWidthInChunks;
-		} else {
-			return -((Math.abs(i + 1) / wellWidthInChunks * wellWidthInChunks) + wellWidthInChunks);
-		}
-	}
-	
-	//TODO Maze of rooms
-	//TODO Space with a few moons
-	//TODO Create a variant of BananaVoid with multiple vertical levels of pathways
-	//TODO Giant tree
-	//TODO Captured farm
-	//TODO Captured village/town
-	//TODO Captured city block
-	//TODO Captured space station/ship
-	//TODO Captured futuristic town (domed city on RealisticMoon?)
-	//DONE Basalt field (http://www.flickr.com/photos/golfie88/3712377542/)
-	//DONE Desert with cactus
-	//DONE Silicon with crystal trees
-	//DONE Volcano with lava
-	//DONE Forested well
-	//DONE Port BananaIce, BananaVoid and BananaForest
-	//DONE Included Khyperia's wells
-	
-	private WellArchetype randomWellManager(World world, Random random, long seed, int wellX, int wellZ) {
-		switch (random.nextInt(17)) {
-		case 1:
-			return new AlienWorldWell(world, seed, wellX, wellZ);
-		case 2:
-			return new AlienCavernWell(world, seed, wellX, wellZ);
-		case 3:
-			return new RealisticMoonWell(world, seed, wellX, wellZ);
-		case 4:
-			return new BasaltFieldWell(world, seed, wellX, wellZ);
-		case 5:
-			return new PlatformWell(world, seed, wellX, wellZ);
-		case 6:
-			return new VolcanoWell(world, seed, wellX, wellZ);
-		case 7:
-			return new ForestWell(world, seed, wellX, wellZ);
-		case 8:
-			return new SnowWell(world, seed, wellX, wellZ);
-			
-		// Codename_B's Banana wells
-		case 9:
-			return new BananaOctaveWell(world, seed, wellX, wellZ);
-		case 10:
-			return new BananaSkyWell(world, seed, wellX, wellZ);
-		case 11:
-			return new BananaTrigWell(world, seed, wellX, wellZ);
-		case 12:
-			return new BananaIceWell(world, seed, wellX, wellZ);
-		case 13:
-			return new BananaVoidWell(world, seed, wellX, wellZ);
-		case 14:
-			return new BananaForestWell(world, seed, wellX, wellZ);
-
-		// Khyperia's TrippyTerrain based wells
-		case 15:
-			return new KhylandWell(world, seed, wellX, wellZ);
-		case 16:
-			return new PancakeWell(world, seed, wellX, wellZ);
-			
-// not enabled as they are kind of boring :-)
-//		case 4:
-//			return new VeryEmptyWell(world, seed, wellX, wellZ);
-//		case 5:
-//			return new VerySimpleFlatWell(world, seed, wellX, wellZ);
-//		case 6:
-//			return new VerySimpleWaterWell(world, seed, wellX, wellZ);
-//		case 7:
-//			return new VerySimpleHillyWell(world, seed, wellX, wellZ);
-//		case 9:
-//			return new SimplexNoiseWell(world, seed, wellX, wellZ);
-//		case 10:
-//			return new SimplexOctaveWell(world, seed, wellX, wellZ);
-
-// not enabled as I don't have permission to do so
-//		case 13:
-//			return new DinnerboneMoonWell(seed, wellX, wellZ);
-		default:
-			return new KnollsWell(world, seed, wellX, wellZ);
-		}
-	}
 }

@@ -1,7 +1,7 @@
 package me.daddychurchill.WellWorld.WellTypes.Codename_B;
 
+import me.daddychurchill.WellWorld.WellWorldChunkGenerator;
 import me.daddychurchill.WellWorld.Support.ByteChunk;
-import me.daddychurchill.WellWorld.Support.WellWall;
 
 import org.bukkit.Chunk;
 import org.bukkit.Material;
@@ -19,7 +19,7 @@ public class BananaVoidWell extends BananaWellArchetype {
 
 //		SimplexOctaveGenerator noisegen = new SimplexOctaveGenerator(world.getSeed(), 4);
 		noisegen = new SimplexOctaveGenerator(seed, 4);
-		maxHeight = calcRandomRange(64, WellWall.lowestDoors);
+		maxHeight = calcRandomRange(64, WellWorldChunkGenerator.lowestDoors);
 	}
 	
 	@Override

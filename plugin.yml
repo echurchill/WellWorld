@@ -5,5 +5,5 @@ load: startup
 author: DaddyChurchill
 commands:
   wellworld:
-    description: Sends you to the WellWorld.
-    usage: /wellworld
+    description: Sends you to the WellWorld or back to "World".
+    usage: /wellworld [leave]

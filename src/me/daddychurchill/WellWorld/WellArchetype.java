@@ -3,8 +3,6 @@ package me.daddychurchill.WellWorld;
 import java.util.Random;
 
 import me.daddychurchill.WellWorld.Support.ByteChunk;
-import me.daddychurchill.WellWorld.Support.WellWall;
-
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -39,8 +37,8 @@ public abstract class WellArchetype {
 		int x2 = (wellX + WellWorld.wellWidthInChunks) * 16; 
 		int z1 = wellZ * 16;
 		int z2 = (wellZ + WellWorld.wellWidthInChunks) * 16; 
-		this.minBlock = new Vector(x1 + WellWall.wallThicknessInBlocks, 1, z1 + WellWall.wallThicknessInBlocks);
-		this.maxBlock = new Vector(x2 - WellWall.wallThicknessInBlocks, 127, z2 - WellWall.wallThicknessInBlocks);
+		this.minBlock = new Vector(x1 + WellWorldChunkGenerator.wallThicknessInBlocks, 1, z1 + WellWorldChunkGenerator.wallThicknessInBlocks);
+		this.maxBlock = new Vector(x2 - WellWorldChunkGenerator.wallThicknessInBlocks, 127, z2 - WellWorldChunkGenerator.wallThicknessInBlocks);
 	}
 	
 	// override these to make something really happen!

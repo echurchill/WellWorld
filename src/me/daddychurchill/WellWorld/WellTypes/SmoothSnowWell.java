@@ -8,14 +8,14 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.util.noise.NoiseGenerator;
 
-public class SnowWell extends StandardWellArchetype {
+public class SmoothSnowWell extends StandardWellArchetype {
 
 	int intSnowBase = Material.SNOW_BLOCK.getId();
 	int intSnow = Material.SNOW.getId();
 	int intPumpkin = Material.PUMPKIN.getId();
 	int oddsSnowMan = 1; // % of the time it shows up
 	
-	public SnowWell(World world, long seed, int wellX, int wellZ) {
+	public SmoothSnowWell(World world, long seed, int wellX, int wellZ) {
 		super(world, seed, wellX, wellZ);
 		
 		bottomMaterial = Material.STONE;
@@ -44,6 +44,8 @@ public class SnowWell extends StandardWellArchetype {
 
 	@Override
 	public void populateBlocks(Chunk chunk, int chunkX, int chunkZ) {
+		
+		// smooth out the snow and add a snowman... maybe
 		boolean madeSnowMan = false;
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
@@ -62,6 +64,9 @@ public class SnowWell extends StandardWellArchetype {
 				}
 			}
 		}
+		
+		//TODO place one tree
+		
 		//populateSpecials(chunk, chunkX, chunkZ);
 	}
 }
