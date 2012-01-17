@@ -1,5 +1,10 @@
 == **WellWorld** ==
-===== //Version 0.7// =====
+<<color red>>
+**Due to a family emergency, I will be not updating this plug in until February 2012. Sorry for the delay but while crazy sounding, sometimes reality is more important than Minecraft** :|
+<</color>>
+----
+
+===== //Version 0.8// =====
 Now includes well generators from Codename_B and Khyperia, thx
 
 === The story ===
@@ -8,7 +13,7 @@ Imagine waking up one day, in Minecraft, and finding yourself surrounded by wall
 {{http://dev.bukkit.org/media/images/37/78/Where_did_those_walls_come_from.jpg|Waking up on WellWorld}}
 
 === The backstory ===
-During my recent break from [[http://dev.bukkit.org/server-mods/cityworld/|CityWorld]], I have been going over my collection of world generator attempts. Most of them are pretty darn unexciting.. or too weird to do anything with. In addition I have been surfing to see what my fellow world creators have been up to. There are a number of cool ideas out there but they all suffer ([[http://dev.bukkit.org/server-mods/cityworld/|CityWorld ]]included) from one little problem.. eventually the generator repeats itself and the world gets boring. It got me thinking of old notion: The WellWorld.
+During my recent break from [[http://dev.bukkit.org/server-mods/cityworld/|CityWorld]], I have been going over my collection of world generator attempts. Most of them are pretty darn unexciting.. or too weird to do anything with. In addition I have been surfing to see what my fellow world creators have been up to. There are a number of cool ideas out there but they all suffer ([[http://dev.bukkit.org/server-mods/cityworld/|CityWorld ]] included) from one little problem.. eventually the generator repeats itself and the world gets boring. It got me thinking of old notion: The WellWorld.
 
 The mod concept is based on a science fiction series by Jack L. Chalker called [[http://en.wikipedia.org/wiki/Well_World|WellWorld]]? In it the "world" divided up into a series of hexagonal regions, each with their wildly different environments for different alien civilizations... It is part zoo and part UN. A good read if you are into grand science fiction. 
 
@@ -24,14 +29,10 @@ p.s. Not all those little doors up in the wall lead next door.. some are there j
 ----
 === Issues and possible future fixes ===
 * Multiverse – In the long run it might be possible to have this work directly with “real” world generators but for now each generator must be compiled into the WellWorld plugin.
-
-* Biomes – right now, WellWorld doesn’t attempt to do anything with Biomes. Ideally each well could have its own.
-
-* Physics – right now each Well shares lighting and time-of-day with each other. This makes fully enclosed wells like caverns brighter than they should be.
-
-* No built in commands – like with CityWorld, I have kept this plugin simple.
-
-* Needs more variety – Right now there are about a dozen generators enabled. Like with world generators themselves, it is pretty easy to add new well generators to WellWorld. In fact during the creation of WellWorld I ported some generators from Khyperia (http://dev.bukkit.org/server-mods/trippy-terrain/) and Dinnerbone (https://github.com/Dinnerbone/BukkitFullOfMoon) but since I don’t have their permission, I have left them disabled. Ok, that's not entirely true, I am including one generator loosely based on BukkitFullOfMoon
+* Biomes – Right now, WellWorld doesn’t attempt to do anything with Biomes. Ideally each well could have its own.
+* Physics – Each Well shares lighting and time-of-day with each other. This makes fully enclosed wells like caverns brighter than they should be.
+* No built in commands – Like with CityWorld, I have kept this plugin simple... but I plan to impliment a few in the near future
+* Needs more variety – Right now there are about a dozen generators enabled. Like with world generators themselves, it is pretty easy to add new well generators to WellWorld. In fact during the creation of WellWorld I ported some generators from [[http://forums.bukkit.org/threads/codename_bs-list-of-plugins-under-50-lines-of-code-aka-the-under-50-challenge.33264/|s1mpl3x]] and [[https://github.com/Dinnerbone/BukkitFullOfMoon|Dinnerbone]] but since I don’t have their permission, I have left them disabled. Ok, that's not entirely true, I am including one generator loosely based on BukkitFullOfMoon
 
 === Heads up! ===
 
@@ -42,7 +43,7 @@ From time to time in the Moon wells, the craters will do odd things. It seems th
 ----
 === Installing ===
 
-This is purely a world generator, it does not add permissions or options to configure. If you need permissions, teleportation or world management support there are plenty of plugins that will do that for you. The Bukkit plugin ecosystem does not need more of those puppies. This is JUST A WORLD GENERATOR. :-)
+This is purely a world generator, it does not add permissions or many options to configure. If you need permissions, teleportation or world management support there are plenty of plugins that will do that for you. The Bukkit plugin ecosystem does not need more of those puppies. This is JUST A WORLD GENERATOR. :-)
 
 To install it you will need to do three things...
 # **Download the plugin and place it in Bukkit's plugin folder.** If you don't know where or what the Bukkit's plugin folder is, read [[http://wiki.bukkit.org/Setting_up_a_server|this]].
@@ -57,10 +58,19 @@ If you are still confused then rereread [[http://wiki.bukkit.org/Setting_up_a_se
 
 ----
 === YML Options ===
+<<code>>
 # WellWorld Global Options
 Global:
     BedrockWalls: false
     WallDoorways: true
+    HexishWells: true
+<</code>>
+
+What the global options means...
+|Option|Description|Default|
+|**BedrockWalls**|obsidian or bedrock walls|false|
+|**WallDoorways**|pathways through the walls|true|
+|**HexishWells**|hexagonally laid out wells|true|
 
 ----
 === Included Well Generators ===
@@ -74,7 +84,7 @@ Global:
 * Realistic Moon        
 ** loosely based on Dinnerbone's BukkitFullOfMoon (see below) but modeled after real moon/planet surfaces
 * Basalt Field          
-** loosely based on basalt columns (http://science.nationalgeographic.com/wallpaper/science/photos/rocks/giants-causeway/)
+** loosely based on [[http://science.nationalgeographic.com/wallpaper/science/photos/rocks/giants-causeway/|basalt columns]]
 * Volcano Island
 ** an erupting volcano surrounded by water
 * Platform of Doom
@@ -82,7 +92,7 @@ Global:
 * Smooth Snowland
 ** an experiment using variable high snow blocks. almost a smooth landscape, very non-Minecraft looking... 
 
-{{http://dev.bukkit.org/media/images/37/284/BuiltinWells.jpg|Our built in wells}}
+{{http://dev.bukkit.org/media/images/37/609/BuiltinWells.jpg|Our built in wells}}
 
 ==== Ones from CodenameB (thx sir!) ====
 * BananaOctave
@@ -92,13 +102,13 @@ Global:
 * BananaForest
 * BananaIce
 
-{{http://dev.bukkit.org/media/images/37/285/BananaWells.jpg|CodenameB's Banana wells}}
+{{http://dev.bukkit.org/media/images/37/606/BananaWells.jpg|CodenameB's Banana wells}}
 
 ==== Ones from Khyperia's TrippyTerrain (thx sir!) ====
 * Khyland
 * Pancake
 
-{{http://dev.bukkit.org/media/images/37/285/KhyperiaWells.jpg|Khyperia's TrippyTerrain wells}}
+{{http://dev.bukkit.org/media/images/37/610/KhyperiaWells.jpg|Khyperia's TrippyTerrain wells}}
 
 ==== proof of concept wells, not enabled (kinda boring to look at) ====
 * SimplexNoise         // plain stone sculpted SimplexNoise

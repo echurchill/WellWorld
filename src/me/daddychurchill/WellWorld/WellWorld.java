@@ -19,9 +19,9 @@ import org.bukkit.plugin.java.JavaPlugin;
  * Shuffle instead of Random.NextInt
  * Dynamically load wells from plugins/wellworld
  * YML
- *    BedrockWalls = true/false (false)
- *    WallDoorways = true/false (true)
- *    HexishWells = true/false (true)
+ *    BedrockWalls = obsidian or bedrock walls (false)
+ *    WallDoorways = pathways through the walls (true)
+ *    HexishWells = hexagonally layed out wells (true)
  */
 
 public class WellWorld extends JavaPlugin {

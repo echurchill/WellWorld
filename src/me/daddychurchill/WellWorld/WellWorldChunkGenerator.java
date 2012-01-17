@@ -23,8 +23,6 @@ import me.daddychurchill.WellWorld.WellTypes.Codename_B.BananaTrigWell;
 import me.daddychurchill.WellWorld.WellTypes.Codename_B.BananaVoidWell;
 import me.daddychurchill.WellWorld.WellTypes.Khyperia.KhylandWell;
 import me.daddychurchill.WellWorld.WellTypes.Khyperia.PancakeWell;
-import me.daddychurchill.WellWorld.WellTypes.NotUsed.CityPlatWell;
-import me.daddychurchill.WellWorld.WellTypes.NotUsed.TypePickerWell;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
