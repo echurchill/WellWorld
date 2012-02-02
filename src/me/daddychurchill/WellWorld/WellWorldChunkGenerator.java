@@ -23,6 +23,9 @@ import me.daddychurchill.WellWorld.WellTypes.Codename_B.BananaTrigWell;
 import me.daddychurchill.WellWorld.WellTypes.Codename_B.BananaVoidWell;
 import me.daddychurchill.WellWorld.WellTypes.Khyperia.KhylandWell;
 import me.daddychurchill.WellWorld.WellTypes.Khyperia.PancakeWell;
+import me.daddychurchill.WellWorld.WellTypes.NotUsed.CityPlatWell;
+import me.daddychurchill.WellWorld.WellTypes.NotUsed.RoadPlatWell;
+import me.daddychurchill.WellWorld.WellTypes.NotUsed.TypePickerWell;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -60,8 +63,8 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 		wallFloorMaterial = Material.BEDROCK;
 		wallMaterial = plugin.getWallMaterial();
 		wallNegativeMaterial = plugin.getNegativeWallMaterial();
-		wallDoorways = plugin.getWallDoorways();
-		hexishWells = plugin.getHexishWells();
+		wallDoorways = plugin.isWallDoorways();
+		hexishWells = plugin.isHexishWells();
 	}
 	
 	public WellWorld getPlugin() {
@@ -233,32 +236,6 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 		return wellmanager;
 	}
 	
-	//TODO Maze of rooms
-	//TODO Space with a few moons
-	//TODO Create a variant of BananaVoid with multiple vertical levels of pathways
-	//TODO Curved surface moon world
-	//TODO Giant tree
-	//TODO Captured farm
-	//TODO Captured village/town
-	//TODO Captured city block
-	//TODO Captured space station/ship
-	//TODO Captured futuristic town (domed city on RealisticMoon?)
-	//TODO A building with rooms/halls/fixtures/furniture/etc.
-	//TODO Toroidal space station
-	//TODO Four/Two castles facing each other
-	//TODO Single castle for storming purposes
-	//TODO Dungeon crawler
-	//TODO Ocean world with “floating islands”
-
-	//DONE Basalt field (http://www.flickr.com/photos/golfie88/3712377542/)
-	//DONE Desert with cactus
-	//DONE Silicon with crystal trees
-	//DONE Volcano with lava
-	//DONE Forested well
-	//DONE Hypersmooth snow world
-	//DONE Port BananaIce, BananaVoid and BananaForest
-	//DONE Included Khyperia's wells
-	
 	private WellArchetype chooseWellManager(double noise, World world, long seed, int wellX, int wellZ) {
 		switch (NoiseGenerator.floor(noise * 17)) {
 		case 1:
@@ -299,10 +276,12 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 			return new PancakeWell(world, seed, wellX, wellZ);
 			
 //      debug wells
-//		case 17:
-//			return new TypePickerWell(world, seed, wellX, wellZ);
-//	 	case 17:
-//			return new CityPlatWell(world, seed, wellX, wellZ);
+		case 17:
+			return new TypePickerWell(world, seed, wellX, wellZ);
+	 	case 18:
+			return new CityPlatWell(world, seed, wellX, wellZ);
+	 	case 19:
+			return new RoadPlatWell(world, seed, wellX, wellZ);
 
 //      not enabled as I don't have permission to do so
 //		case 17:

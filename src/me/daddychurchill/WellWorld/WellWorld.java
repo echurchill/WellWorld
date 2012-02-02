@@ -13,16 +13,48 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
-/* TODO 
- * Well regenerate
- * Predictable Well types and seeds, use noise instead of random
- * Shuffle instead of Random.NextInt
- * Dynamically load wells from plugins/wellworld
- * YML
- *    BedrockWalls = obsidian or bedrock walls (false)
- *    WallDoorways = pathways through the walls (true)
- *    HexishWells = hexagonally layed out wells (true)
- */
+//DONE Global.BedrockWalls = obsidian or bedrock walls (false)
+//DONE Global.WallDoorways = pathways through the walls (true)
+//DONE Global.HexisWells = hexagonally laid out wells (true)
+//TODO "worldname".<option> support for world specific options
+
+//DONE Command.WellWorld
+//TODO Command.WellWorld Leave
+//TODO Command.WellWorld Regenerate
+//TODO Command.WellWorld Regenerate "WellType"
+//TODO player.hasPermission("WellWorld.WellWorldCommand") = WellWorld command enabled (true)
+//TODO player.hasPermission("WellWorld.WellWorldCommandLeave") = WellWorld command leave option enabled (true)
+//TODO player.hasPermission("WellWorld.WellWorldCommandRegeneration") = WellWorld command well regeneration option enabled (true)
+
+//TODO Dynamically load wells "engines" from plugin/wellworld/*.well
+//TODO Autoregister well "generators" from code
+//TODO Predictable well types/seeds via noise instead of random
+//TODO Move restriction to prevent wall climb overs
+
+//TODO Use world generators (say like CityWorld) as well generators 
+//TODO ..Captured farm, village/town and city block
+//TODO Maze of rooms
+//TODO Space with a few moons
+//TODO Create a variant of BananaVoid with multiple vertical levels of pathways
+//TODO Curved surface moon world with "moon" bases
+//TODO Giant tree
+//TODO Captured space station/ship
+//TODO Captured futuristic town (domed city on RealisticMoon?)
+//TODO A building with rooms/halls/fixtures/furniture/etc.
+//TODO Toroidal space station
+//TODO Four/Two castles facing each other
+//TODO Single castle for storming purposes
+//TODO Dungeon crawler
+//TODO Ocean world with “floating islands”
+
+//DONE Basalt field (http://www.flickr.com/photos/golfie88/3712377542/)
+//DONE Desert with cactus
+//DONE Silicon with crystal trees
+//DONE Volcano with lava
+//DONE Forested well
+//DONE Hypersmooth snow world
+//DONE Port BananaIce, BananaVoid and BananaForest
+//DONE Included Khyperia's wells
 
 public class WellWorld extends JavaPlugin {
     public static final Logger log = Logger.getLogger("Minecraft.CityWorld");
@@ -47,7 +79,7 @@ public class WellWorld extends JavaPlugin {
 	public void setBedrockWalls(boolean doit) {
 		wallMaterial = doit ? Material.BEDROCK : Material.OBSIDIAN;
 	}
-	
+
 	public Material getWallMaterial() {
 		return wallMaterial;
 	}
@@ -56,20 +88,20 @@ public class WellWorld extends JavaPlugin {
 		return negativeMaterial;
 	}
 	
+	public boolean isWallDoorways() {
+		return wallDoorways;
+	}
+	
 	public void setWallDoorways(boolean doit) {
 		wallDoorways = doit;
 	}
 	
-	public boolean getWallDoorways() {
-		return wallDoorways;
+	public boolean isHexishWells() {
+		return hexishWells;
 	}
 	
 	public void setHexishWells(boolean doit) {
 		hexishWells = doit;
-	}
-	
-	public boolean getHexishWells() {
-		return hexishWells;
 	}
 	
 	@Override
