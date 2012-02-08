@@ -24,6 +24,8 @@ import me.daddychurchill.WellWorld.WellTypes.Codename_B.BananaVoidWell;
 import me.daddychurchill.WellWorld.WellTypes.Khyperia.KhylandWell;
 import me.daddychurchill.WellWorld.WellTypes.Khyperia.PancakeWell;
 import me.daddychurchill.WellWorld.WellTypes.NotUsed.CityPlatWell;
+import me.daddychurchill.WellWorld.WellTypes.NotUsed.CityRoadsPlatWell;
+import me.daddychurchill.WellWorld.WellTypes.NotUsed.RiverPlatWell;
 import me.daddychurchill.WellWorld.WellTypes.NotUsed.RoadPlatWell;
 import me.daddychurchill.WellWorld.WellTypes.NotUsed.TypePickerWell;
 
@@ -32,7 +34,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
-import org.bukkit.util.noise.NoiseGenerator;
 import org.bukkit.util.noise.SimplexNoiseGenerator;
 
 public class WellWorldChunkGenerator extends ChunkGenerator {
@@ -237,7 +238,7 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 	}
 	
 	private WellArchetype chooseWellManager(double noise, World world, long seed, int wellX, int wellZ) {
-		switch (NoiseGenerator.floor(noise * 17)) {
+		switch (21){//(NoiseGenerator.floor(noise * 17)) {
 		case 1:
 			return new AlienWorldWell(world, seed, wellX, wellZ);
 		case 2:
@@ -282,6 +283,10 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 			return new CityPlatWell(world, seed, wellX, wellZ);
 	 	case 19:
 			return new RoadPlatWell(world, seed, wellX, wellZ);
+	 	case 20:
+			return new RiverPlatWell(world, seed, wellX, wellZ);
+	 	case 21:
+			return new CityRoadsPlatWell(world, seed, wellX, wellZ);
 
 //      not enabled as I don't have permission to do so
 //		case 17:

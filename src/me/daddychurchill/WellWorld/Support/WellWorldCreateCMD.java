@@ -19,7 +19,7 @@ public class WellWorldCreateCMD implements CommandExecutor {
     {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
-			player.sendMessage("Loading/creating world... This might take a moment...");
+			player.sendMessage("Loading/creating wellworld... This might take a moment...");
 			player.teleport(plugin.getWellWorld().getSpawnLocation());
 			return true;
 		} else {
