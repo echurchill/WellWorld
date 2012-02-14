@@ -3,7 +3,6 @@ package me.daddychurchill.WellWorld.WellTypes.NotUsed;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.util.noise.NoiseGenerator;
 import org.bukkit.util.noise.SimplexNoiseGenerator;
 
 import me.daddychurchill.WellWorld.WellArchetype;
@@ -11,51 +10,61 @@ import me.daddychurchill.WellWorld.Support.ByteChunk;
 
 public class CityRoadsPlatWell extends WellArchetype {
 
-	private double xUrbanFactor = 30.0;
-	private double zUrbanFactor = 30.0;
-	private double threshholdUrban = 0.50;
-	private double xRuralFactor = 30.0;
-	private double zRuralFactor = 30.0;
-	private double threshholdRural = 0.50;
+	private final static double xUrbanFactor = 30.0;
+	private final static double zUrbanFactor = 30.0;
+	private final static double threshholdUrban = 0.50;
+	private final static double xRuralFactor = 30.0;
+	private final static double zRuralFactor = 30.0;
+	private final static double threshholdRural = 0.50;
 	
-	private double xIntersectionFactor = 6;
-	private double zIntersectionFactor = 6;
-	private double threshholdRoad = 0.50;
-	private double threshholdBridge = 1.25;
+	public final static int roadCellSize = 4;
+	private final static double xIntersectionFactor = 6;
+	private final static double zIntersectionFactor = 6;
+	private final static double threshholdRoad = 0.75;
+	private final static double threshholdBridge = 1.20;
+	private final static double threshholdBridgeLength = 0.10;
 	
-	private double xHeightFactor = 20.0;
-	private double zHeightFactor = 20.0;
-	private double maxHeight = 5;
-	private double xUnfinishedFactor = xHeightFactor / 10;
-	private double zUnfinishedFactor = zHeightFactor / 10;
-	private double threshholdUnfinished = 0.15;
+	private final static double xHeightFactor = 20.0;
+	private final static double zHeightFactor = 20.0;
+	private final static double maxHeight = 5;
+	private final static double xUnfinishedFactor = xHeightFactor / 10;
+	private final static double zUnfinishedFactor = zHeightFactor / 10;
+	private final static double threshholdUnfinished = 0.15;
 	
-	private double xWaterFactor = 40.0;
-	private double zWaterFactor = 40.0;
-	private double threshholdWater = 0.3;
-	private double xRiverFactor = 40.0;
-	private double zRiverFactor = 40.0;
-	private double threshholdMinRiver = 0.40;
-	private double threshholdMaxRiver = 0.50;
+	private final static double xWaterFactor = 40.0;
+	private final static double zWaterFactor = 40.0;
+	private final static double threshholdWater = 0.3;
+	private final static double xRiverFactor = 40.0;
+	private final static double zRiverFactor = 40.0;
+	private final static double threshholdMinRiver = 0.40;
+	private final static double threshholdMaxRiver = 0.50;
 	
-	private SimplexNoiseGenerator generatorUrban;
-	private SimplexNoiseGenerator generatorRural;
-	private SimplexNoiseGenerator generatorHeight;
-	private SimplexNoiseGenerator generatorUnfinished;
-	private SimplexNoiseGenerator generatorRiver;
-	private SimplexNoiseGenerator generatorWater;
-	private SimplexNoiseGenerator generatorIntersection;
+	private SimplexNoiseGenerator noiseUrban;
+	private SimplexNoiseGenerator noiseRural;
+	private SimplexNoiseGenerator noiseUnfinished;
+	private SimplexNoiseGenerator noiseRiver;
+	private SimplexNoiseGenerator noiseWater;
+	private SimplexNoiseGenerator noiseIntersection;
+	
+	private SimplexNoiseGenerator noiseHeightDeviance; // add/subtract a little from the normal height for this building
+//	private SimplexNoiseGenerator noiseUrbanMaterial; // which building material set to use (if an adjacent chunk is similar then join them)
+//	private SimplexNoiseGenerator noiseSuburbanMaterial; // which building material set to use (if an adjacent chunk is similar then join them)
+//	private SimplexNoiseGenerator noiseRuralMaterial; // which building/plat material set to use (if an adjacent chunk is similar then join them)
+//	private SimplexNoiseGenerator noiseBridgeStyle; // search to the previous (west or north) starting intersection and use it's location for generator
+	
+	// Sculpted terrain... gradual slopes, maybe key off of generatorWater but not stretch the value as much? 
 	
 	public CityRoadsPlatWell(World world, long seed, int wellX, int wellZ) {
 		super(world, seed, wellX, wellZ);
-
-		generatorUrban = new SimplexNoiseGenerator(randseed);
-		generatorRural = new SimplexNoiseGenerator(randseed + 1);
-		generatorHeight = new SimplexNoiseGenerator(randseed + 2);
-		generatorUnfinished = new SimplexNoiseGenerator(randseed + 3);
-		generatorWater = new SimplexNoiseGenerator(randseed + 4);
-		generatorRiver = new SimplexNoiseGenerator(randseed + 5);
-		generatorIntersection = new SimplexNoiseGenerator(randseed + 6);
+		
+		seed = -7311321900194778047L;
+		noiseUrban = new SimplexNoiseGenerator(seed);
+		noiseRural = new SimplexNoiseGenerator(seed + 1);
+		noiseUnfinished = new SimplexNoiseGenerator(seed + 2);
+		noiseWater = new SimplexNoiseGenerator(seed + 3);
+		noiseRiver = new SimplexNoiseGenerator(seed + 4);
+		noiseIntersection = new SimplexNoiseGenerator(seed + 5);
+		noiseHeightDeviance = new SimplexNoiseGenerator(seed + 6);
 	}
 
 	@Override
@@ -65,23 +74,21 @@ public class CityRoadsPlatWell extends WellArchetype {
 				int blockX = chunkX * 16 + x;
 				int blockZ = chunkZ * 16 + z;
 				
-				chunk.setBlocks(x, 98, 100, z, Material.GOLD_BLOCK);
+				chunk.setBlocks(x, 0, 98, z, Material.GOLD_BLOCK);
 				
 				if (isLake(blockX, blockZ))
-					chunk.setBlocks(x, 99, 100, z, Material.STATIONARY_WATER);
+					chunk.setBlocks(x, 98, 100, z, Material.STATIONARY_WATER);
 				else if (isRiver(blockX, blockZ))
-					chunk.setBlocks(x, 99, 100, z, Material.STATIONARY_WATER);
+					chunk.setBlocks(x, 98, 100, z, Material.STATIONARY_WATER);
+				else 
+					chunk.setBlocks(x, 98, 100, z, Material.DIRT);
 
 				if (isRoad(blockX, blockZ))
 					chunk.setBlocks(x, 100, 101, z, Material.STONE);
-				
-				if (isBuildable(blockX, blockZ))
-					if (isUrban(blockX, blockZ)) {
-						if (isUrbanUnfinished(blockX, blockZ))
-							chunk.setBlocks(x, 100, 101 + getUrbanHeight(blockX, blockZ), z, Material.GLASS);
-						else
-							chunk.setBlocks(x, 100, 101 + getUrbanHeight(blockX, blockZ), z, Material.IRON_BLOCK);
-					} else if (isRural(blockX, blockZ))
+				else if (isBuildable(blockX, blockZ))
+					if (isUrban(blockX, blockZ))
+						chunk.setBlocks(x, 100, 101 + getUrbanHeight(blockX, blockZ), z, Material.IRON_BLOCK);
+					else if (isRural(blockX, blockZ))
 						chunk.setBlocks(x, 100, 101, z, Material.GRASS);
 					else //isSuburban
 						chunk.setBlocks(x, 100, 101, z, Material.SANDSTONE);
@@ -90,13 +97,13 @@ public class CityRoadsPlatWell extends WellArchetype {
 	}
 	
 	public boolean isLake(int x, int z) {
-		double noiseWater = (generatorWater.noise(x / xWaterFactor, z / zWaterFactor) + 1) / 2;
-		return noiseWater < threshholdWater;
+		double noiseLevel = (noiseWater.noise(x / xWaterFactor, z / zWaterFactor) + 1) / 2;
+		return noiseLevel < threshholdWater;
 	}
 
 	public boolean isRiver(int x, int z) {
-		double noiseRiver = (generatorRiver.noise(x / xRiverFactor, z / zRiverFactor) + 1) / 2;
-		return noiseRiver > threshholdMinRiver && noiseRiver < threshholdMaxRiver && !isLake(x, z);
+		double noiseLevel = (noiseRiver.noise(x / xRiverFactor, z / zRiverFactor) + 1) / 2;
+		return noiseLevel > threshholdMinRiver && noiseLevel < threshholdMaxRiver && !isLake(x, z);
 	}
 	
 	public boolean isWater(int x, int z) {
@@ -108,8 +115,8 @@ public class CityRoadsPlatWell extends WellArchetype {
 	}
 	
 	public boolean isUrban(int x, int z) {
-		double noiseUrban = (generatorUrban.noise(x / xUrbanFactor, z / zUrbanFactor) + 1) / 2;
-		return noiseUrban > threshholdUrban;
+		double noiseLevel = (noiseUrban.noise(x / xUrbanFactor, z / zUrbanFactor) + 1) / 2;
+		return noiseLevel > threshholdUrban;
 	}
 	
 	public boolean isSuburban(int x, int z) {
@@ -117,124 +124,124 @@ public class CityRoadsPlatWell extends WellArchetype {
 	}
 	
 	public boolean isRural(int x, int z) {
-		double noiseRural = (generatorRural.noise(x / xRuralFactor, z / zRuralFactor) + 1) / 2;
-		return noiseRural > threshholdRural;
+		double noiseLevel = (noiseRural.noise(x / xRuralFactor, z / zRuralFactor) + 1) / 2;
+		return noiseLevel > threshholdRural;
 	}
 
 	public int getUrbanHeight(int x, int z) {
-		return (int) ((generatorHeight.noise(x / xHeightFactor, z / zHeightFactor) + 1) / 2 * maxHeight);
+		return (int) ((noiseHeightDeviance.noise(x / xHeightFactor, z / zHeightFactor) + 1) / 2 * maxHeight);
 	}
 	
 	public boolean isUrbanUnfinished(int x, int z) {
-		double noiseUnfinished = (generatorUnfinished.noise(x / xUnfinishedFactor, z / zUnfinishedFactor) + 1) / 2;
-		return noiseUnfinished < threshholdUnfinished;
+		double noiseLevel = (noiseUnfinished.noise(x / xUnfinishedFactor, z / zUnfinishedFactor) + 1) / 2;
+		return noiseLevel < threshholdUnfinished;
 	}
 	
-	// connected buildings
-	// wall material 
-	// window material
-	// floor material
-	// roof treatment
-	// room layout
-	// furniture treatment
-	// crop material
+	private boolean checkRoadCoordinate(int i) {
+		return i % roadCellSize == 0;
+	}
 	
-	public static int roadCellSize = 5;
-	
-	// given a location
-	// is it a NS location
-	//   find the previous z+n non-water based intersection
-	//   find the next z-n non-water based intersection
-	
-	// is it a EW location
+	private int fixRoadCoordinate(int i) {
+		if (i < 0) {
+			return -((Math.abs(i + 1) / roadCellSize) * roadCellSize + roadCellSize);
+		} else
+			return (i / roadCellSize) * roadCellSize;
+	}
 	
 	public boolean isRoad(int x, int z) {
-		
+
 		// quick test!
-		boolean roadExists = x % roadCellSize == 0 || z % roadCellSize == 0;
+		boolean roadExists = checkRoadCoordinate(x) || checkRoadCoordinate(z);
 		
 		// not so quick test
 		if (roadExists) {
 			
 			// is this an intersection?
-			if (x % roadCellSize == 0 && z % roadCellSize == 0) {
+			if (checkRoadCoordinate(x) && checkRoadCoordinate(z)) {
 				
 				// if roads exists to any of the cardinal directions then we exist
-				roadExists = !isWater(x, z);
+				roadExists = isRoad(x - 1, z) ||
+							 isRoad(x + 1, z) ||
+							 isRoad(x, z - 1) ||
+							 isRoad(x, z + 1);
 				
-			// north/south road?
-			} else if (x % roadCellSize == 0) {
+			} else {
 				
 				// bridge?
 				boolean isBridge = false;
+				int previousX, previousZ, nextX, nextZ;
+				double previousNoise, nextNoise, lengthNoise = 0.0;
 				
-				// find previous intersection not in water
-				int previousX = x;
-				int previousZ = (z / roadCellSize) * roadCellSize;
-				while (isWater(previousX, previousZ)) {
-					previousZ -= roadCellSize;
-					isBridge = true;
-				}
-				
-				// test for northward road
-				double previousNoise = getIntersectionNoise(previousX, previousZ - 1);
-				if (isWater(previousX, previousZ - 1))
-					previousNoise = 0.0;
+				// north/south road?
+				if (checkRoadCoordinate(x)) {
 					
-				// find next intersection not in water
-				int nextX = x;
-				int nextZ = ((z + roadCellSize) / roadCellSize) * roadCellSize;
-				while (isWater(nextX, nextZ)) {
-					nextZ += roadCellSize;
-					isBridge = true;
+					// find previous intersection not in water
+					previousX = x;
+					previousZ = fixRoadCoordinate(z);
+					while (isWater(previousX, previousZ)) {
+						previousZ -= roadCellSize;
+						isBridge = true;
+						lengthNoise = lengthNoise + threshholdBridgeLength;
+					}
+					
+					// test for northward road
+					if (isWater(previousX, previousZ + 1))
+						previousNoise = 0.0;
+					else
+						previousNoise = getIntersectionNoise(previousX, previousZ + 1);
+						
+					// find next intersection not in water
+					nextX = x;
+					nextZ = fixRoadCoordinate(z + roadCellSize);
+					while (isWater(nextX, nextZ)) {
+						nextZ += roadCellSize;
+						isBridge = true;
+						lengthNoise = lengthNoise + threshholdBridgeLength;
+					}
+					
+					// test for southward road
+					if (isWater(nextX, nextZ - 1))
+						nextNoise = 0.0;
+					else
+						nextNoise = getIntersectionNoise(nextX, nextZ - 1);
+					
+				// east/west road?
+				} else { // if (checkRoadCoordinate(z))
+	
+					// find previous intersection not in water
+					previousX = fixRoadCoordinate(x);
+					previousZ = z;
+					while (isWater(previousX, previousZ)) {
+						previousX -= roadCellSize;
+						isBridge = true;
+						lengthNoise = lengthNoise + threshholdBridgeLength;
+					}
+					
+					// test for westward road
+					if (isWater(previousX + 1, previousZ))
+						previousNoise = 0.0;
+					else
+						previousNoise = getIntersectionNoise(previousX + 1, previousZ);
+						
+					// find next intersection not in water
+					nextX = fixRoadCoordinate(x + roadCellSize);
+					nextZ = z;
+					while (isWater(nextX, nextZ)) {
+						nextX += roadCellSize;
+						isBridge = true;
+						lengthNoise = lengthNoise + threshholdBridgeLength;
+					}
+					
+					// test for eastward road
+					if (isWater(nextX - 1, nextZ))
+						nextNoise = 0.0;
+					else
+						nextNoise = getIntersectionNoise(nextX - 1, nextZ);
 				}
-				
-				// test for southward road
-				double nextNoise = getIntersectionNoise(nextX, nextZ + 1);
-				if (isWater(nextX, nextZ + 1))
-					nextNoise = 0.0;
 				
 				// overwater?
 				if (isBridge)
-					roadExists = (previousNoise + nextNoise) > threshholdBridge;
-				else
-					roadExists = (previousNoise + nextNoise) > threshholdRoad;
-				
-			// east/west road?
-			} else { // if (z % roadCellSize == 0)
-
-				// bridge?
-				boolean isBridge = false;
-				
-				// find previous intersection not in water
-				int previousX = (x / roadCellSize) * roadCellSize;
-				int previousZ = z;
-				while (isWater(previousX, previousZ)) {
-					previousX -= roadCellSize;
-					isBridge = true;
-				}
-				
-				// test for westward road
-				double previousNoise = getIntersectionNoise(previousX - 1, previousZ);
-				if (isWater(previousX - 1, previousZ))
-					previousNoise = 0.0;
-					
-				// find next intersection not in water
-				int nextX = ((x + roadCellSize) / roadCellSize) * roadCellSize;
-				int nextZ = z;
-				while (isWater(nextX, nextZ)) {
-					nextX += roadCellSize;
-					isBridge = true;
-				}
-				
-				// test for eastward road
-				double nextNoise = getIntersectionNoise(nextX + 1, nextZ);
-				if (isWater(nextX + 1, nextZ))
-					nextNoise = 0.0;
-				
-				// overwater?
-				if (isBridge)
-					roadExists = (previousNoise + nextNoise) > threshholdBridge;
+					roadExists = (previousNoise + nextNoise) > (threshholdBridge + lengthNoise); // longer bridges are "harder"
 				else
 					roadExists = (previousNoise + nextNoise) > threshholdRoad;
 			}
@@ -245,7 +252,7 @@ public class CityRoadsPlatWell extends WellArchetype {
 	}
 	
 	private double getIntersectionNoise(int x, int z) {
-		return (generatorIntersection.noise(x / xIntersectionFactor, z / zIntersectionFactor) + 1) / 2;
+		return (noiseIntersection.noise(x / xIntersectionFactor, z / zIntersectionFactor) + 1) / 2;
 	}
 	
 	
