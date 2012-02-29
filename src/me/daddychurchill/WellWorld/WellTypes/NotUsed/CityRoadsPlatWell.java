@@ -3,6 +3,7 @@ package me.daddychurchill.WellWorld.WellTypes.NotUsed;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.util.noise.NoiseGenerator;
 import org.bukkit.util.noise.SimplexNoiseGenerator;
 
 import me.daddychurchill.WellWorld.WellArchetype;
@@ -13,6 +14,9 @@ public class CityRoadsPlatWell extends WellArchetype {
 	private final static double xUrbanFactor = 30.0;
 	private final static double zUrbanFactor = 30.0;
 	private final static double threshholdUrban = 0.50;
+	private final static double xUrbanMaterialFactor = 5.0;
+	private final static double zUrbanMaterialFactor = 5.0;
+	
 	private final static double xRuralFactor = 30.0;
 	private final static double zRuralFactor = 30.0;
 	private final static double threshholdRural = 0.50;
@@ -47,7 +51,7 @@ public class CityRoadsPlatWell extends WellArchetype {
 	private SimplexNoiseGenerator noiseIntersection;
 	
 	private SimplexNoiseGenerator noiseHeightDeviance; // add/subtract a little from the normal height for this building
-//	private SimplexNoiseGenerator noiseUrbanMaterial; // which building material set to use (if an adjacent chunk is similar then join them)
+	private SimplexNoiseGenerator noiseUrbanMaterial; // which building material set to use (if an adjacent chunk is similar then join them)
 //	private SimplexNoiseGenerator noiseSuburbanMaterial; // which building material set to use (if an adjacent chunk is similar then join them)
 //	private SimplexNoiseGenerator noiseRuralMaterial; // which building/plat material set to use (if an adjacent chunk is similar then join them)
 //	private SimplexNoiseGenerator noiseBridgeStyle; // search to the previous (west or north) starting intersection and use it's location for generator
@@ -57,7 +61,7 @@ public class CityRoadsPlatWell extends WellArchetype {
 	public CityRoadsPlatWell(World world, long seed, int wellX, int wellZ) {
 		super(world, seed, wellX, wellZ);
 		
-		seed = -7311321900194778047L;
+		//seed = -7311321900194778047L;
 		noiseUrban = new SimplexNoiseGenerator(seed);
 		noiseRural = new SimplexNoiseGenerator(seed + 1);
 		noiseUnfinished = new SimplexNoiseGenerator(seed + 2);
@@ -65,6 +69,7 @@ public class CityRoadsPlatWell extends WellArchetype {
 		noiseRiver = new SimplexNoiseGenerator(seed + 4);
 		noiseIntersection = new SimplexNoiseGenerator(seed + 5);
 		noiseHeightDeviance = new SimplexNoiseGenerator(seed + 6);
+		noiseUrbanMaterial = new SimplexNoiseGenerator(seed + 7);
 	}
 
 	@Override
@@ -86,12 +91,22 @@ public class CityRoadsPlatWell extends WellArchetype {
 				if (isRoad(blockX, blockZ))
 					chunk.setBlocks(x, 100, 101, z, Material.STONE);
 				else if (isBuildable(blockX, blockZ))
-					if (isUrban(blockX, blockZ))
-						chunk.setBlocks(x, 100, 101 + getUrbanHeight(blockX, blockZ), z, Material.IRON_BLOCK);
-					else if (isRural(blockX, blockZ))
+					if (isUrban(blockX, blockZ)) {
+						int height = getUrbanHeight(blockX, blockZ);
+						byte wallMaterial = getUrbanWallMaterial(blockX, blockZ);
+						byte floorMaterial = getUrbanFloorMaterial(blockX, blockZ);
+						for (int i = 0; i < height; i++) {
+							int y = i * 2;
+							chunk.setBlock(x, 100 + y, z, floorMaterial);
+							chunk.setBlock(x, 100 + y + 1, z, wallMaterial);
+						}
+//						chunk.setBlocks(x, 100, 101 + getUrbanHeight(blockX, blockZ), z, Material.IRON_BLOCK);
+					} else if (isRural(blockX, blockZ))
 						chunk.setBlocks(x, 100, 101, z, Material.GRASS);
 					else //isSuburban
 						chunk.setBlocks(x, 100, 101, z, Material.SANDSTONE);
+//				else
+//					chunk.setBlocks(x, 100, 101, z, Material.GLOWSTONE);
 			}
 		}
 	}
@@ -130,6 +145,34 @@ public class CityRoadsPlatWell extends WellArchetype {
 
 	public int getUrbanHeight(int x, int z) {
 		return (int) ((noiseHeightDeviance.noise(x / xHeightFactor, z / zHeightFactor) + 1) / 2 * maxHeight);
+	}
+	
+	public byte getUrbanWallMaterial(int x, int z) {
+		double noiseLevel = (noiseUrbanMaterial.noise(x / xUrbanMaterialFactor, 0, z / zUrbanMaterialFactor) + 1) / 2;
+		switch (NoiseGenerator.floor(noiseLevel * 5)) {
+		case 1:
+			return (byte) Material.BRICK.getId();
+		case 2:
+			return (byte) Material.COBBLESTONE.getId();
+		case 3:
+			return (byte) Material.NETHER_BRICK.getId();
+		case 4:
+			return (byte) Material.NETHERRACK.getId();
+		default:
+			return (byte) Material.SMOOTH_BRICK.getId();
+		}
+	}
+	
+	public byte getUrbanFloorMaterial(int x, int z) {
+		double noiseLevel = (noiseUrbanMaterial.noise(x / xUrbanMaterialFactor, 1, z / zUrbanMaterialFactor) + 1) / 2;
+		switch (NoiseGenerator.floor(noiseLevel * 3)) {
+		case 1:
+			return (byte) Material.BRICK.getId();
+		case 2:
+			return (byte) Material.COBBLESTONE.getId();
+		default:
+			return (byte) Material.SMOOTH_BRICK.getId();
+		}
 	}
 	
 	public boolean isUrbanUnfinished(int x, int z) {
@@ -255,195 +298,7 @@ public class CityRoadsPlatWell extends WellArchetype {
 		return (noiseIntersection.noise(x / xIntersectionFactor, z / zIntersectionFactor) + 1) / 2;
 	}
 	
-	
-//	public boolean isRoad(int x, int z) {
-//		
-//		// quick test
-//		boolean roadExists = x % roadCellSize == 0 || z % roadCellSize == 0;
-//		
-//		// not so quick test
-//		if (roadExists) {
-//			
-//			// is this an intersection
-//			if (x % roadCellSize == 0 && z % roadCellSize == 0) {
-//				
-//				// over land?
-//				if (!isWater(x, z))
-//					roadExists = true;
-//				else {
-//					roadExists = false;
-//					//   is it over water?
-//					//     does the intersection (keep looking until over land) to the
-//					//       north && south support southern && northern roads
-//					//       OR east && west support western && eastern roads
-//				}
-//			
-//			// else is it a bridge?
-//			} else if (isWater(x, z)) {
-//				if (x % roadCellSize == 0) { // North/South road
-////					double prevIntersection = getIntersection(x, z / roadCellSize);
-////					double nextIntersection = getIntersection(x, (z + roadCellSize) / roadCellSize);
-////					return isDirection(nextIntersection, roadDirection.SOUTH) &&
-////							isDirection(prevIntersection, roadDirection.NORTH);
-////					
-//				} else { // (z % roadCellSize == 0) { // West/East road
-////					double prevIntersection = getIntersection(x / roadCellSize, z);
-////					double nextIntersection = getIntersection((x + roadCellSize) / roadCellSize, z);
-////					return isDirection(nextIntersection, roadDirection.WEST) &&
-////							isDirection(prevIntersection, roadDirection.EAST);
-//				}
-//				roadExists = false;
-//				
-//			// okay, then it is just a plain road then
-//			} else {
-//				// else does the intersection to the
-//				//   north support a southern road
-//				//   south support a northern road
-//				//   east support a western road
-//				//   west support a eastern road
-//				if (x % roadCellSize == 0) { // North/South road
-//					double prevIntersection = getIntersection(x, z, 0, -roadCellSize);
-//					double nextIntersection = getIntersection(x, z, 0,  roadCellSize);
-//					roadExists = isDirection(nextIntersection, roadDirection.SOUTH) &&
-//							isDirection(prevIntersection, roadDirection.NORTH);
-//					
-//				} else { // (z % roadCellSize == 0) { // West/East road
-//					double prevIntersection = getIntersection(x, z, -roadCellSize, 0);
-//					double nextIntersection = getIntersection(x, z,  roadCellSize, 0);
-//					roadExists = isDirection(nextIntersection, roadDirection.WEST) &&
-//							isDirection(prevIntersection, roadDirection.EAST);
-//				}
-//			}
-//		}
-//			
-//		return roadExists;
-//	}
-//	
-//	private enum roadDirection {NORTH, SOUTH, EAST, WEST};
-//	
-//	private double getIntersection(int x, int z, int deltaX, int deltaZ) {
-//		int testX = getFixedIntersectionCoordinate(x + deltaX);
-//		int testZ = getFixedIntersectionCoordinate(z + deltaZ);
-//		while (isWater(testX, testZ)) {
-//			testX = getFixedIntersectionCoordinate(testX + deltaX);
-//			testZ = getFixedIntersectionCoordinate(testZ + deltaZ);
-//		}
-//		return getIntersectionNoise(testX, testZ);
-//	}
-//	
-//	private int getFixedIntersectionCoordinate(int i) {
-//		return (i / roadCellSize) * roadCellSize;
-//	}
-//	
-//	
-//	private boolean isDirection(double intersectionNoise, roadDirection direction) {
-//		// reference: notes/notes.xlsx
-//		int intersection = NoiseGenerator.floor(intersectionNoise * 6);
-//		switch (direction) {
-//		case NORTH:
-//			switch (intersection) {
-//			case 1:
-////			case 5:
-////			case 8:
-//				return false;
-//			default:
-//				return true;
-//			}
-//		case SOUTH:
-//			switch (intersection) {
-//			case 3:
-////			case 6:
-////			case 7:
-//				return false;
-//			default:
-//				return true;
-//			}
-//		case EAST:
-//			switch (intersection) {
-//			case 2:
-////			case 5:
-////			case 6:
-//				return false;
-//			default:
-//				return true;
-//			}
-//		case WEST:
-//			switch (intersection) {
-//			case 4:
-////			case 7:
-////			case 8:
-//				return false;
-//			default:
-//				return true;
-//			}
-//		default:
-//			// this will never happen but we need to keep "LINT" happy
-//			return false;
-//		}
-//	}
-//	
-////	private boolean isDirection(double intersectionNoise, roadDirection direction) {
-////		// reference: notes/notes.xlsx
-////		int intersection = NoiseGenerator.floor(intersectionNoise * 9);
-////		switch (direction) {
-////		case NORTH:
-////			switch (intersection) {
-////			case 0:
-////			case 2:
-////			case 3:
-////			case 4:
-////			case 6:
-////			case 7:
-////				return true;
-////			default:
-////				return false;
-////			}
-////		case SOUTH:
-////			switch (intersection) {
-////			case 0:
-////			case 1:
-////			case 2:
-////			case 4:
-////			case 5:
-////			case 8:
-////				return true;
-////			default:
-////				return false;
-////			}
-////		case EAST:
-////			switch (intersection) {
-////			case 0:
-////			case 1:
-////			case 3:
-////			case 4:
-////			case 7:
-////			case 8:
-////				return true;
-////			default:
-////				return false;
-////			}
-////		case WEST:
-////			switch (intersection) {
-////			case 0:
-////			case 1:
-////			case 2:
-////			case 3:
-////			case 5:
-////			case 6:
-////				return true;
-////			default:
-////				return false;
-////			}
-////		default:
-////			return false;
-////		}
-////	}
-//	
-//	private boolean isRoadToThe(int x, int z, int deltaX, int deltaZ, roadDirection direction) {
-////		double intersectionA = 
-//		return false;
-//	}
-//	
+
 	@Override
 	public void populateBlocks(Chunk chunk, int chunkX, int chunkZ) {
 		// TODO Auto-generated method stub

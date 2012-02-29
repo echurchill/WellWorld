@@ -25,6 +25,8 @@ import me.daddychurchill.WellWorld.WellTypes.Khyperia.KhylandWell;
 import me.daddychurchill.WellWorld.WellTypes.Khyperia.PancakeWell;
 import me.daddychurchill.WellWorld.WellTypes.NotUsed.CityPlatWell;
 import me.daddychurchill.WellWorld.WellTypes.NotUsed.CityRoadsPlatWell;
+import me.daddychurchill.WellWorld.WellTypes.NotUsed.MineralPlatWell;
+import me.daddychurchill.WellWorld.WellTypes.NotUsed.PlanningZonesPlatWell;
 import me.daddychurchill.WellWorld.WellTypes.NotUsed.RiverPlatWell;
 import me.daddychurchill.WellWorld.WellTypes.NotUsed.RoadPlatWell;
 import me.daddychurchill.WellWorld.WellTypes.NotUsed.TypePickerWell;
@@ -238,7 +240,7 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 	}
 	
 	private WellArchetype chooseWellManager(double noise, World world, long seed, int wellX, int wellZ) {
-		switch (21){//(NoiseGenerator.floor(noise * 17)) {
+		switch (23){//(NoiseGenerator.floor(noise * 17)) {
 		case 1:
 			return new AlienWorldWell(world, seed, wellX, wellZ);
 		case 2:
@@ -287,6 +289,10 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 			return new RiverPlatWell(world, seed, wellX, wellZ);
 	 	case 21:
 			return new CityRoadsPlatWell(world, seed, wellX, wellZ);
+	 	case 22:
+			return new MineralPlatWell(world, seed, wellX, wellZ);
+	 	case 23:
+			return new PlanningZonesPlatWell(world, seed, wellX, wellZ);
 
 //      not enabled as I don't have permission to do so
 //		case 17:
