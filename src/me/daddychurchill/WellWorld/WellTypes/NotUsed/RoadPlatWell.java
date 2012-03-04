@@ -32,7 +32,7 @@ public class RoadPlatWell extends WellArchetype {
 		
 		// general fill
 		byte byteGround = bytePrime;
-		if ((chunkX % 2 == 0 && chunkZ % 2 == 1) || (chunkX % 2 == 1 && chunkZ % 2 == 0))
+		if ((chunkX % 2 == 0 && chunkZ % 2 != 0) || (chunkX % 2 != 0 && chunkZ % 2 == 0))
 			byteGround = byteSecondary;
 		chunk.setBlocks(0, 16, 100, 102, 0, 16, byteGround);
 

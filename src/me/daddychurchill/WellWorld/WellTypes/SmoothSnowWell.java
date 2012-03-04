@@ -20,7 +20,7 @@ public class SmoothSnowWell extends StandardWellArchetype {
 		
 		bottomMaterial = Material.STONE;
 		middleMaterial = Material.SNOW_BLOCK;
-		topMaterial = bottomMaterial;
+		topMaterial = middleMaterial;
 		liquidMaterial = Material.ICE;
 		
 		vScale = calcRandomRange(3.0, 7.0);

@@ -1,11 +1,11 @@
 == **WellWorld** ==
-<<color red>>
-**Due to a family emergency, I will be not updating this plug in until February 2012. Sorry for the delay but while crazy sounding, sometimes reality is more important than Minecraft** :|
-<</color>>
-----
 
-===== //Version 0.8// =====
+===== //Version 0.81// =====
 Now includes well generators from Codename_B and Khyperia, thx
+
+Latest changes...
+Made the plugin happy with the latest Bukkit (1.1R6)
+Fixed the SmoothSnow well generator, Eddie did something silly :-)
 
 === The story ===
 Imagine waking up one day, in Minecraft, and finding yourself surrounded by walls. These walls are not the ones your friends griefed you with but ones that reach all the way to the sky. You are trapped, surrounded... all alone... or are you? Did you just see somebody poking their head out of one of those little doors WAY up there? I wonder if they will be friendly? 

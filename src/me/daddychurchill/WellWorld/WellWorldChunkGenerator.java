@@ -23,19 +23,12 @@ import me.daddychurchill.WellWorld.WellTypes.Codename_B.BananaTrigWell;
 import me.daddychurchill.WellWorld.WellTypes.Codename_B.BananaVoidWell;
 import me.daddychurchill.WellWorld.WellTypes.Khyperia.KhylandWell;
 import me.daddychurchill.WellWorld.WellTypes.Khyperia.PancakeWell;
-import me.daddychurchill.WellWorld.WellTypes.NotUsed.CityPlatWell;
-import me.daddychurchill.WellWorld.WellTypes.NotUsed.CityRoadsPlatWell;
-import me.daddychurchill.WellWorld.WellTypes.NotUsed.MineralPlatWell;
-import me.daddychurchill.WellWorld.WellTypes.NotUsed.PlanningZonesPlatWell;
-import me.daddychurchill.WellWorld.WellTypes.NotUsed.RiverPlatWell;
-import me.daddychurchill.WellWorld.WellTypes.NotUsed.RoadPlatWell;
-import me.daddychurchill.WellWorld.WellTypes.NotUsed.TypePickerWell;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
+import org.bukkit.util.noise.NoiseGenerator;
 import org.bukkit.util.noise.SimplexNoiseGenerator;
 
 public class WellWorldChunkGenerator extends ChunkGenerator {
@@ -55,6 +48,7 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 	Material wallNegativeMaterial;
 	boolean wallDoorways;
 	boolean hexishWells;
+//	private int[] sums;
 	
 	private SimplexNoiseGenerator generator;
 	
@@ -68,6 +62,7 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 		wallNegativeMaterial = plugin.getNegativeWallMaterial();
 		wallDoorways = plugin.isWallDoorways();
 		hexishWells = plugin.isHexishWells();
+//		sums = new int[wellTypeCount];
 	}
 	
 	public WellWorld getPlugin() {
@@ -108,7 +103,7 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 			int adjustedZ = chunkZ - well.getZ();
 			
 			// generate the chunk
-			ByteChunk chunk = new ByteChunk(adjustedX, adjustedZ);
+			ByteChunk chunk = new ByteChunk(world, adjustedX, adjustedZ);
 			well.generateChunk(chunk, adjustedX, adjustedZ);
 			
 			// draw the well walls
@@ -222,9 +217,23 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 				// noise please
 				if (generator == null)
 					generator = new SimplexNoiseGenerator(world.getSeed());
-				double noise = (generator.noise(wellX, wellZ) + 1) / 2;
+//				Random wellrand = new Random(wellseed);
+//				double noise = (generator.noise(wellrand.nextDouble() * wellX, 
+//												wellrand.nextDouble() * wellZ, 
+//												wellrand.nextDouble() * 23.0,
+//												wellrand.nextGaussian() * 71.0) + 1) / 2;
 //				double noise = (generator.noise(wellX / ByteChunk.Width, wellZ / ByteChunk.Width) + 1) / 2;
+//				double noise = ((generator.noise(wellX, wellZ) + 1) / 2 + 
+//								 getWellFactor(wellX) + 
+//								 getWellFactor(wellZ) + 
+//								 new Random(wellseed).nextDouble()) / 4;
 //				double noise = new Random(wellseed).nextDouble();
+//				double doubleNoise = wellrand.nextDouble();
+//				double gaussianNoise = wellrand.nextGaussian();
+//				double noise = (doubleNoise + gaussianNoise) / 2.0;
+//				double noise = (wellrand.nextGaussian() + 1.0) / 2.0;
+				double noise = new HighQualityRandom(wellseed).nextDouble();
+				
 //				WellWorld.log.info("Well: " + wellX + ", " + wellZ + " Noise = " + noise);
 				
 				// pick one from the list
@@ -239,8 +248,21 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 		return wellmanager;
 	}
 	
+//	private String getSums() {
+//		String result = "Spread:";
+//		for (int i = 0; i < wellTypeCount; i++)
+//			result = result + " " + sums[i];
+//		return result;
+//	}
+	
+	private final int wellTypeCount = 17;
 	private WellArchetype chooseWellManager(double noise, World world, long seed, int wellX, int wellZ) {
-		switch (23){//(NoiseGenerator.floor(noise * 17)) {
+		
+		int index = NoiseGenerator.floor(noise * wellTypeCount);
+//		sums[index]++;
+//		WellWorld.log.info(getSums());
+		
+		switch (index) {
 		case 1:
 			return new AlienWorldWell(world, seed, wellX, wellZ);
 		case 2:
@@ -279,20 +301,20 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 			return new PancakeWell(world, seed, wellX, wellZ);
 			
 //      debug wells
-		case 17:
-			return new TypePickerWell(world, seed, wellX, wellZ);
-	 	case 18:
-			return new CityPlatWell(world, seed, wellX, wellZ);
-	 	case 19:
-			return new RoadPlatWell(world, seed, wellX, wellZ);
-	 	case 20:
-			return new RiverPlatWell(world, seed, wellX, wellZ);
-	 	case 21:
-			return new CityRoadsPlatWell(world, seed, wellX, wellZ);
-	 	case 22:
-			return new MineralPlatWell(world, seed, wellX, wellZ);
-	 	case 23:
-			return new PlanningZonesPlatWell(world, seed, wellX, wellZ);
+//		case 17:
+//			return new TypePickerWell(world, seed, wellX, wellZ);
+//	 	case 18:
+//			return new CityPlatWell(world, seed, wellX, wellZ);
+//	 	case 19:
+//			return new RoadPlatWell(world, seed, wellX, wellZ);
+//	 	case 20:
+//			return new RiverPlatWell(world, seed, wellX, wellZ);
+//	 	case 21:
+//			return new CityRoadsPlatWell(world, seed, wellX, wellZ);
+//	 	case 22:
+//			return new MineralPlatWell(world, seed, wellX, wellZ);
+//	 	case 23:
+//			return new PlanningZonesPlatWell(world, seed, wellX, wellZ);
 
 //      not enabled as I don't have permission to do so
 //		case 17:
@@ -329,4 +351,56 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 			return -((Math.abs(i + 1) / WellWorld.wellWidthInChunks * WellWorld.wellWidthInChunks) + WellWorld.wellWidthInChunks);
 		}
 	}
+	
+	private class HighQualityRandom extends Random {
+		
+		private static final long serialVersionUID = 1L;
+		// private Lock l = new ReentrantLock();
+		private long u;
+		private long v = 4101842887655102017L;
+		private long w = 1;
+
+//		public HighQualityRandom() {
+//			this(System.nanoTime());
+//		}
+//
+		public HighQualityRandom(long seed) {
+			// l.lock();
+			u = seed ^ v;
+			nextLong();
+			v = u;
+			nextLong();
+			w = v;
+			nextLong();
+			// l.unlock();
+		}
+
+		public long nextLong() {
+			// l.lock();
+			// try {
+			u = u * 2862933555777941757L + 7046029254386353087L;
+			v ^= v >>> 17;
+			v ^= v << 31;
+			v ^= v >>> 8;
+			w = 4294957665L * (w & 0xffffffff) + (w >>> 32);
+			long x = u ^ (u << 21);
+			x ^= x >>> 35;
+			x ^= x << 4;
+			long ret = (x + v) ^ w;
+			return ret;
+			// } finally {
+			// l.unlock();
+			// }
+		}
+		
+		public double nextDouble() {
+			return (double) Math.abs(nextLong()) / (double) Long.MAX_VALUE;
+		}
+
+		protected int next(int bits) {
+			return (int) (nextLong() >>> (64 - bits));
+		}
+
+	}
+	
 }

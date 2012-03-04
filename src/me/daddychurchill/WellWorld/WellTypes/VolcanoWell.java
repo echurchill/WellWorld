@@ -66,8 +66,8 @@ public class VolcanoWell extends WellArchetype {
             for (int z = 0; z < 16; z++) {
             	double blockX = chunkX * 16 + x;
             	double blockZ = chunkZ * 16 + z;
-            	double floatX = blockX / (WellWorld.wellWidthInChunks * ByteChunk.Width);
-            	double floatZ = blockZ / (WellWorld.wellWidthInChunks * ByteChunk.Width);
+            	double floatX = blockX / (WellWorld.wellWidthInChunks * chunk.width);
+            	double floatZ = blockZ / (WellWorld.wellWidthInChunks * chunk.width);
             	double heightX = (Math.sin(floatX * TwoPi - HalfPi) + 1) / 2;
             	double heightZ = (Math.sin(floatZ * TwoPi - HalfPi) + 1) / 2;
             	int height = baseAt + (int) (heightX * heightZ * coneScale) + 

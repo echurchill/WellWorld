@@ -23,6 +23,7 @@ public abstract class WellArchetype {
 	protected int wellZ;
 	
 	public WellArchetype(World world, long seed, int wellX, int wellZ) {
+		
 		// make our own random
 		this.randseed = seed;
 		this.random = new Random(randseed);
@@ -33,12 +34,12 @@ public abstract class WellArchetype {
 		this.wellZ = wellZ;
 		
 		// calculate the well's block bounds
-		int x1 = wellX * 16;
-		int x2 = (wellX + WellWorld.wellWidthInChunks) * 16; 
-		int z1 = wellZ * 16;
-		int z2 = (wellZ + WellWorld.wellWidthInChunks) * 16; 
+		int x1 = wellX * ByteChunk.chunkWidth;
+		int x2 = (wellX + WellWorld.wellWidthInChunks) * ByteChunk.chunkWidth; 
+		int z1 = wellZ * ByteChunk.chunkWidth;
+		int z2 = (wellZ + WellWorld.wellWidthInChunks) * ByteChunk.chunkWidth; 
 		this.minBlock = new Vector(x1 + WellWorldChunkGenerator.wallThicknessInBlocks, 1, z1 + WellWorldChunkGenerator.wallThicknessInBlocks);
-		this.maxBlock = new Vector(x2 - WellWorldChunkGenerator.wallThicknessInBlocks, 127, z2 - WellWorldChunkGenerator.wallThicknessInBlocks);
+		this.maxBlock = new Vector(x2 - WellWorldChunkGenerator.wallThicknessInBlocks, world.getMaxHeight(), z2 - WellWorldChunkGenerator.wallThicknessInBlocks);
 	}
 	
 	// override these to make something really happen!
@@ -55,19 +56,19 @@ public abstract class WellArchetype {
 	}
 	
 	public Biome getBiome() {
-		return world.getBiome(wellX * ByteChunk.Width + 8, wellZ * ByteChunk.Width + 8);
+		return world.getBiome(wellX * ByteChunk.chunkWidth + 8, wellZ * ByteChunk.chunkWidth + 8);
 	}
 	
 	protected int getBlockX(ByteChunk chunk, int x) {
-		return (chunk.getX() - wellX) * ByteChunk.Width + x;
+		return (chunk.getX() - wellX) * ByteChunk.chunkWidth + x;
 	}
 	
 	protected int getBlockZ(ByteChunk chunk, int z) {
-		return (chunk.getZ() - wellZ) * ByteChunk.Width + z;
+		return (chunk.getZ() - wellZ) * ByteChunk.chunkWidth + z;
 	}
 	
 	protected int getNoiseValue(int chunkAt, int at) {
-		return chunkAt * ByteChunk.Width + at;
+		return chunkAt * ByteChunk.chunkWidth + at;
 	}
 	
 	// override these to auto-draw the top and bottom of the well

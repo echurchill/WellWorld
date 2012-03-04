@@ -60,8 +60,6 @@ public class WellWorld extends JavaPlugin {
     public static final Logger log = Logger.getLogger("Minecraft.CityWorld");
 	public static final int wellWidthInChunks = 8; 
 	
-	private FileConfiguration config;
-	
 	private Material wallMaterial;
 	private Material negativeMaterial;
 	private boolean wallDoorways;
@@ -138,7 +136,7 @@ public class WellWorld extends JavaPlugin {
 //		addCommand("wellcalc", new WellWorldWellCalcCMD(this));
 		
 		// add/get the configuration
-		config = getConfig();
+		FileConfiguration config = getConfig();
 		config.options().header("WellWorld Global Options");
 		config.addDefault("Global.BedrockWalls", false);
 		config.addDefault("Global.WallDoorways", true);
