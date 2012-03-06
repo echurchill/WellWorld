@@ -39,7 +39,7 @@ public abstract class WellArchetype {
 		int z1 = wellZ * ByteChunk.chunkWidth;
 		int z2 = (wellZ + WellWorld.wellWidthInChunks) * ByteChunk.chunkWidth; 
 		this.minBlock = new Vector(x1 + WellWorldChunkGenerator.wallThicknessInBlocks, 1, z1 + WellWorldChunkGenerator.wallThicknessInBlocks);
-		this.maxBlock = new Vector(x2 - WellWorldChunkGenerator.wallThicknessInBlocks, world.getMaxHeight(), z2 - WellWorldChunkGenerator.wallThicknessInBlocks);
+		this.maxBlock = new Vector(x2 - WellWorldChunkGenerator.wallThicknessInBlocks, 127/*world.getMaxHeight() - 1*/, z2 - WellWorldChunkGenerator.wallThicknessInBlocks);
 	}
 	
 	// override these to make something really happen!
