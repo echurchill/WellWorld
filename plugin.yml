@@ -1,9 +1,9 @@
 name: WellWorld
 main: me.daddychurchill.WellWorld.WellWorld
-version: 0.82
+version: 0.83
 load: startup
 author: DaddyChurchill
 commands:
   wellworld:
-    description: Sends you to the WellWorld or back to "World".
-    usage: /wellworld [leave]
+    description: Sends you to the WellWorld.
+    usage: /wellworld

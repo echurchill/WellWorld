@@ -1,16 +1,13 @@
 == **WellWorld** ==
 
-**Please note: ** Bukkit 1.2.3 R0 does not support generating worlds above the 127th block. 
-I am pretty sure folks are working on this issue but until the support shows up in Bukkit it can't show up in this plugin. 
-Be patient and play more Minecraft :-)
-
-===== //Version 0.82// =====
+===== //Version 0.83// =====
 ,,//(sometimes there is a delay in getting the new version of the plugin through the approval process, if the above version isn't available check back in an hour or so)//,,
 
 Now includes well generators from Codename_B and Khyperia, thx
 
 Latest changes...
-v0.82 1.2.3 R0 Happy, since Bukkit doesn't support taller generated heights yet we are still stuck at 127, sorry
+* v0.83 1.2.3-R0.2 Happy and Fixed a few string and permission issues
+* v0.82 1.2.3 R0 Happy, since Bukkit doesn't support taller generated heights yet we are still stuck at 127, sorry
 
 === The story ===
 Imagine waking up one day, in Minecraft, and finding yourself surrounded by walls. These walls are not the ones your friends griefed you with but ones that reach all the way to the sky. You are trapped, surrounded... all alone... or are you? Did you just see somebody poking their head out of one of those little doors WAY up there? I wonder if they will be friendly? 
