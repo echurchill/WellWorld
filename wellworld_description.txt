@@ -3,6 +3,8 @@
 ===== //Version 0.83// =====
 ,,//(sometimes there is a delay in getting the new version of the plugin through the approval process, if the above version isn't available check back in an hour or so)//,,
 
+//(This plug in doesn't take advantage of the new "taller" chunks yet but it should run fine in the newest Bukkit)//
+
 Now includes well generators from Codename_B and Khyperia, thx
 
 Latest changes...
