@@ -92,7 +92,7 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 	}
 
 	@Override
-	public byte[] generate(World world, Random random, int chunkX, int chunkZ) {
+	public byte[][] generateBlockSections(World world, Random random, int chunkX, int chunkZ, BiomeGrid biomes) {
 		
 		// figure out what everything looks like
 		WellArchetype well = getWellManager(world, random, chunkX, chunkZ);

@@ -34,10 +34,10 @@ public abstract class WellArchetype {
 		this.wellZ = wellZ;
 		
 		// calculate the well's block bounds
-		int x1 = wellX * ByteChunk.chunkWidth;
-		int x2 = (wellX + WellWorld.wellWidthInChunks) * ByteChunk.chunkWidth; 
-		int z1 = wellZ * ByteChunk.chunkWidth;
-		int z2 = (wellZ + WellWorld.wellWidthInChunks) * ByteChunk.chunkWidth; 
+		int x1 = wellX * ByteChunk.chunksBlockWidth;
+		int x2 = (wellX + WellWorld.wellWidthInChunks) * ByteChunk.chunksBlockWidth; 
+		int z1 = wellZ * ByteChunk.chunksBlockWidth;
+		int z2 = (wellZ + WellWorld.wellWidthInChunks) * ByteChunk.chunksBlockWidth; 
 		this.minBlock = new Vector(x1 + WellWorldChunkGenerator.wallThicknessInBlocks, 1, z1 + WellWorldChunkGenerator.wallThicknessInBlocks);
 		this.maxBlock = new Vector(x2 - WellWorldChunkGenerator.wallThicknessInBlocks, 127/*world.getMaxHeight() - 1*/, z2 - WellWorldChunkGenerator.wallThicknessInBlocks);
 	}
@@ -56,19 +56,19 @@ public abstract class WellArchetype {
 	}
 	
 	public Biome getBiome() {
-		return world.getBiome(wellX * ByteChunk.chunkWidth + 8, wellZ * ByteChunk.chunkWidth + 8);
+		return world.getBiome(wellX * ByteChunk.chunksBlockWidth + 8, wellZ * ByteChunk.chunksBlockWidth + 8);
 	}
 	
 	protected int getBlockX(ByteChunk chunk, int x) {
-		return (chunk.getX() - wellX) * ByteChunk.chunkWidth + x;
+		return (chunk.chunkX - wellX) * ByteChunk.chunksBlockWidth + x;
 	}
 	
 	protected int getBlockZ(ByteChunk chunk, int z) {
-		return (chunk.getZ() - wellZ) * ByteChunk.chunkWidth + z;
+		return (chunk.chunkZ - wellZ) * ByteChunk.chunksBlockWidth + z;
 	}
 	
 	protected int getNoiseValue(int chunkAt, int at) {
-		return chunkAt * ByteChunk.chunkWidth + at;
+		return chunkAt * ByteChunk.chunksBlockWidth + at;
 	}
 	
 	// override these to auto-draw the top and bottom of the well
