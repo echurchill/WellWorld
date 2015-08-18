@@ -3,7 +3,7 @@ package me.daddychurchill.WellWorld.WellTypes.Codename_B;
 import org.bukkit.World;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
-import me.daddychurchill.WellWorld.Support.ByteChunk;
+import me.daddychurchill.WellWorld.Support.InitialBlocks;
 
 public class BananaOctaveWell extends BananaWellArchetype {
 
@@ -18,7 +18,7 @@ public class BananaOctaveWell extends BananaWellArchetype {
 	}
 
 	@Override
-	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
+	public void generateChunk(InitialBlocks chunk, int chunkX, int chunkZ) {
 		
 		// pretty much a direct copy of codename_B's post 
 		// http://forums.bukkit.org/threads/intermediate-infinite-terrain-generation-using-simplexoctaves.28855/
@@ -54,9 +54,9 @@ public class BananaOctaveWell extends BananaWellArchetype {
 				//		chunk.setBlock(x, y, z, stoneId);
 				//}
 				int y = surfaceAt + (int) noise;
-				chunk.setBlocks(x, 1, y, z, byteStone);
-				chunk.setBlocks(x, y, y + surfaceThickness, z, byteDirt);
-				chunk.setBlocks(x, y + surfaceThickness, y + surfaceThickness + 1, z, byteGrass);
+				chunk.setBlocks(x, 1, y, z, materialStone);
+				chunk.setBlocks(x, y, y + surfaceThickness, z, materialDirt);
+				chunk.setBlocks(x, y + surfaceThickness, y + surfaceThickness + 1, z, materialGrass);
 			}
 		}
 	}

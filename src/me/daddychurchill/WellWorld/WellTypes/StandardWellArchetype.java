@@ -10,7 +10,8 @@ import org.bukkit.util.noise.NoiseGenerator;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 import me.daddychurchill.WellWorld.WellArchetype;
-import me.daddychurchill.WellWorld.Support.ByteChunk;
+import me.daddychurchill.WellWorld.Support.BlackMagic;
+import me.daddychurchill.WellWorld.Support.InitialBlocks;
 
 public abstract class StandardWellArchetype extends WellArchetype {
 
@@ -23,16 +24,16 @@ public abstract class StandardWellArchetype extends WellArchetype {
 	protected TreeType treeType;
 	protected int treesPerChunk;
 	
-	protected Material bottomMaterial; // what is the stone made of?
-	protected Material middleMaterial; // what is dirt made of?
-	protected Material topMaterial; // what is grass made of?
-	protected Material liquidBaseMaterial; // what is sand made of?
-	protected Material liquidMaterial; // what is the liquid made of?
-	protected Material bladesMaterial; // what is a blade of grass made of?
-	protected Material flowerMaterial; // what is a flower made of?
+	protected Material materialBottom; // what is the stone made of?
+	protected Material materialMiddle; // what is dirt made of?
+	protected Material materialTop; // what is grass made of?
+	protected Material materialLiquidBase; // what is sand made of?
+	protected Material materialLiquid; // what is the liquid made of?
+	protected Material materialBlades; // what is a blade of grass made of?
+	protected Material materialFlower; // what is a flower made of?
 	
-	protected int mineralId; // for later use in the populator
-	protected int fertileId;
+	protected Material materialMineral; // for later use in the populator
+	protected Material materialFertile;
 	protected int airId; 
 	
 	protected int octives = 3;
@@ -62,17 +63,16 @@ public abstract class StandardWellArchetype extends WellArchetype {
 		amplitude = calcRandomRange(0.40, 0.60);
 		vScale = calcRandomRange(13.0, 19.0);
 		
-		bottomMaterial = Material.STONE;
-		middleMaterial = Material.DIRT;
-		topMaterial = Material.GRASS;
-		liquidBaseMaterial = Material.SAND;
-		liquidMaterial = Material.STATIONARY_WATER;
-		bladesMaterial = Material.LONG_GRASS;
-		flowerMaterial = random.nextBoolean() ? Material.RED_ROSE : Material.YELLOW_FLOWER;
+		materialBottom = Material.STONE;
+		materialMiddle = Material.DIRT;
+		materialTop = Material.GRASS;
+		materialLiquidBase = Material.SAND;
+		materialLiquid = Material.STATIONARY_WATER;
+		materialBlades = Material.LONG_GRASS;
+		materialFlower = random.nextBoolean() ? Material.RED_ROSE : Material.YELLOW_FLOWER;
 		
-		mineralId = bottomMaterial.getId();
-		fertileId = topMaterial.getId();
-		airId = Material.AIR.getId();
+		materialMineral = materialBottom;
+		materialFertile = materialTop;
 	}
 	
 	protected SimplexOctaveGenerator getGenerator() {
@@ -88,17 +88,17 @@ public abstract class StandardWellArchetype extends WellArchetype {
 	}
 
 	@Override
-	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
+	public void generateChunk(InitialBlocks chunk, int chunkX, int chunkZ) {
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
 				int y = getHeight((chunkX * 16 + x) / xFactor, (chunkZ * 16 + z) / zFactor);
-				chunk.setBlocks(x, 1, y - middleThickness, z, bottomMaterial);
-				chunk.setBlocks(x, y - middleThickness, y, z, middleMaterial);
+				chunk.setBlocks(x, 1, y - middleThickness, z, materialBottom);
+				chunk.setBlocks(x, y - middleThickness, y, z, materialMiddle);
 				if (y < liquidLevel) {
-					chunk.setBlock(x, y, z, liquidBaseMaterial);
-					chunk.setBlocks(x, y + 1, liquidLevel, z, liquidMaterial);
+					chunk.setBlock(x, y, z, materialLiquidBase);
+					chunk.setBlocks(x, y + 1, liquidLevel, z, materialLiquid);
 				} else
-					chunk.setBlock(x, y, z, topMaterial);
+					chunk.setBlock(x, y, z, materialTop);
 			}
 		}
 	}
@@ -116,13 +116,13 @@ public abstract class StandardWellArchetype extends WellArchetype {
 			if (random.nextInt(specialBlockOdds) == 0) {
 				for (int i = 0; i < specialsPerLayer; i++) {
 					Block block = chunk.getBlock(random.nextInt(16), y, random.nextInt(16));
-					int id = block.getTypeId();
-					if (id != airId) {
+					Material material = block.getType();
+					if (material != Material.AIR) {
 						
 						// Transmutation?
-						if (id == mineralId)
+						if (material == materialMineral)
 							populateMineral(block, y);
-						else if (id == fertileId)
+						else if (material == materialFertile)
 							populateFoliage(block, y);
 					}
 				}
@@ -131,17 +131,15 @@ public abstract class StandardWellArchetype extends WellArchetype {
 	}
 	
 	protected void populateMineral(Block block, int atY) {
-		block.setTypeId(pickRandomMineralAt(atY).getId(), false);
+		block.setType(pickRandomMineralAt(atY), false);
 	}
 	
 	protected void populateFoliage(Block block, int atY) {
 		Location foliageAt = block.getLocation().add(0, 1, 0);
 		if (random.nextInt(flowerOdds) == 0)
-			world.getBlockAt(foliageAt).setType(flowerMaterial);
+			world.getBlockAt(foliageAt).setType(materialFlower);
 		else {
-			Block grass = world.getBlockAt(foliageAt);
-			grass.setType(bladesMaterial);
-			grass.setData((byte)1);
+			BlackMagic.setBlock(world.getBlockAt(foliageAt), materialBlades, (byte) 1);
 		}
 	}
 	
@@ -155,7 +153,7 @@ public abstract class StandardWellArchetype extends WellArchetype {
 			int centerZ = worldZ + random.nextInt(16);
 			int centerY = world.getHighestBlockYAt(centerX, centerZ);
 			Block rootBlock = world.getBlockAt(centerX, centerY - 1, centerZ);
-			if (rootBlock.getTypeId() == fertileId) {
+			if (rootBlock.getType() == materialFertile) {
 				Location treeAt = rootBlock.getLocation().add(0, 1, 0);
 				world.generateTree(treeAt, treeType);
 			}

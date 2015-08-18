@@ -6,24 +6,23 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 
 import me.daddychurchill.WellWorld.WellArchetype;
+import me.daddychurchill.WellWorld.Support.BlackMagic;
 
 public abstract class BananaWellArchetype extends WellArchetype {
 
 	// normal materials
-	protected byte byteLiquid = (byte) Material.STATIONARY_WATER.getId();
-	protected byte byteStone = (byte) Material.STONE.getId();
-	protected byte byteDirt = (byte) Material.DIRT.getId();
-	protected byte byteGrass = (byte) Material.GRASS.getId();
-	protected byte byteLog = (byte) Material.LOG.getId();
-	protected byte byteLeaves = (byte) Material.LEAVES.getId();
-	protected byte byteAir = (byte) Material.AIR.getId();
-	protected int intOre = byteStone;
-	protected int intTreeBase = byteGrass;
-	protected int intTreeTrunk = byteLog;
-	protected int intTreeLeaves = byteLeaves;
+	protected Material materialLiquid = Material.STATIONARY_WATER;
+	protected Material materialStone = Material.STONE;
+	protected Material materialDirt = Material.DIRT;
+	protected Material materialGrass = Material.GRASS;
+	protected Material materialLog = Material.LOG;
+	protected Material materialLeaves = Material.LEAVES;
+	protected Material materialOre = materialStone;
+	protected Material materialTreeBase = materialGrass;
+	protected Material materialTreeTrunk = materialLog;
+	protected Material materialTreeLeaves = materialLeaves;
 	
 	protected byte byteTreeData = 0;
-	protected int intAir = Material.AIR.getId();
 	protected int minTreeHeight = 5;
 	protected int maxTreeHeight = 5;
 	
@@ -39,41 +38,41 @@ public abstract class BananaWellArchetype extends WellArchetype {
 		randomizeMaterials();
 		
 		//  copy over the "seed" materials used by populateOres and populateFoliage
-		intOre = byteStone;
-		intTreeBase = byteGrass;
+		materialOre = materialStone;
+		materialTreeBase = materialGrass;
 	}
 	
 	protected void randomizeMaterials() {
 		switch (random.nextInt(5)) {
 		case 0:
 			// lava, sand/sandstone/stone, mushroom stalks
-			byteLiquid = (byte) Material.STATIONARY_LAVA.getId();
-			byteStone = (byte) Material.STONE.getId();
-			byteDirt = (byte) Material.SANDSTONE.getId();
-			byteGrass = (byte) Material.SAND.getId();
-			intTreeTrunk = Material.HUGE_MUSHROOM_1.getId();
-			intTreeLeaves = intAir;
+			materialLiquid = Material.STATIONARY_LAVA;
+			materialStone = Material.STONE;
+			materialDirt = Material.SANDSTONE;
+			materialGrass = Material.SAND;
+			materialTreeTrunk = Material.HUGE_MUSHROOM_1;
+			materialTreeLeaves = Material.AIR;
 			byteTreeData = (byte) (random.nextInt(2) == 0 ? 10 : 1);
 			break;
 		case 1:
 			// air, sand/sandstone/stone, cactus
-			byteLiquid = (byte) Material.AIR.getId();
-			byteStone = (byte) Material.STONE.getId();
-			byteDirt = (byte) Material.SANDSTONE.getId();
-			byteGrass = (byte) Material.SAND.getId();
-			intTreeTrunk = Material.CACTUS.getId();
-			intTreeLeaves = intAir;
+			materialLiquid = Material.AIR;
+			materialStone = Material.STONE;
+			materialDirt = Material.SANDSTONE;
+			materialGrass = Material.SAND;
+			materialTreeTrunk = Material.CACTUS;
+			materialTreeLeaves = Material.AIR;
 			minTreeHeight = 2;
 			maxTreeHeight = 4;
 			break;
 		case 3:
 			// water, glass/glowstone/endstone, crystals
-			byteLiquid = (byte) Material.STATIONARY_WATER.getId();
-			byteStone = (byte) Material.ENDER_STONE.getId();
-			byteDirt = (byte) Material.SOUL_SAND.getId();
-			byteGrass = (byte) Material.MYCEL.getId();
-			intTreeTrunk = Material.GLOWSTONE.getId();
-			intTreeLeaves = Material.THIN_GLASS.getId();
+			materialLiquid = Material.STATIONARY_WATER;
+			materialStone = Material.ENDER_STONE;
+			materialDirt = Material.SOUL_SAND;
+			materialGrass = Material.MYCEL;
+			materialTreeTrunk = Material.GLOWSTONE;
+			materialTreeLeaves = Material.THIN_GLASS;
 			break;
 		default:
 			// water, grass/dirt/stone, normal trees are the default
@@ -99,25 +98,25 @@ public abstract class BananaWellArchetype extends WellArchetype {
 	 */
 	private static final int[] iterations = new int[] {10, 20, 20, 2, 8, 1, 1, 1};
 	private static final int[] amount = new int[] {32, 16, 8, 8, 7, 7, 6};
-	private static final int[] type = new int[] {Material.GRAVEL.getId(), Material.COAL_ORE.getId(),
-		Material.IRON_ORE.getId(), Material.GOLD_ORE.getId(), Material.REDSTONE_ORE.getId(),
-		Material.DIAMOND_ORE.getId(), Material.LAPIS_ORE.getId()};
+	private static final Material[] material = new Material[] {Material.GRAVEL, Material.COAL_ORE,
+		Material.IRON_ORE, Material.GOLD_ORE, Material.REDSTONE_ORE,
+		Material.DIAMOND_ORE, Material.LAPIS_ORE};
 	private static final int[] maxHeight = new int[] {128, 128, 128, 128, 128, 64,
 		32, 16, 16, 32};
 
 	protected void populateOres(Chunk chunk) {
 		// ores
-		for (int i = 0; i < type.length; i++) {
+		for (int i = 0; i < material.length; i++) {
 			for (int j = 0; j < iterations[i]; j++) {
 				placeOre(chunk, random.nextInt(16),
 						 random.nextInt(maxHeight[i]), random.nextInt(16),
-						 amount[i], type[i]);
+						 amount[i], material[i]);
 			}
 		}
 	}
 	
 	private void placeOre(Chunk source, int originX,
-			 int originY, int originZ, int amount, int type) {
+			 int originY, int originZ, int amount, Material material) {
 		for (int i = 0; i < amount; i++) {
 			int x = originX + random.nextInt(amount / 2) - amount / 4;
 			int y = originY + random.nextInt(amount / 4) - amount / 8;
@@ -128,8 +127,8 @@ public abstract class BananaWellArchetype extends WellArchetype {
 				continue;
 			}
 			Block block = source.getBlock(x, y, z);
-			if (block.getTypeId() == intOre) {
-				block.setTypeId(type, false);
+			if (block.getType() == materialOre) {
+				block.setType(material, false);
 			}
 		}
 	}
@@ -203,17 +202,17 @@ public abstract class BananaWellArchetype extends WellArchetype {
 				Block sourceBlock = world.getBlockAt(centerX, centerY, centerZ);
 
 				// found a place to put it?
-				if (sourceBlock.getTypeId() == intTreeBase) {
+				if (sourceBlock.getType() == materialTreeBase) {
 					
 					// leaves or leave?
-					if (intTreeLeaves != intAir) {
-						setBlock(centerX, centerY + height + 1, centerZ, intTreeLeaves, data);
+					if (materialTreeLeaves != Material.AIR) {
+						setBlock(centerX, centerY + height + 1, centerZ, materialTreeLeaves, data);
 						//world.getBlockAt(centerX, centerY + height + 1, centerZ).setTypeIdAndData(intLeaves, data, true);
 						for (int j = 0; j < 4; j++) {
-							setBlock(centerX, centerY + height + 1 - j, centerZ - 1, intTreeLeaves, data);
-							setBlock(centerX, centerY + height + 1 - j, centerZ + 1, intTreeLeaves, data);
-							setBlock(centerX - 1, centerY + height + 1 - j, centerZ, intTreeLeaves, data);
-							setBlock(centerX + 1, centerY + height + 1 - j, centerZ, intTreeLeaves, data);
+							setBlock(centerX, centerY + height + 1 - j, centerZ - 1, materialTreeLeaves, data);
+							setBlock(centerX, centerY + height + 1 - j, centerZ + 1, materialTreeLeaves, data);
+							setBlock(centerX - 1, centerY + height + 1 - j, centerZ, materialTreeLeaves, data);
+							setBlock(centerX + 1, centerY + height + 1 - j, centerZ, materialTreeLeaves, data);
 							//world.getBlockAt(centerX, centerY + height + 1 - j, centerZ - 1).setTypeIdAndData(intLeaves, data, true);
 							//world.getBlockAt(centerX, centerY + height + 1 - j, centerZ + 1).setTypeIdAndData(intLeaves, data, true);
 							//world.getBlockAt(centerX - 1, centerY + height + 1 - j, centerZ).setTypeIdAndData(intLeaves, data, true);
@@ -221,30 +220,30 @@ public abstract class BananaWellArchetype extends WellArchetype {
 						}
 
 						if (random.nextBoolean()) {
-							setBlock(centerX + 1, centerY + height, centerZ + 1, intTreeLeaves, data);
+							setBlock(centerX + 1, centerY + height, centerZ + 1, materialTreeLeaves, data);
 							//world.getBlockAt(centerX + 1, centerY + height, centerZ + 1).setTypeIdAndData(intLeaves, data, true);
 						}
 						if (random.nextBoolean()) {
-							setBlock(centerX + 1, centerY + height, centerZ - 1, intTreeLeaves, data);
+							setBlock(centerX + 1, centerY + height, centerZ - 1, materialTreeLeaves, data);
 							//world.getBlockAt(centerX + 1, centerY + height, centerZ - 1).setTypeIdAndData(intLeaves, data, true);
 						}
 						if (random.nextBoolean()) {
-							setBlock(centerX - 1, centerY + height, centerZ + 1, intTreeLeaves, data);
+							setBlock(centerX - 1, centerY + height, centerZ + 1, materialTreeLeaves, data);
 							//world.getBlockAt(centerX - 1, centerY + height, centerZ + 1).setTypeIdAndData(intLeaves, data, true);
 						}
 						if (random.nextBoolean()) {
-							setBlock(centerX - 1, centerY + height, centerZ - 1, intTreeLeaves, data);
+							setBlock(centerX - 1, centerY + height, centerZ - 1, materialTreeLeaves, data);
 							//world.getBlockAt(centerX - 1, centerY + height, centerZ - 1).setTypeIdAndData(intLeaves, data, true);
 						}
 
-						setBlock(centerX + 1, centerY + height - 1, centerZ + 1, intTreeLeaves, data);
-						setBlock(centerX + 1, centerY + height - 1, centerZ - 1, intTreeLeaves, data);
-						setBlock(centerX - 1, centerY + height - 1, centerZ + 1, intTreeLeaves, data);
-						setBlock(centerX - 1, centerY + height - 1, centerZ - 1, intTreeLeaves, data);
-						setBlock(centerX + 1, centerY + height - 2, centerZ + 1, intTreeLeaves, data);
-						setBlock(centerX + 1, centerY + height - 2, centerZ - 1, intTreeLeaves, data);
-						setBlock(centerX - 1, centerY + height - 2, centerZ + 1, intTreeLeaves, data);
-						setBlock(centerX - 1, centerY + height - 2, centerZ - 1, intTreeLeaves, data);
+						setBlock(centerX + 1, centerY + height - 1, centerZ + 1, materialTreeLeaves, data);
+						setBlock(centerX + 1, centerY + height - 1, centerZ - 1, materialTreeLeaves, data);
+						setBlock(centerX - 1, centerY + height - 1, centerZ + 1, materialTreeLeaves, data);
+						setBlock(centerX - 1, centerY + height - 1, centerZ - 1, materialTreeLeaves, data);
+						setBlock(centerX + 1, centerY + height - 2, centerZ + 1, materialTreeLeaves, data);
+						setBlock(centerX + 1, centerY + height - 2, centerZ - 1, materialTreeLeaves, data);
+						setBlock(centerX - 1, centerY + height - 2, centerZ + 1, materialTreeLeaves, data);
+						setBlock(centerX - 1, centerY + height - 2, centerZ - 1, materialTreeLeaves, data);
 						//world.getBlockAt(centerX + 1, centerY + height - 1, centerZ + 1).setTypeIdAndData(intLeaves, data, true);
 						//world.getBlockAt(centerX + 1, centerY + height - 1, centerZ - 1).setTypeIdAndData(intLeaves, data, true);
 						//world.getBlockAt(centerX - 1, centerY + height - 1, centerZ + 1).setTypeIdAndData(intLeaves, data, true);
@@ -257,7 +256,7 @@ public abstract class BananaWellArchetype extends WellArchetype {
 						for (int j = 0; j < 2; j++) {
 							for (int k = -2; k <= 2; k++) {
 								for (int l = -2; l <= 2; l++) {
-									setBlock(centerX + k, centerY + height - 1 - j, centerZ + l, intTreeLeaves, data);
+									setBlock(centerX + k, centerY + height - 1 - j, centerZ + l, materialTreeLeaves, data);
 									//world.getBlockAt(centerX + k, centerY + height
 									//	- 1 - j, centerZ + l).setTypeIdAndData(intLeaves, data, true);
 								}
@@ -275,26 +274,26 @@ public abstract class BananaWellArchetype extends WellArchetype {
 								clearBlock(centerX - 2, centerY + height - 1 - j, centerZ - 2);
 							//if (random.nextBoolean()) {
 							//	world.getBlockAt(centerX + 2, centerY + height - 1
-							//		- j, centerZ + 2).setTypeIdAndData(intAir, (byte) 0, true);
+							//		- j, centerZ + 2).setTypeIdAndData(intAir, 0, true);
 							//}
 							//if (random.nextBoolean()) {
 							//	world.getBlockAt(centerX + 2, centerY + height - 1
-							//		- j, centerZ - 2).setTypeIdAndData(intAir, (byte) 0, true);
+							//		- j, centerZ - 2).setTypeIdAndData(intAir, 0, true);
 							//}
 							//if (random.nextBoolean()) {
 							//	world.getBlockAt(centerX - 2, centerY + height - 1
-							//		- j, centerZ + 2).setTypeIdAndData(intAir, (byte) 0, true);
+							//		- j, centerZ + 2).setTypeIdAndData(intAir, 0, true);
 							//}
 							//if (random.nextBoolean()) {
 							//	world.getBlockAt(centerX - 2, centerY + height - 1
-							//		- j, centerZ - 2).setTypeIdAndData(intAir, (byte) 0, true);
+							//		- j, centerZ - 2).setTypeIdAndData(intAir, 0, true);
 							//}
 						}
 					}
 
 					// Trunk
 					for (int y = 1; y <= height; y++) {
-						world.getBlockAt(centerX, centerY + y, centerZ).setTypeIdAndData(intTreeTrunk, data, false);
+						BlackMagic.setBlock(world, centerX, centerY + y, centerZ, materialTreeTrunk, data);
 					}
 				}
 			}

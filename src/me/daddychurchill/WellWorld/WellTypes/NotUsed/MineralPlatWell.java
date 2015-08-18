@@ -6,7 +6,7 @@ import org.bukkit.World;
 import org.bukkit.util.noise.SimplexNoiseGenerator;
 
 import me.daddychurchill.WellWorld.WellArchetype;
-import me.daddychurchill.WellWorld.Support.ByteChunk;
+import me.daddychurchill.WellWorld.Support.InitialBlocks;
 
 public class MineralPlatWell extends WellArchetype {
 
@@ -18,7 +18,7 @@ public class MineralPlatWell extends WellArchetype {
 	private double threshholdMineral = 0.90;
 	private SimplexNoiseGenerator noiseMineral;
 	
-	//private byte byteMineral = (byte) Material.STONE.getId();
+	//private byte byteMineral = Material.STONE;
 	
 	public MineralPlatWell(World world, long seed, int wellX, int wellZ) {
 		super(world, seed, wellX, wellZ);
@@ -36,7 +36,7 @@ public class MineralPlatWell extends WellArchetype {
 	}
 
 	@Override
-	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
+	public void generateChunk(InitialBlocks chunk, int chunkX, int chunkZ) {
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
 				int blockX = chunkX * 16 + x;
@@ -44,7 +44,7 @@ public class MineralPlatWell extends WellArchetype {
 				for (int blockY = 0; blockY <= streetLevel; blockY++) {
 					double mineralLevel = noiseMineral.noise(blockX / xMineralFactor, blockY / yMineralFactor, blockZ / zMineralFactor);
 					if (mineralLevel > threshholdMineral)
-						chunk.setBlock(x, blockY, z, byteRandomMineralAt(blockY));
+						chunk.setBlock(x, blockY, z, RandomMineralAt(blockY));
 				}
 			}
 		}
@@ -57,29 +57,21 @@ public class MineralPlatWell extends WellArchetype {
 	private int yRedstone;
 	private int yDiamond;
 	
-	private byte byteCoal = (byte) Material.COAL_ORE.getId();
-	private byte byteIron = (byte) Material.IRON_ORE.getId();
-	private byte byteGold = (byte) Material.GOLD_ORE.getId();
-	private byte byteLapis = (byte) Material.LAPIS_ORE.getId();
-	private byte byteRedstone = (byte) Material.REDSTONE_ORE.getId();
-	private byte byteDiamond = (byte) Material.DIAMOND_ORE.getId();
-	private byte byteStone = (byte) Material.STONE.getId();
-	
-	protected byte byteRandomMineralAt(int y) {
+	protected Material RandomMineralAt(int y) {
 		if (y < yDiamond)
-			return byteDiamond;
+			return Material.DIAMOND_ORE;
 		else if (y < yRedstone)
-			return byteRedstone;
+			return Material.REDSTONE_ORE;
 		else if (y < yLapis)
-			return byteLapis;
+			return Material.LAPIS_ORE;
 		else if (y < yGold)
-			return byteGold;
+			return Material.GOLD_ORE;
 		else if (y < yIron)
-			return byteIron;
+			return Material.IRON_ORE;
 		else if (y < yCoal)
-			return byteCoal;
+			return Material.COAL_ORE;
 		else
-			return byteStone;
+			return Material.STONE;
 	}
 
 	@Override

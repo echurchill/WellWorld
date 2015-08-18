@@ -9,7 +9,7 @@ import org.bukkit.util.noise.SimplexNoiseGenerator;
 
 import me.daddychurchill.WellWorld.WellArchetype;
 import me.daddychurchill.WellWorld.WellWorld;
-import me.daddychurchill.WellWorld.Support.ByteChunk;
+import me.daddychurchill.WellWorld.Support.InitialBlocks;
 
 public class VolcanoWell extends WellArchetype {
 
@@ -18,10 +18,10 @@ public class VolcanoWell extends WellArchetype {
 	//TODO need to add partially filled crater
 	private int mineralOdds; // 1/n chance that there is minerals on this level
 	private int mineralsPerLayer; // number of minerals per layer
-    private Material interiorMaterial;
-    private Material surfaceMaterial;
-    private Material floodMaterial;
-    private Material liquidMaterial;
+    private Material materialInterior;
+    private Material materialSurface;
+    private Material materialFlood;
+    private Material materialLiquid;
     private int baseAt;
     private int liquidAt;
     private int coneScale;
@@ -45,10 +45,10 @@ public class VolcanoWell extends WellArchetype {
 		mineralOdds = random.nextInt(5) + 1;
 		mineralsPerLayer = random.nextInt(10);
 		
-		interiorMaterial = Material.STONE;
-		surfaceMaterial = Material.COBBLESTONE;
-		floodMaterial = Material.LAVA;
-		liquidMaterial = Material.STATIONARY_WATER;
+		materialInterior = Material.STONE;
+		materialSurface = Material.COBBLESTONE;
+		materialFlood = Material.LAVA;
+		materialLiquid = Material.STATIONARY_WATER;
 		
         generator = new SimplexNoiseGenerator(randseed);
 	}
@@ -61,7 +61,7 @@ public class VolcanoWell extends WellArchetype {
     private final static double HalfPi = Math.PI / 2.0;
 
 	@Override
-	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
+	public void generateChunk(InitialBlocks chunk, int chunkX, int chunkZ) {
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
             	double blockX = chunkX * 16 + x;
@@ -73,15 +73,15 @@ public class VolcanoWell extends WellArchetype {
             	int height = baseAt + (int) (heightX * heightZ * coneScale) + 
             			getSurfaceNoise((chunkX * 16 + x) * noiseTweak, (chunkZ * 16 + z) * noiseTweak);
             	if (height < liquidAt) {
-                    chunk.setBlocks(x, 1, height, z, interiorMaterial);
-                    chunk.setBlocks(x, height, liquidAt, z, liquidMaterial);
+                    chunk.setBlocks(x, 1, height, z, materialInterior);
+                    chunk.setBlocks(x, height, liquidAt, z, materialLiquid);
             	} else if (height > craterAt) {
             		int craterDepth = height - (int) (heightX * heightZ * coneScale);
-                    chunk.setBlocks(x, 1, height - craterDepth, z, interiorMaterial);
-                    chunk.setBlocks(x, height - craterDepth, craterAt + 1, z, floodMaterial);
+                    chunk.setBlocks(x, 1, height - craterDepth, z, materialInterior);
+                    chunk.setBlocks(x, height - craterDepth, craterAt + 1, z, materialFlood);
             	} else {
-            		chunk.setBlocks(x, 1, height - surfaceThickness, z, interiorMaterial);
-            		chunk.setBlocks(x, height - surfaceThickness, height, z, surfaceMaterial);
+            		chunk.setBlocks(x, 1, height - surfaceThickness, z, materialInterior);
+            		chunk.setBlocks(x, height - surfaceThickness, height, z, materialSurface);
             	}
             }
         }
@@ -95,8 +95,8 @@ public class VolcanoWell extends WellArchetype {
 			if (random.nextInt(mineralOdds) == 0) {
 				for (int i = 0; i < mineralsPerLayer; i++) {
 					Block block = chunk.getBlock(random.nextInt(16), y, random.nextInt(16));
-					if (block.getType() == interiorMaterial)
-						block.setTypeId(pickRandomMineralAt(y).getId(), false);
+					if (block.getType() == materialInterior)
+						block.setType(pickRandomMineralAt(y), false);
 				}
 			}
 		}

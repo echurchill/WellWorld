@@ -5,7 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 
 import me.daddychurchill.WellWorld.WellArchetype;
-import me.daddychurchill.WellWorld.Support.ByteChunk;
+import me.daddychurchill.WellWorld.Support.InitialBlocks;
 
 public class PlatformWell extends WellArchetype {
 
@@ -15,18 +15,15 @@ public class PlatformWell extends WellArchetype {
 	private final static int oddsPlatform = 75; // % of the time
 	private final static int oddsConnection = 75; // % of the time
 	
-	private byte byteFloor = (byte) Material.IRON_BLOCK.getId();
-	private byte byteColumn = (byte) Material.IRON_BLOCK.getId();
-	private byte bytePlatform = (byte) Material.IRON_BLOCK.getId();
-	private byte byteLiquid = (byte) Material.STATIONARY_WATER.getId();
+	private Material materialFloor = Material.IRON_BLOCK;
+	private Material materialColumn = Material.IRON_BLOCK;
+	private Material materialPlatform = Material.IRON_BLOCK;
+	private Material materialLiquid = Material.STATIONARY_WATER;
 
 	private boolean hasFloor;
 	private boolean hasLiquid;
 	private int liquidLevel;
 	
-	private byte byteGlass = (byte) Material.GLASS.getId();
-	private byte byteLava = (byte) Material.STATIONARY_LAVA.getId();
-
 	public PlatformWell(World world, long seed, int wellX, int wellZ) {
 		super(world, seed, wellX, wellZ);
 		
@@ -37,32 +34,32 @@ public class PlatformWell extends WellArchetype {
 		
 		// swizzle things around
 		if (calcOdds(oddsLava))
-			byteLiquid = byteLava;
+			materialLiquid = Material.STATIONARY_LAVA;
 		if (random.nextBoolean())
-			byteColumn = byteGlass;
+			materialColumn = Material.GLASS;
 		if (random.nextBoolean())
-			bytePlatform = byteGlass;
+			materialPlatform = Material.GLASS;
 	}
 
 	@Override
-	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
+	public void generateChunk(InitialBlocks chunk, int chunkX, int chunkZ) {
 		
 		// add to the floor?
 		if (hasFloor) {
-			chunk.setBlocksAt(1, byteFloor);
+			chunk.setBlocksAt(1, materialFloor);
 			if (hasLiquid)
-				chunk.setBlocksAt(2, liquidLevel, byteLiquid);
+				chunk.setBlocksAt(2, liquidLevel, materialLiquid);
 		}
 		
 		// hold's things up
-		chunk.setBlocks(7, 9, 1, 127, 7, 9, byteColumn);
+		chunk.setBlocks(7, 9, 1, 127, 7, 9, materialColumn);
 		for (int y = 0; y < 127; y += 16)
 			if (calcOdds(oddsPlatform)) {
-				chunk.setBlocks(4, 12, y, y + 1, 4, 12, bytePlatform);
+				chunk.setBlocks(4, 12, y, y + 1, 4, 12, materialPlatform);
 				if (calcOdds(oddsConnection))
-					chunk.setBlocks(7, 9, y, y + 1, 0, 16, bytePlatform);
+					chunk.setBlocks(7, 9, y, y + 1, 0, 16, materialPlatform);
 				if (calcOdds(oddsConnection))
-					chunk.setBlocks(0, 16, y, y + 1, 7, 9, bytePlatform);
+					chunk.setBlocks(0, 16, y, y + 1, 7, 9, materialPlatform);
 			}
 	}
 	

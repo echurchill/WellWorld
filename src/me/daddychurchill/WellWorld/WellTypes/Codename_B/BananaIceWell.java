@@ -1,6 +1,6 @@
 package me.daddychurchill.WellWorld.WellTypes.Codename_B;
 
-import me.daddychurchill.WellWorld.Support.ByteChunk;
+import me.daddychurchill.WellWorld.Support.InitialBlocks;
 
 import org.bukkit.Chunk;
 import org.bukkit.Material;
@@ -9,16 +9,6 @@ import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 public class BananaIceWell extends BananaWellArchetype {
 
-	private byte byteWater = (byte) Material.STATIONARY_WATER.getId();
-	private byte byteIce = (byte) Material.ICE.getId();
-	private byte byteSnowBlock = (byte) Material.SNOW_BLOCK.getId();
-	private byte byteSnow = (byte) Material.SNOW.getId();
-	private byte byteGrass = (byte) Material.GRASS.getId();
-	private byte byteDirt = (byte) Material.DIRT.getId();
-	private byte byteStone = (byte) Material.STONE.getId();
-	
-	private int intSnowBlock = byteSnowBlock;
-	private int intPumpkin = Material.PUMPKIN.getId();
 	private static final int oddsSnowmen = 30; // n out of 100
 	
 	private SimplexOctaveGenerator noisegen;
@@ -34,16 +24,12 @@ public class BananaIceWell extends BananaWellArchetype {
 	}
 
 	@Override
-	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {	
+	public void generateChunk(InitialBlocks chunk, int chunkX, int chunkZ) {	
 		// pretty much a direct port of codename_B's PM on DevBukkit
 		// http://dev.bukkit.org/home/private-messages/29092-well-world/#m10
 		
-//		for(int i=1; i<60; i++)
-//			setLayer(getByte(Material.STATIONARY_WATER), i);
-//		for(int i=60; i<64; i++)
-//			setLayer(getByte(Material.ICE),i);
-		chunk.setBlocksAt(1, 60, byteWater);
-		chunk.setBlocksAt(60, 64, byteIce);
+		chunk.setBlocksAt(1, 60, Material.STATIONARY_WATER);
+		chunk.setBlocksAt(60, 64, Material.ICE);
 		
 		// Layers?
 		for(int x = 0; x < 16; x++)
@@ -52,8 +38,7 @@ public class BananaIceWell extends BananaWellArchetype {
 				if(cake>=0)
 					for(int i = 0; (i < cake && i < 32); i++) {
 						int y = 63 - i;
-//						set(Material.SNOW_BLOCK, x, y, z);
-						chunk.setBlock(x, y, z, byteSnowBlock);
+						chunk.setBlock(x, y, z, Material.SNOW_BLOCK);
 					}
 			}
 		
@@ -63,20 +48,15 @@ public class BananaIceWell extends BananaWellArchetype {
                 double noiz = 58+noisegen.noise((x+chunkX*16)/100.0f, (z+chunkZ*16)/100.0f, 0.5, 0.5)*16;
                 for (int y = 0; y < noiz; y++) {
                     if(y >= noiz-1 && y>=64)
-//                    	set(Material.SNOW, x, y, z);
-                    	chunk.setBlock(x, y, z, byteSnow);
+                    	chunk.setBlock(x, y, z, Material.SNOW);
                     else if (y >= noiz-2 && y>=64)
-//                    	set(Material.GRASS, x, y, z);
-                    	chunk.setBlock(x, y, z, byteGrass);
+                    	chunk.setBlock(x, y, z, Material.GRASS);
                     else if(y >= noiz-4 && y>=64)
-//                    	set(Material.DIRT, x, y, z);
-                    	chunk.setBlock(x, y, z, byteDirt);
+                    	chunk.setBlock(x, y, z, Material.DIRT);
                     else if(y >= noiz-5 && y>=63)
-//                    	set(Material.SNOW_BLOCK, x, y, z);
-                    	chunk.setBlock(x, y, z, byteSnowBlock);
+                    	chunk.setBlock(x, y, z, Material.SNOW_BLOCK);
                     else
-//                        set(Material.STONE, x, y, z);
-                    	chunk.setBlock(x, y, z, byteStone);
+                    	chunk.setBlock(x, y, z, Material.STONE);
                 }
             }
         }
@@ -89,22 +69,8 @@ public class BananaIceWell extends BananaWellArchetype {
 				
 				if(shimmy > multiple/2+4) {
 					for(int i=32; i<64+(multiple/2.0-shimmy/2.0); i++) {
-//						set(Material.SNOW_BLOCK, x, i, z);
-                    	chunk.setBlock(x, i, z, byteSnowBlock);
+                    	chunk.setBlock(x, i, z, Material.SNOW_BLOCK);
 					}
-
-//EC: Replace the fake snowmen with real ones :-)
-//					int y = (int) (64+(multiple/2-shimmy/2));
-//					if(random.nextInt(64)==16 && x>1 && x<15 && z>1 && z<15) {
-//	//					set(Material.SNOW_BLOCK, x, y-1, z);
-//	//					set(Material.SNOW_BLOCK, x, y, z);
-//	//					set(Material.SNOW_BLOCK, x, y+1, z);
-//	//					set(Material.SNOW_BLOCK, x, y+2, z);
-//	//					set(Material.LEVER, x+1, y+2, z);
-//	//					set(Material.LEVER, x-1, y+2, z);
-//	//					set(Material.PUMPKIN, x, y+3, z);
-//	//					set(Material.SNOW, x, y+4, z);
-//					}
  				}
 			}
 	}
@@ -115,9 +81,9 @@ public class BananaIceWell extends BananaWellArchetype {
 			int centerX = (chunk.getX() << 4) + 8;
 			int centerZ = (chunk.getZ() << 4) + 8;
 			int centerY = world.getHighestBlockYAt(centerX, centerZ);
-			setBlock(centerX, centerY + 1, centerZ, intSnowBlock);
-			setBlock(centerX, centerY + 2, centerZ, intSnowBlock);
-			setBlock(centerX, centerY + 3, centerZ, intPumpkin, true);
+			setBlock(centerX, centerY + 1, centerZ, Material.SNOW_BLOCK);
+			setBlock(centerX, centerY + 2, centerZ, Material.SNOW_BLOCK);
+			setBlock(centerX, centerY + 3, centerZ, Material.PUMPKIN, true);
 		} //else 
 		//TODO: add a way to decorate the trees with snow
 		//	populateFoliage(chunk);

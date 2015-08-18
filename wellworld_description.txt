@@ -1,6 +1,6 @@
 == **WellWorld** ==
 
-===== //Version 0.83// =====
+===== //Version 1.00// =====
 ,,//(sometimes there is a delay in getting the new version of the plugin through the approval process, if the above version isn't available check back in an hour or so)//,,
 
 //(This plug in doesn't take advantage of the new "taller" chunks yet but it should run fine in the newest Bukkit)//
@@ -8,6 +8,7 @@
 Now includes well generators from Codename_B and Khyperia, thx
 
 Latest changes...
+* v1.00 1.8.8 Minecraft/Spigot happy
 * v0.83 1.2.3-R0.2 Happy and Fixed a few string and permission issues
 * v0.82 1.2.3 R0 Happy, since Bukkit doesn't support taller generated heights yet we are still stuck at 127, sorry
 

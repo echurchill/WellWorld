@@ -7,7 +7,7 @@ import org.bukkit.block.Block;
 import org.bukkit.util.noise.SimplexNoiseGenerator;
 
 import me.daddychurchill.WellWorld.WellArchetype;
-import me.daddychurchill.WellWorld.Support.ByteChunk;
+import me.daddychurchill.WellWorld.Support.InitialBlocks;
 
 public class AlienWorldWell extends WellArchetype {
 
@@ -69,7 +69,7 @@ public class AlienWorldWell extends WellArchetype {
 	}
 
 	@Override
-	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
+	public void generateChunk(InitialBlocks chunk, int chunkX, int chunkZ) {
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
 				for (int y = 0; y < 128; y++) {
@@ -94,7 +94,7 @@ public class AlienWorldWell extends WellArchetype {
 				for (int i = 0; i < mineralsPerLayer; i++) {
 					Block block = chunk.getBlock(random.nextInt(16), y, random.nextInt(16));
 					if (block.getType() == stoneMaterial)
-						block.setTypeId(pickRandomMineralAt(y).getId(), false);
+						block.setType(pickRandomMineralAt(y), false);
 				}
 			}
 		}

@@ -6,7 +6,7 @@ import org.bukkit.World;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 import me.daddychurchill.WellWorld.WellArchetype;
-import me.daddychurchill.WellWorld.Support.ByteChunk;
+import me.daddychurchill.WellWorld.Support.InitialBlocks;
 
 public class BasaltFieldWell extends WellArchetype {
 
@@ -19,9 +19,9 @@ public class BasaltFieldWell extends WellArchetype {
 	private double vScale = 16.0;
 	private int solidLevel;
 	private int liquidLevel;
-	private byte solidId = (byte) Material.OBSIDIAN.getId();
-	private byte liquidId = (byte) Material.STATIONARY_LAVA.getId();
-	private byte backfillId;
+	private Material solid = Material.OBSIDIAN;
+	private Material liquid = Material.STATIONARY_LAVA;
+	private Material backfill;
 	
 	private SimplexOctaveGenerator generator;
 	
@@ -35,26 +35,26 @@ public class BasaltFieldWell extends WellArchetype {
 		liquidLevel = solidLevel - random.nextInt(32);
 		vScale = calcRandomRange(20.0, 30.0);
 		if (random.nextBoolean()) {
-			liquidId = (byte) Material.STATIONARY_LAVA.getId();
-			backfillId = random.nextBoolean() ? liquidId : (byte) Material.GLASS.getId();
+			liquid = Material.STATIONARY_LAVA;
+			backfill = random.nextBoolean() ? liquid : Material.GLASS;
 		} else {
-			liquidId = (byte) Material.STATIONARY_WATER.getId();
-			backfillId = random.nextBoolean() ? liquidId : (byte) Material.ICE.getId();
+			liquid = Material.STATIONARY_WATER;
+			backfill = random.nextBoolean() ? liquid : Material.ICE;
 		}
 	}
 
 	@Override
-	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
+	public void generateChunk(InitialBlocks chunk, int chunkX, int chunkZ) {
 		for (int x = 0; x < 16; x += 4) {
 			for (int z = 0; z < 16; z += 4) {
 				double noise = generator.noise((chunkX * 16 + x) / xFactor, (chunkZ * 16 + z) / zFactor, fequency, amplitude) * vScale;
 				int y1 = 1;
 				int y2 = solidLevel + (int)noise;
-				chunk.setBlocks(x, x + 3, y1, y2, z, z + 3, solidId);
+				chunk.setBlocks(x, x + 3, y1, y2, z, z + 3, solid);
 				if (y2 < liquidLevel)
-					chunk.setBlocks(x, x + 3, y2, liquidLevel, z, z + 3, backfillId);
-				chunk.setBlocks(x + 3, x + 4, y1, liquidLevel, z, z + 4, liquidId);
-				chunk.setBlocks(x, x + 3, y1, liquidLevel, z + 3, z + 4, liquidId);
+					chunk.setBlocks(x, x + 3, y2, liquidLevel, z, z + 3, backfill);
+				chunk.setBlocks(x + 3, x + 4, y1, liquidLevel, z, z + 4, liquid);
+				chunk.setBlocks(x, x + 3, y1, liquidLevel, z + 3, z + 4, liquid);
 			}
 		}
 	}

@@ -5,7 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 
 import me.daddychurchill.WellWorld.WellArchetype;
-import me.daddychurchill.WellWorld.Support.ByteChunk;
+import me.daddychurchill.WellWorld.Support.InitialBlocks;
 
 public class VerySimpleWaterWell extends WellArchetype {
 
@@ -22,7 +22,7 @@ public class VerySimpleWaterWell extends WellArchetype {
 	}
 	
 	@Override
-	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
+	public void generateChunk(InitialBlocks chunk, int chunkX, int chunkZ) {
 		// fill up with stone (don't need to do 0 as that will be handled for me
 		chunk.setBlocksAt(1, height, Material.STONE);
 		

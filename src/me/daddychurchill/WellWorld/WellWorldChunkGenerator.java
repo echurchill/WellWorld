@@ -5,7 +5,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Random;
 
-import me.daddychurchill.WellWorld.Support.ByteChunk;
+import me.daddychurchill.WellWorld.Support.InitialBlocks;
 import me.daddychurchill.WellWorld.WellTypes.AlienCavernWell;
 import me.daddychurchill.WellWorld.WellTypes.AlienWorldWell;
 import me.daddychurchill.WellWorld.WellTypes.BasaltFieldWell;
@@ -92,7 +92,7 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 	}
 
 	@Override
-	public byte[][] generateBlockSections(World world, Random random, int chunkX, int chunkZ, BiomeGrid biomes) {
+	public ChunkData generateChunkData(World world, Random random, int chunkX, int chunkZ, BiomeGrid biomes) {
 		
 		// figure out what everything looks like
 		WellArchetype well = getWellManager(world, random, chunkX, chunkZ);
@@ -103,18 +103,18 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 			int adjustedZ = chunkZ - well.getZ();
 			
 			// generate the chunk
-			ByteChunk chunk = new ByteChunk(world, adjustedX, adjustedZ);
-			well.generateChunk(chunk, adjustedX, adjustedZ);
+			InitialBlocks initialBlocks = new InitialBlocks(world, createChunkData(world), adjustedX, adjustedZ);
+			well.generateChunk(initialBlocks, adjustedX, adjustedZ);
 			
 			// draw the well walls
-			generateWalls(well, chunk, adjustedX, adjustedZ);
+			generateWalls(well, initialBlocks, adjustedX, adjustedZ);
 			
-			return chunk.blocks;
+			return initialBlocks.chunkData;
 		} else
 			return null;
 	}
 	
-	public void generateWalls(WellArchetype well, ByteChunk source, int wellChunkX, int wellChunkZ) {
+	public void generateWalls(WellArchetype well, InitialBlocks source, int wellChunkX, int wellChunkZ) {
 		// top
 		if (well.includeTop())
 			source.setBlocksAt(wallHeightInBlocks - ceilingThicknessInBlocks, wallHeightInBlocks, wallMaterial);

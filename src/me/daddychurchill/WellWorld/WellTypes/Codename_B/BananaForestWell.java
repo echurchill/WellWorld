@@ -1,6 +1,6 @@
 package me.daddychurchill.WellWorld.WellTypes.Codename_B;
 
-import me.daddychurchill.WellWorld.Support.ByteChunk;
+import me.daddychurchill.WellWorld.Support.InitialBlocks;
 
 import org.bukkit.Chunk;
 import org.bukkit.World;
@@ -21,7 +21,7 @@ public class BananaForestWell extends BananaWellArchetype {
 	}
 
 	@Override
-	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
+	public void generateChunk(InitialBlocks chunk, int chunkX, int chunkZ) {
 		// pretty much a direct port of codename_B's PM on DevBukkit
 		// http://dev.bukkit.org/home/private-messages/29092-well-world/#m10
 
@@ -41,9 +41,9 @@ public class BananaForestWell extends BananaWellArchetype {
 				double ry = 1 - my;
 				int ht = (int) (ry * 4 + 64);
 
-				chunk.setBlocks(x, 1, ht - 10, z, byteStone);
-				chunk.setBlocks(x, ht - 10, ht, z, byteStone);
-				chunk.setBlock(x, ht, z, byteGrass);
+				chunk.setBlocks(x, 1, ht - 10, z, materialStone);
+				chunk.setBlocks(x, ht - 10, ht, z, materialStone);
+				chunk.setBlock(x, ht, z, materialGrass);
 //				for (int i = 1; i < ht; i++) {
 //					if (i < ht - 10)
 //						data[GenUtil.xyzToByte(x, i, z)] = (byte) Material.STONE.getId();
@@ -57,8 +57,8 @@ public class BananaForestWell extends BananaWellArchetype {
 				highest = (int) (dx + dsh * 2 + 80);
 
 				if (y > 0.6) {
-					chunk.setBlocks(x, ht, highest, z, byteLog);
-					chunk.setBlocks(x, highest, highest + 5, z, byteLeaves);
+					chunk.setBlocks(x, ht, highest, z, materialLog);
+					chunk.setBlocks(x, highest, highest + 5, z, materialLeaves);
 //						for (int i = ht; i < highest; i++)
 //  						data[GenUtil.xyzToByte(x, i, z)] = (byte) Material.LOG.getId();
 //						for (int i = highest; i < highest + 5; i++)
@@ -110,11 +110,11 @@ public class BananaForestWell extends BananaWellArchetype {
 							|| ur > 0.6 || dl > 0.6 || dr > 0.6 || uu > 0.6
 							|| dd > 0.6 || ll > 0.6 || rr > 0.6) {
 						for (int i = 80 - Math.abs(80 - highest) / 2; i < highest; i++)
-							chunk.setBlock(x, i, z, byteLeaves);
+							chunk.setBlock(x, i, z, materialLeaves);
 //							data[GenUtil.xyzToByte(x, i, z)] = (byte) Material.LEAVES.getId();
 
 						for (int i = highest; i < highest + 5; i++)
-							chunk.setBlock(x, i, z, byteLeaves);
+							chunk.setBlock(x, i, z, materialLeaves);
 //							data[GenUtil.xyzToByte(x, i, z)] = (byte) Material.LEAVES.getId();
 
 					}

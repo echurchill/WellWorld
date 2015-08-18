@@ -6,7 +6,7 @@ import org.bukkit.World;
 import org.bukkit.util.noise.SimplexNoiseGenerator;
 
 import me.daddychurchill.WellWorld.WellArchetype;
-import me.daddychurchill.WellWorld.Support.ByteChunk;
+import me.daddychurchill.WellWorld.Support.InitialBlocks;
 
 public class RoadPlatWell extends WellArchetype {
 
@@ -14,10 +14,6 @@ public class RoadPlatWell extends WellArchetype {
 	private double zFactor = 25.0;
 	private double chanceOfCompleteOuterRoad = 0.50;
 	private double chanceOfCompleteInnerRoad = 0.33;
-	
-	private byte bytePrime = (byte) Material.GRASS.getId();
-	private byte byteSecondary = (byte) Material.NETHERRACK.getId();
-	private byte byteStone = (byte) Material.STONE.getId();
 	
 	private SimplexNoiseGenerator generatorRoad;
 	
@@ -28,13 +24,13 @@ public class RoadPlatWell extends WellArchetype {
 	}
 
 	@Override
-	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
+	public void generateChunk(InitialBlocks chunk, int chunkX, int chunkZ) {
 		
 		// general fill
-		byte byteGround = bytePrime;
+		Material materialGround = Material.GRASS;
 		if ((chunkX % 2 == 0 && chunkZ % 2 != 0) || (chunkX % 2 != 0 && chunkZ % 2 == 0))
-			byteGround = byteSecondary;
-		chunk.setBlocks(0, 16, 100, 102, 0, 16, byteGround);
+			materialGround = Material.NETHERRACK;
+		chunk.setBlocks(0, 16, 100, 102, 0, 16, materialGround);
 
 		// always there intersections
 		drawIntersection(chunk, 0, 0, true);
@@ -91,20 +87,20 @@ public class RoadPlatWell extends WellArchetype {
 		return (generatorRoad.noise((chunkX * 16 + n) / xFactor, (chunkZ * 16 + n) / zFactor) + 1) / 2;
 	}
 	
-	private void drawIntersection(ByteChunk chunk, int x, int z, boolean drawRoad) {
+	private void drawIntersection(InitialBlocks chunk, int x, int z, boolean drawRoad) {
 		if (drawRoad)
-			chunk.setBlocks(x, x + 2, 100, 102, z, z + 2, byteStone);
+			chunk.setBlocks(x, x + 2, 100, 102, z, z + 2, Material.STONE);
 	}
 
-	private boolean drawNSRoad(ByteChunk chunk, int x, int z, boolean drawRoad) {
+	private boolean drawNSRoad(InitialBlocks chunk, int x, int z, boolean drawRoad) {
 		if (drawRoad)
-			chunk.setBlocks(x, x + 2, 100, 102, z, z + 6, byteStone);
+			chunk.setBlocks(x, x + 2, 100, 102, z, z + 6, Material.STONE);
 		return drawRoad;
 	}
 
-	private boolean drawEWRoad(ByteChunk chunk, int x, int z, boolean drawRoad) {
+	private boolean drawEWRoad(InitialBlocks chunk, int x, int z, boolean drawRoad) {
 		if (drawRoad)
-			chunk.setBlocks(x, x + 6, 100, 102, z, z + 2, byteStone);
+			chunk.setBlocks(x, x + 6, 100, 102, z, z + 2, Material.STONE);
 		return drawRoad;
 	}
 

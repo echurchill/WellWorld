@@ -7,7 +7,7 @@ import org.bukkit.util.noise.NoiseGenerator;
 import org.bukkit.util.noise.SimplexNoiseGenerator;
 
 import me.daddychurchill.WellWorld.WellArchetype;
-import me.daddychurchill.WellWorld.Support.ByteChunk;
+import me.daddychurchill.WellWorld.Support.InitialBlocks;
 
 public class TypePickerWell extends WellArchetype {
 
@@ -20,7 +20,7 @@ public class TypePickerWell extends WellArchetype {
 	}
 
 	@Override
-	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
+	public void generateChunk(InitialBlocks chunk, int chunkX, int chunkZ) {
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
 				double noise = generator.noise(chunkX * 16 + x, chunkZ * 16 + z);
@@ -29,44 +29,44 @@ public class TypePickerWell extends WellArchetype {
 		}
 	}
 	
-	private byte getWellType(double noise) {
+	private Material getWellType(double noise) {
 		switch (NoiseGenerator.floor(noise * 17)) {
 		case 0:
-			return (byte) Material.NETHER_BRICK.getId(); 
+			return Material.NETHER_BRICK; 
 		case 1:
-			return (byte) Material.BEDROCK.getId(); 
+			return Material.BEDROCK; 
 		case 2:
-			return (byte) Material.BOOKSHELF.getId(); 
+			return Material.BOOKSHELF; 
 		case 3:
-			return (byte) Material.BRICK.getId(); 
+			return Material.BRICK; 
 		case 4:
-			return (byte) Material.IRON_BLOCK.getId(); 
+			return Material.IRON_BLOCK; 
 		case 5:
-			return (byte) Material.CLAY.getId(); 
+			return Material.CLAY; 
 		case 6:
-			return (byte) Material.COAL_ORE.getId(); 
+			return Material.COAL_ORE; 
 		case 7:
-			return (byte) Material.COBBLESTONE.getId(); 
+			return Material.COBBLESTONE; 
 		case 8:
-			return (byte) Material.DIAMOND_BLOCK.getId(); 
+			return Material.DIAMOND_BLOCK; 
 		case 9:
-			return (byte) Material.DIAMOND_ORE.getId(); 
+			return Material.DIAMOND_ORE; 
 		case 10:
-			return (byte) Material.ENDER_STONE.getId(); 
+			return Material.ENDER_STONE; 
 		case 11:
-			return (byte) Material.GLOWSTONE.getId(); 
+			return Material.GLOWSTONE; 
 		case 12:
-			return (byte) Material.GOLD_BLOCK.getId(); 
+			return Material.GOLD_BLOCK; 
 		case 13:
-			return (byte) Material.GOLD_ORE.getId(); 
+			return Material.GOLD_ORE; 
 		case 14:
-			return (byte) Material.GRASS.getId(); 
+			return Material.GRASS; 
 		case 15:
-			return (byte) Material.DIRT.getId();
+			return Material.DIRT;
 		case 16:
-			return (byte) Material.LAPIS_ORE.getId();
+			return Material.LAPIS_ORE;
 		default:
-			return (byte) Material.GLASS.getId();
+			return Material.GLASS;
 		}
 	}
 

@@ -4,7 +4,7 @@ import org.bukkit.Chunk;
 import org.bukkit.World;
 
 import me.daddychurchill.WellWorld.WellArchetype;
-import me.daddychurchill.WellWorld.Support.ByteChunk;
+import me.daddychurchill.WellWorld.Support.InitialBlocks;
 
 public class VeryEmptyWell extends WellArchetype {
 
@@ -14,7 +14,7 @@ public class VeryEmptyWell extends WellArchetype {
 	}
 
 	@Override
-	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
+	public void generateChunk(InitialBlocks chunk, int chunkX, int chunkZ) {
 		// TODO Auto-generated method stub
 
 	}

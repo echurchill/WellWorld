@@ -8,19 +8,14 @@ import org.bukkit.util.noise.OctaveGenerator;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 import org.bukkit.util.noise.PerlinOctaveGenerator;
 
-import me.daddychurchill.WellWorld.Support.ByteChunk;
+import me.daddychurchill.WellWorld.Support.InitialBlocks;
 
 public class BananaSkyWell extends BananaWellArchetype {
 
-	OctaveGenerator l1;
-	OctaveGenerator l2;
-	int yOffset;
+	protected OctaveGenerator l1;
+	protected OctaveGenerator l2;
+	protected int yOffset;
 	
-	private byte byteCobbleStone = (byte) Material.COBBLESTONE.getId();
-	private byte byteSmoothBrick = (byte) Material.SMOOTH_BRICK.getId();
-	private byte byteSandStone = (byte) Material.SANDSTONE.getId();
-	private byte byteSand = (byte) Material.SAND.getId();
-
 	public BananaSkyWell(World world, long seed, int wellX, int wellZ) {
 		super(world, seed, wellX, wellZ);
 		
@@ -38,7 +33,7 @@ public class BananaSkyWell extends BananaWellArchetype {
 	}
 
 	@Override
-	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
+	public void generateChunk(InitialBlocks chunk, int chunkX, int chunkZ) {
 		double y;
 		double py;
 		double highest;
@@ -53,15 +48,15 @@ public class BananaSkyWell extends BananaWellArchetype {
 					highest = y*18+26;
 					for(int i=random.nextInt(3)+20; i<highest; i++)
 						if(i>highest-1)
-							chunk.setBlock(x, i + yOffset, z, byteGrass);
+							chunk.setBlock(x, i + yOffset, z, materialGrass);
 						else if(i>highest-3)
-							chunk.setBlock(x, i + yOffset, z, byteDirt);
+							chunk.setBlock(x, i + yOffset, z, materialDirt);
 						else if(i<30)
-							chunk.setBlock(x, i + yOffset, z, byteStone);
+							chunk.setBlock(x, i + yOffset, z, materialStone);
 						else if(random.nextInt(10) > 6)
-							chunk.setBlock(x, i + yOffset, z, byteCobbleStone);
+							chunk.setBlock(x, i + yOffset, z, Material.COBBLESTONE);
 						else
-							chunk.setBlock(x, i + yOffset, z, byteStone);
+							chunk.setBlock(x, i + yOffset, z, materialStone);
 
 
 					// This generates the "mushroom" heads
@@ -69,9 +64,9 @@ public class BananaSkyWell extends BananaWellArchetype {
 					highest = y*10+32;
 					for(int i=random.nextInt(3)+28; i<highest; i++)
 						if(i<highest-1)
-							chunk.setBlock(x, i + yOffset, z, byteDirt);
+							chunk.setBlock(x, i + yOffset, z, materialDirt);
 						else
-							chunk.setBlock(x, i + yOffset, z, byteGrass);
+							chunk.setBlock(x, i + yOffset, z, materialGrass);
 
 				}
 
@@ -81,11 +76,11 @@ public class BananaSkyWell extends BananaWellArchetype {
 					highest = 18+Math.abs(py*5);
 					for(int i=18; i<highest; i++)
 						if(i == 18)
-							chunk.setBlock(x, i + yOffset, z, byteSmoothBrick);
+							chunk.setBlock(x, i + yOffset, z, Material.SMOOTH_BRICK);
 						else if(random.nextInt(10) > 7)
-							chunk.setBlock(x, i + yOffset, z, byteSandStone);
+							chunk.setBlock(x, i + yOffset, z, Material.SANDSTONE);
 						else
-							chunk.setBlock(x, i + yOffset, z, byteSand);
+							chunk.setBlock(x, i + yOffset, z, Material.SAND);
 
 					// Are we going to do anything here?
 				}

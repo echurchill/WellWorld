@@ -11,7 +11,7 @@ import org.bukkit.util.noise.NoiseGenerator;
 import org.bukkit.util.noise.SimplexNoiseGenerator;
 
 import me.daddychurchill.WellWorld.WellArchetype;
-import me.daddychurchill.WellWorld.Support.ByteChunk;
+import me.daddychurchill.WellWorld.Support.InitialBlocks;
 
 public class DinnerboneMoonWell extends WellArchetype {
 
@@ -44,7 +44,7 @@ public class DinnerboneMoonWell extends WellArchetype {
     }
    
 	@Override
-	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
+	public void generateChunk(InitialBlocks chunk, int chunkX, int chunkZ) {
 		//EC: use the one passed in instead
 		//int chunkX = chunk.getX();
 		//int chunkZ = chunk.getZ();

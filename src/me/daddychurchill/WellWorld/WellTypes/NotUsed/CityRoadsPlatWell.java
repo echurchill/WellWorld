@@ -7,7 +7,7 @@ import org.bukkit.util.noise.NoiseGenerator;
 import org.bukkit.util.noise.SimplexNoiseGenerator;
 
 import me.daddychurchill.WellWorld.WellArchetype;
-import me.daddychurchill.WellWorld.Support.ByteChunk;
+import me.daddychurchill.WellWorld.Support.InitialBlocks;
 
 public class CityRoadsPlatWell extends WellArchetype {
 
@@ -73,7 +73,7 @@ public class CityRoadsPlatWell extends WellArchetype {
 	}
 
 	@Override
-	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
+	public void generateChunk(InitialBlocks chunk, int chunkX, int chunkZ) {
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
 				int blockX = chunkX * 16 + x;
@@ -93,8 +93,8 @@ public class CityRoadsPlatWell extends WellArchetype {
 				else if (isBuildable(blockX, blockZ))
 					if (isUrban(blockX, blockZ)) {
 						int height = getUrbanHeight(blockX, blockZ);
-						byte wallMaterial = getUrbanWallMaterial(blockX, blockZ);
-						byte floorMaterial = getUrbanFloorMaterial(blockX, blockZ);
+						Material wallMaterial = getUrbanWallMaterial(blockX, blockZ);
+						Material floorMaterial = getUrbanFloorMaterial(blockX, blockZ);
 						for (int i = 0; i < height; i++) {
 							int y = i * 2;
 							chunk.setBlock(x, 100 + y, z, floorMaterial);
@@ -147,31 +147,31 @@ public class CityRoadsPlatWell extends WellArchetype {
 		return (int) ((noiseHeightDeviance.noise(x / xHeightFactor, z / zHeightFactor) + 1) / 2 * maxHeight);
 	}
 	
-	public byte getUrbanWallMaterial(int x, int z) {
+	public Material getUrbanWallMaterial(int x, int z) {
 		double noiseLevel = (noiseUrbanMaterial.noise(x / xUrbanMaterialFactor, 0, z / zUrbanMaterialFactor) + 1) / 2;
 		switch (NoiseGenerator.floor(noiseLevel * 5)) {
 		case 1:
-			return (byte) Material.BRICK.getId();
+			return Material.BRICK;
 		case 2:
-			return (byte) Material.COBBLESTONE.getId();
+			return Material.COBBLESTONE;
 		case 3:
-			return (byte) Material.NETHER_BRICK.getId();
+			return Material.NETHER_BRICK;
 		case 4:
-			return (byte) Material.NETHERRACK.getId();
+			return Material.NETHERRACK;
 		default:
-			return (byte) Material.SMOOTH_BRICK.getId();
+			return Material.SMOOTH_BRICK;
 		}
 	}
 	
-	public byte getUrbanFloorMaterial(int x, int z) {
+	public Material getUrbanFloorMaterial(int x, int z) {
 		double noiseLevel = (noiseUrbanMaterial.noise(x / xUrbanMaterialFactor, 1, z / zUrbanMaterialFactor) + 1) / 2;
 		switch (NoiseGenerator.floor(noiseLevel * 3)) {
 		case 1:
-			return (byte) Material.BRICK.getId();
+			return Material.BRICK;
 		case 2:
-			return (byte) Material.COBBLESTONE.getId();
+			return Material.COBBLESTONE;
 		default:
-			return (byte) Material.SMOOTH_BRICK.getId();
+			return Material.SMOOTH_BRICK;
 		}
 	}
 	

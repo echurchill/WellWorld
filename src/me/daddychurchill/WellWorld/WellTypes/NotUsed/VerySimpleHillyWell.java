@@ -7,7 +7,7 @@ import org.bukkit.block.Block;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 import me.daddychurchill.WellWorld.WellArchetype;
-import me.daddychurchill.WellWorld.Support.ByteChunk;
+import me.daddychurchill.WellWorld.Support.InitialBlocks;
 
 public class VerySimpleHillyWell extends WellArchetype {
 
@@ -39,7 +39,7 @@ public class VerySimpleHillyWell extends WellArchetype {
 	}
 
 	@Override
-	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
+	public void generateChunk(InitialBlocks chunk, int chunkX, int chunkZ) {
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
 				double noise = generator.noise((chunkX * 16 + x) / xFactor, (chunkZ * 16 + z) / zFactor, fequency, amplitude) * vScale;
@@ -60,7 +60,7 @@ public class VerySimpleHillyWell extends WellArchetype {
 				for (int i = 0; i < mineralsPerLayer; i++) {
 					Block block = chunk.getBlock(random.nextInt(16), y, random.nextInt(16));
 					if (block.getType() == stoneMaterial)
-						block.setTypeId(pickRandomMineralAt(y).getId(), false);
+						block.setType(pickRandomMineralAt(y), false);
 				}
 			}
 		}

@@ -4,17 +4,17 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.util.noise.SimplexNoiseGenerator;
 
-import me.daddychurchill.WellWorld.Support.ByteChunk;
+import me.daddychurchill.WellWorld.Support.InitialBlocks;
 import me.daddychurchill.WellWorld.WellTypes.StandardWellArchetype;
 
 public class PancakeWell extends StandardWellArchetype {
 
 	// Port of Khyperia's TrippyTerrain/Pancake 
 	// EC: converted the Material array and added a few stock populators
-	private byte byteStone = (byte) Material.STONE.getId();
-	private byte byteDirt = (byte) Material.DIRT.getId();
-	private byte byteGrass = (byte) Material.GRASS.getId();
-	private byte byteAir = (byte) Material.AIR.getId();
+//	private byte byteStone = (byte) Material.STONE.getId();
+//	private byte byteDirt = (byte) Material.DIRT.getId();
+//	private byte byteGrass = (byte) Material.GRASS.getId();
+//	private byte byteAir = (byte) Material.AIR.getId();
 	private SimplexNoiseGenerator simplex;
 	
 	public PancakeWell(World world, long seed, int wellX, int wellZ) {
@@ -24,7 +24,7 @@ public class PancakeWell extends StandardWellArchetype {
 	}
 
 	@Override
-	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
+	public void generateChunk(InitialBlocks chunk, int chunkX, int chunkZ) {
 
 		//EC: Moved this up to the initialization section
 		//SimplexNoiseGenerator simplex = new SimplexNoiseGenerator(randseed);
@@ -41,7 +41,7 @@ public class PancakeWell extends StandardWellArchetype {
 				for (int y = 0; y < 128; y++) {
 					double noise = simplex.noise((chunkX * 16 + x) / 50.0f, y / 5.0f, (chunkZ * 16 + z) / 50.0f);
 					noise += (64 - y) * (1 / 32f);
-					chunk.setBlock(x, y, z, (noise > 0) ? byteStone : byteAir);
+					chunk.setBlock(x, y, z, (noise > 0) ? Material.STONE : Material.AIR);
 					//blocks[x][y][z] = (noise > 0) ? Material.STONE : Material.AIR;
 				}
 			}
@@ -50,11 +50,11 @@ public class PancakeWell extends StandardWellArchetype {
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
 				for (int y = 5; y < 127; y++) {
-					if (chunk.getBlock(x, y, z) == byteStone && chunk.getBlock(x, y + 1, z) == byteAir) {
-						chunk.setBlock(x, y, z, byteGrass);
+					if (chunk.isBlock(x, y, z, Material.STONE) && chunk.isBlock(x, y + 1, z, Material.AIR)) {
+						chunk.setBlock(x, y, z, Material.GRASS);
 						for (int height = 1; height < 3; height++)
-							if (chunk.getBlock(x, y - height, z) != byteAir)
-								chunk.setBlock(x, y - height, z, byteDirt);
+							if (!chunk.isBlock(x, y - height, z, Material.AIR))
+								chunk.setBlock(x, y - height, z, Material.DIRT);
 					}
 					//if (blocks[x][y][z].equals(Material.STONE) && blocks[x][y + 1][z].equals(Material.AIR)) {
 					//	blocks[x][y][z] = Material.GRASS;

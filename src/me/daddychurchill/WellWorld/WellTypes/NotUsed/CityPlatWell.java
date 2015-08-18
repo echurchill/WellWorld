@@ -6,7 +6,7 @@ import org.bukkit.World;
 import org.bukkit.util.noise.SimplexNoiseGenerator;
 
 import me.daddychurchill.WellWorld.WellArchetype;
-import me.daddychurchill.WellWorld.Support.ByteChunk;
+import me.daddychurchill.WellWorld.Support.InitialBlocks;
 
 public class CityPlatWell extends WellArchetype {
 
@@ -26,7 +26,7 @@ public class CityPlatWell extends WellArchetype {
 	}
 
 	@Override
-	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
+	public void generateChunk(InitialBlocks chunk, int chunkX, int chunkZ) {
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
 				double noiseUrban = (generatorUrban.noise((chunkX * 16 + x) / xFactor, (chunkZ * 16 + z) / zFactor) + 1) / 2;
@@ -38,63 +38,63 @@ public class CityPlatWell extends WellArchetype {
 		}
 	}
 	
-	private void drawPlat(double noise, boolean finished, ByteChunk chunk, int x, int z) {
-//		chunk.setBlocks(x, 100, 100 + (int) Math.round(noise * 10), z, (byte) Material.IRON_BLOCK.getId());
+	private void drawPlat(double noise, boolean finished, InitialBlocks chunk, int x, int z) {
+//		chunk.setBlocks(x, 100, 100 + (int) Math.round(noise * 10), z, Material.IRON_BLOCK);
 		switch ((int) Math.round(noise * 13)) {
 		case 0:
 			// city center
-			chunk.setBlocks(x, 100, 102, z, (byte) Material.DIAMOND_BLOCK.getId());
+			chunk.setBlocks(x, 100, 102, z, Material.DIAMOND_BLOCK);
 			break;
 		case 1:
 		case 2:
 			if (finished)
 				// highrise
-				chunk.setBlocks(x, 100, 106, z, (byte) Material.IRON_BLOCK.getId());
+				chunk.setBlocks(x, 100, 106, z, Material.IRON_BLOCK);
 			else
 				// unfinished highrise
-				chunk.setBlocks(x, 100, 105, z, (byte) Material.GLASS.getId());
+				chunk.setBlocks(x, 100, 105, z, Material.GLASS);
 			break;
 		case 3:
 		case 4:
 			if (finished)
 				// midrise
-				chunk.setBlocks(x, 100, 104, z, (byte) Material.IRON_BLOCK.getId());
+				chunk.setBlocks(x, 100, 104, z, Material.IRON_BLOCK);
 			else
 				// unfinished midrise
-				chunk.setBlocks(x, 100, 103, z, (byte) Material.GLASS.getId());
+				chunk.setBlocks(x, 100, 103, z, Material.GLASS);
 			break;
 		case 5:
 			// lowrise
-			chunk.setBlocks(x, 100, 102, z, (byte) Material.IRON_BLOCK.getId());
+			chunk.setBlocks(x, 100, 102, z, Material.IRON_BLOCK);
 			break;
 		case 6:
 			// residential
-			chunk.setBlocks(x, 100, 102, z, (byte) Material.SANDSTONE.getId());
+			chunk.setBlocks(x, 100, 102, z, Material.SANDSTONE);
 			break;
 		case 7:
 			// mall
-			chunk.setBlocks(x, 100, 102, z, (byte) Material.GOLD_BLOCK.getId());
+			chunk.setBlocks(x, 100, 102, z, Material.GOLD_BLOCK);
 			break;
 		case 8:
 			// park
-			chunk.setBlocks(x, 100, 101, z, (byte) Material.GRASS.getId());
+			chunk.setBlocks(x, 100, 101, z, Material.GRASS);
 			break;
 		case 9:
 		case 10:
 			// residential
-			chunk.setBlocks(x, 100, 102, z, (byte) Material.SANDSTONE.getId());
+			chunk.setBlocks(x, 100, 102, z, Material.SANDSTONE);
 			break;
 		case 11:
 		case 12:
 			// farm
-			chunk.setBlocks(x, 100, 101, z, (byte) Material.DIRT.getId());
+			chunk.setBlocks(x, 100, 101, z, Material.DIRT);
 			break;
 		default:
 			// water
-			chunk.setBlocks(x, 100, 101, z, (byte) Material.LAPIS_BLOCK.getId());
+			chunk.setBlocks(x, 100, 101, z, Material.LAPIS_BLOCK);
 			break;
 		}
-		chunk.setBlock(x, 99, z, (byte) Material.STONE.getId());
+		chunk.setBlock(x, 99, z, Material.STONE);
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package me.daddychurchill.WellWorld.WellTypes.Codename_B;
 
 import me.daddychurchill.WellWorld.WellWorldChunkGenerator;
-import me.daddychurchill.WellWorld.Support.ByteChunk;
+import me.daddychurchill.WellWorld.Support.InitialBlocks;
 
 import org.bukkit.Chunk;
 import org.bukkit.Material;
@@ -10,7 +10,6 @@ import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 public class BananaVoidWell extends BananaWellArchetype {
 
-	private byte byteObsidian = (byte) Material.OBSIDIAN.getId();
 	private SimplexOctaveGenerator noisegen;
 	private int maxHeight;
 
@@ -23,7 +22,7 @@ public class BananaVoidWell extends BananaWellArchetype {
 	}
 	
 	@Override
-	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
+	public void generateChunk(InitialBlocks chunk, int chunkX, int chunkZ) {
 		// pretty much a direct port of codename_B's PM on DevBukkit
 		// http://dev.bukkit.org/home/private-messages/29092-well-world/#m10
 		
@@ -33,7 +32,7 @@ public class BananaVoidWell extends BananaWellArchetype {
 				double cake = noisegen.noise((x + chunkX * 16) / (double) maxHeight * 2.0, (z + chunkZ * 16) / (double) maxHeight * 2.0, 0.6, 0.4) * 255.0;//127.0;
 				int y = maxHeight - (int) cake;
 				if (y >= 0 && y < maxHeight)
-					chunk.setBlocks(x, y, maxHeight, z, byteObsidian);
+					chunk.setBlocks(x, y, maxHeight, z, Material.OBSIDIAN);
 //				if (cake < 40) {
 //					for (int y = 100; y > 100 - cake; y--) {
 //					set(Material.OBSIDIAN, x, y, z);

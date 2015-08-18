@@ -2,7 +2,8 @@ package me.daddychurchill.WellWorld;
 
 import java.util.Random;
 
-import me.daddychurchill.WellWorld.Support.ByteChunk;
+import me.daddychurchill.WellWorld.Support.BlackMagic;
+import me.daddychurchill.WellWorld.Support.InitialBlocks;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -34,16 +35,16 @@ public abstract class WellArchetype {
 		this.wellZ = wellZ;
 		
 		// calculate the well's block bounds
-		int x1 = wellX * ByteChunk.chunksBlockWidth;
-		int x2 = (wellX + WellWorld.wellWidthInChunks) * ByteChunk.chunksBlockWidth; 
-		int z1 = wellZ * ByteChunk.chunksBlockWidth;
-		int z2 = (wellZ + WellWorld.wellWidthInChunks) * ByteChunk.chunksBlockWidth; 
+		int x1 = wellX * InitialBlocks.chunksBlockWidth;
+		int x2 = (wellX + WellWorld.wellWidthInChunks) * InitialBlocks.chunksBlockWidth; 
+		int z1 = wellZ * InitialBlocks.chunksBlockWidth;
+		int z2 = (wellZ + WellWorld.wellWidthInChunks) * InitialBlocks.chunksBlockWidth; 
 		this.minBlock = new Vector(x1 + WellWorldChunkGenerator.wallThicknessInBlocks, 1, z1 + WellWorldChunkGenerator.wallThicknessInBlocks);
 		this.maxBlock = new Vector(x2 - WellWorldChunkGenerator.wallThicknessInBlocks, 127/*world.getMaxHeight() - 1*/, z2 - WellWorldChunkGenerator.wallThicknessInBlocks);
 	}
 	
 	// override these to make something really happen!
-	public abstract void generateChunk(ByteChunk chunk, int chunkX, int chunkZ);
+	public abstract void generateChunk(InitialBlocks chunk, int chunkX, int chunkZ);
 	public abstract void populateBlocks(Chunk chunk, int chunkX, int chunkZ);	
 	
 	// gives you the well's origin chunk position
@@ -56,19 +57,19 @@ public abstract class WellArchetype {
 	}
 	
 	public Biome getBiome() {
-		return world.getBiome(wellX * ByteChunk.chunksBlockWidth + 8, wellZ * ByteChunk.chunksBlockWidth + 8);
+		return world.getBiome(wellX * InitialBlocks.chunksBlockWidth + 8, wellZ * InitialBlocks.chunksBlockWidth + 8);
 	}
 	
-	protected int getBlockX(ByteChunk chunk, int x) {
-		return (chunk.chunkX - wellX) * ByteChunk.chunksBlockWidth + x;
+	protected int getBlockX(InitialBlocks chunk, int x) {
+		return (chunk.chunkX - wellX) * InitialBlocks.chunksBlockWidth + x;
 	}
 	
-	protected int getBlockZ(ByteChunk chunk, int z) {
-		return (chunk.chunkZ - wellZ) * ByteChunk.chunksBlockWidth + z;
+	protected int getBlockZ(InitialBlocks chunk, int z) {
+		return (chunk.chunkZ - wellZ) * InitialBlocks.chunksBlockWidth + z;
 	}
 	
 	protected int getNoiseValue(int chunkAt, int at) {
-		return chunkAt * ByteChunk.chunksBlockWidth + at;
+		return chunkAt * InitialBlocks.chunksBlockWidth + at;
 	}
 	
 	// override these to auto-draw the top and bottom of the well
@@ -143,21 +144,20 @@ public abstract class WellArchetype {
 	
 	protected void drawSolidSphere(World world, Chunk chunk, int centerX, int centerY, int centerZ, int radius, Material material) {
         Vector center = new Vector(centerX, centerY, centerZ);
-        int materialId = material.getId();
         
         for (int x = 0; x <= radius; x++) {
             for (int y = 0; y <= radius; y++) {
                 for (int z = 0; z <= radius; z++) {
                 	Vector ray = new Vector(centerX + x, centerY + y, centerZ + z);
                 	if (center.distance(ray) <= radius + 0.5) {
-                		world.getBlockAt(centerX + x, centerY + y, centerZ + z).setTypeId(materialId, false);
-               			world.getBlockAt(centerX + x, centerY + y, centerZ - z).setTypeId(materialId, false);
-               			world.getBlockAt(centerX + x, centerY - y, centerZ + z).setTypeId(materialId, false);
-               			world.getBlockAt(centerX + x, centerY - y, centerZ - z).setTypeId(materialId, false);
-               			world.getBlockAt(centerX - x, centerY + y, centerZ + z).setTypeId(materialId, false);
-               			world.getBlockAt(centerX - x, centerY + y, centerZ - z).setTypeId(materialId, false);
-               			world.getBlockAt(centerX - x, centerY - y, centerZ + z).setTypeId(materialId, false);
-               			world.getBlockAt(centerX - x, centerY - y, centerZ - z).setTypeId(materialId, false);
+                		world.getBlockAt(centerX + x, centerY + y, centerZ + z).setType(material, false);
+               			world.getBlockAt(centerX + x, centerY + y, centerZ - z).setType(material, false);
+               			world.getBlockAt(centerX + x, centerY - y, centerZ + z).setType(material, false);
+               			world.getBlockAt(centerX + x, centerY - y, centerZ - z).setType(material, false);
+               			world.getBlockAt(centerX - x, centerY + y, centerZ + z).setType(material, false);
+               			world.getBlockAt(centerX - x, centerY + y, centerZ - z).setType(material, false);
+               			world.getBlockAt(centerX - x, centerY - y, centerZ + z).setType(material, false);
+               			world.getBlockAt(centerX - x, centerY - y, centerZ - z).setType(material, false);
                 	}
                 }
             }
@@ -166,42 +166,37 @@ public abstract class WellArchetype {
 
 	protected void drawSolidSphere(World world, Chunk chunk, int centerX, int centerY, int centerZ, int radius, Material fillMaterial, int floodY, Material floodMaterial) {
         Vector center = new Vector(centerX, centerY, centerZ);
-        int materialId;
-        int fillMaterialId = fillMaterial.getId();
-        int floodMaterialId = floodMaterial.getId();
+        Material material;
         
         for (int x = 0; x <= radius; x++) {
             for (int y = 0; y <= radius; y++) {
                 for (int z = 0; z <= radius; z++) {
                 	Vector ray = new Vector(centerX + x, centerY + y, centerZ + z);
                 	if (center.distance(ray) <= radius + 0.5) {
-            			materialId = fillMaterialId;
+            			material = fillMaterial;
                 		
                 		// upper portion
-                		world.getBlockAt(centerX + x, centerY + y, centerZ + z).setTypeId(materialId, false);
-               			world.getBlockAt(centerX + x, centerY + y, centerZ - z).setTypeId(materialId, false);
-               			world.getBlockAt(centerX - x, centerY + y, centerZ + z).setTypeId(materialId, false);
-               			world.getBlockAt(centerX - x, centerY + y, centerZ - z).setTypeId(materialId, false);
+                		world.getBlockAt(centerX + x, centerY + y, centerZ + z).setType(material, false);
+               			world.getBlockAt(centerX + x, centerY + y, centerZ - z).setType(material, false);
+               			world.getBlockAt(centerX - x, centerY + y, centerZ + z).setType(material, false);
+               			world.getBlockAt(centerX - x, centerY + y, centerZ - z).setType(material, false);
                			
                			// lower portion
                 		if (centerY - y <= floodY)
-                			materialId = floodMaterialId;
-               			world.getBlockAt(centerX + x, centerY - y, centerZ + z).setTypeId(materialId, false);
-               			world.getBlockAt(centerX + x, centerY - y, centerZ - z).setTypeId(materialId, false);
-               			world.getBlockAt(centerX - x, centerY - y, centerZ + z).setTypeId(materialId, false);
-               			world.getBlockAt(centerX - x, centerY - y, centerZ - z).setTypeId(materialId, false);
+                			material = floodMaterial;
+               			world.getBlockAt(centerX + x, centerY - y, centerZ + z).setType(material, false);
+               			world.getBlockAt(centerX + x, centerY - y, centerZ - z).setType(material, false);
+               			world.getBlockAt(centerX - x, centerY - y, centerZ + z).setType(material, false);
+               			world.getBlockAt(centerX - x, centerY - y, centerZ - z).setType(material, false);
                 	}
                 }
             }
         }
 	}
 	
-	private int grassId = Material.GRASS.getId();
-	private int stoneId = Material.STONE.getId();
-	private int noFoliageId = Material.CAKE.getId();
 	protected void sprinkleGoodness(Chunk chunk, 
 			int specialBlockOdds, int specialsPerLayer, 
-			int transmutableId, int plantableId,
+			Material transmutable, Material plantable,
 			int flowerOdds, Material flowerMaterial, Material bladesMaterial) {
 		
 		// sprinkle minerals for each y layer, one of millions of ways to do this!
@@ -209,21 +204,19 @@ public abstract class WellArchetype {
 			if (random.nextInt(specialBlockOdds) == 0) {
 				for (int i = 0; i < specialsPerLayer; i++) {
 					Block block = chunk.getBlock(random.nextInt(16), y, random.nextInt(16));
-					int id = block.getTypeId();
+					Material blockMaterial = block.getType();
 					
 					// Transmutation?
-					if (id == transmutableId)
-						block.setTypeId(pickRandomMineralAt(y).getId(), false);
+					if (blockMaterial == transmutable)
+						block.setType(pickRandomMineralAt(y), false);
 					
 					// If the block supports foliage, then what type will go here?
-					else if (id == plantableId) {
+					else if (blockMaterial == plantable) {
 						Location foliageAt = block.getLocation().add(0, 1, 0);
 						if (random.nextInt(flowerOdds) == 0)
 							world.getBlockAt(foliageAt).setType(flowerMaterial);
 						else {
-							Block grass = world.getBlockAt(foliageAt);
-							grass.setType(bladesMaterial);
-							grass.setData((byte)1);
+							BlackMagic.setBlock(world.getBlockAt(foliageAt), bladesMaterial, (byte) 1);
 						}
 					}
 				}
@@ -234,12 +227,12 @@ public abstract class WellArchetype {
 	protected void sprinkleGoodness(Chunk chunk, 
 			int specialBlockOdds, int specialsPerLayer, 
 			int flowerOdds, Material flowerMaterial, Material bladesMaterial) {
-		sprinkleGoodness(chunk, specialBlockOdds, specialsPerLayer, stoneId, grassId, flowerOdds, flowerMaterial, bladesMaterial);
+		sprinkleGoodness(chunk, specialBlockOdds, specialsPerLayer, Material.STONE, Material.GRASS, flowerOdds, flowerMaterial, bladesMaterial);
 	}
 	
 	protected void sprinkleGoodness(Chunk chunk, 
 			int specialBlockOdds, int specialsPerLayer) {
-		sprinkleGoodness(chunk, specialBlockOdds, specialsPerLayer, stoneId, noFoliageId, 1000, Material.AIR, Material.AIR);
+		sprinkleGoodness(chunk, specialBlockOdds, specialsPerLayer, Material.STONE, Material.CAKE, 1000, Material.AIR, Material.AIR);
 	}
 	
 	protected void sprinkleTrees(Chunk chunk, int treesPerChunk, TreeType treeType) {
@@ -252,41 +245,44 @@ public abstract class WellArchetype {
 			int centerZ = worldZ + random.nextInt(16);
 			int centerY = world.getHighestBlockYAt(centerX, centerZ);
 			Block rootBlock = world.getBlockAt(centerX, centerY - 1, centerZ);
-			if (rootBlock.getTypeId() == grassId) {
+			if (rootBlock.getType() == Material.GRASS) {
 				Location treeAt = rootBlock.getLocation().add(0, 1, 0);
 				world.generateTree(treeAt, treeType);
 			}
 		}
 	}
 	
-	private int intAir = Material.AIR.getId();
-	protected void setBlock(int x, int y, int z, int blockId, byte blockData) {
+	protected void setBlock(int x, int y, int z, Material material, byte data) {
 		Block block = world.getBlockAt(x, y, z);
-		if (block.getTypeId() == intAir)
-			block.setTypeIdAndData(blockId, blockData, false);
+		if (block.getType() == Material.AIR)
+			BlackMagic.setBlock(block, material, data);
 	}
 	
-	protected void setBlock(int x, int y, int z, int blockId) {
-		Block block = world.getBlockAt(x, y, z);
-		if (block.getTypeId() == intAir)
-			block.setTypeIdAndData(blockId, (byte) 0, false);
+	protected void setBlock(int x, int y, int z, Material material) {
+		setBlock(x, y, z, material, false);
 	}
 	
-	protected void setBlock(int x, int y, int z, int blockId, byte blockData, boolean blockPhysics) {
+	protected void setBlock(int x, int y, int z, Material material, boolean physics) {
 		Block block = world.getBlockAt(x, y, z);
-		if (block.getTypeId() == intAir)
-			block.setTypeIdAndData(blockId, blockData, blockPhysics);
+		if (block.getType() == Material.AIR)
+			block.setType(material, physics);
 	}
 	
-	protected void setBlock(int x, int y, int z, int blockId, boolean blockPhysics) {
-		Block block = world.getBlockAt(x, y, z);
-		if (block.getTypeId() == intAir)
-			block.setTypeIdAndData(blockId, (byte) 0, blockPhysics);
-	}
+//	protected void setBlock(int x, int y, int z, int blockId, byte blockData, boolean blockPhysics) {
+//		Block block = world.getBlockAt(x, y, z);
+//		if (block.getTypeId() == intAir)
+//			block.setTypeIdAndData(blockId, blockData, blockPhysics);
+//	}
+	
+//	protected void setBlock(int x, int y, int z, Material material, boolean blockPhysics) {
+//		Block block = world.getBlockAt(x, y, z);
+//		if (block.getType() == Material.AIR)
+//			block.setType(material, blockPhysics);
+//	}
 	
 	protected void clearBlock(int x, int y, int z) {
 		Block block = world.getBlockAt(x, y, z);
-		if (block.getTypeId() != intAir)
-			block.setTypeIdAndData(intAir, (byte) 0, false);
+		if (block.getType() != Material.AIR)
+			block.setType(Material.AIR, false);
 	}
 }

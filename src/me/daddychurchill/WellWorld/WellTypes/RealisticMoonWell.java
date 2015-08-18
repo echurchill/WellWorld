@@ -7,7 +7,7 @@ import org.bukkit.util.noise.NoiseGenerator;
 import org.bukkit.util.noise.SimplexNoiseGenerator;
 
 import me.daddychurchill.WellWorld.WellArchetype;
-import me.daddychurchill.WellWorld.Support.ByteChunk;
+import me.daddychurchill.WellWorld.Support.InitialBlocks;
 
 public class RealisticMoonWell extends WellArchetype {
 
@@ -93,7 +93,7 @@ public class RealisticMoonWell extends WellArchetype {
 	}
 
 	@Override
-	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
+	public void generateChunk(InitialBlocks chunk, int chunkX, int chunkZ) {
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
             	int height = NoiseGenerator.floor(generator.noise(getNoiseValue(chunkX, x) * 0.0625, getNoiseValue(chunkZ, z) * 0.0625) * surfaceVariance) + surfaceAt;

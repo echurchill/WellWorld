@@ -1,8 +1,9 @@
 package me.daddychurchill.WellWorld.WellTypes.Codename_B;
 
+import org.bukkit.Material;
 import org.bukkit.World;
 
-import me.daddychurchill.WellWorld.Support.ByteChunk;
+import me.daddychurchill.WellWorld.Support.InitialBlocks;
 
 public class BananaTrigWell extends BananaWellArchetype {
 
@@ -15,7 +16,7 @@ public class BananaTrigWell extends BananaWellArchetype {
 	}
 	
 	@Override
-	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
+	public void generateChunk(InitialBlocks chunk, int chunkX, int chunkZ) {
 		//EC: use the one passed in instead
 		//int chunkX = chunk.getX();
 		//int chunkZ = chunk.getZ();
@@ -25,7 +26,7 @@ public class BananaTrigWell extends BananaWellArchetype {
 				int trueX = chunkX*16+x;
 				int trueZ = chunkZ*16+z;
 
-				chunk.setBlocks(x, 1, surfaceAt, z, byteLiquid);
+				chunk.setBlocks(x, 1, surfaceAt, z, materialLiquid);
 //				chunk.setBlocks(x, 1, surfaceAt, z, 64);
 //				for(int y=0; y<64; y++)
 //					result[xyzToByte(x,y,z)] = (byte) Material.STATIONARY_WATER.getId();
@@ -37,17 +38,17 @@ public class BananaTrigWell extends BananaWellArchetype {
 				if(BananaTrigFunction.holes(trueX, trueZ)) {
 					river = true;
 					h = h-6;
-					chunk.setBlocks(x, (int)h, (int)h+4, z, byteLiquid);
+					chunk.setBlocks(x, (int)h, (int)h+4, z, materialLiquid);
 //					for(int y=(int) h; y<h+4; y++)
 //						result[xyzToByte(x,y,z)] = (byte) Material.STATIONARY_WATER.getId();
 				}
 				
 				if (!river) {
-					chunk.setBlocks(x, (int)h-1, (int)h, z, byteGrass);
-					chunk.setBlocks(x, (int)h-5, (int)h-1, z, byteDirt);
+					chunk.setBlocks(x, (int)h-1, (int)h, z, materialGrass);
+					chunk.setBlocks(x, (int)h-5, (int)h-1, z, materialDirt);
 				} else 
-					chunk.setBlocks(x, (int)h-5, (int)h, z, byteDirt);
-				chunk.setBlocks(x, 1, (int)h-5, z, byteStone);
+					chunk.setBlocks(x, (int)h-5, (int)h, z, materialDirt);
+				chunk.setBlocks(x, 1, (int)h-5, z, materialStone);
 				
 //				for(int y=0; y<h; y++) {
 //					byte mat = byteAir;
@@ -64,14 +65,14 @@ public class BananaTrigWell extends BananaWellArchetype {
 				int highest = -1;
 				for(int i=125; i>0; i--) {
 					if(highest == -1)
-						if(chunk.getBlock(x, i, z) > byteAir)
+						if(chunk.getBlockType(x, i, z) != Material.AIR)
 //						if(result[xyzToByte(x,i,z)] > 0)
 							highest=i;
 				}
 				if(highest>40) {
 					double height = (Math.sin(BananaTrigFunction.normalise(trueX+trueZ))+Math.sin(BananaTrigFunction.normalise(trueX))+Math.sin(BananaTrigFunction.normalise(trueZ)))*5+5;
 					if(height>5) {
-						chunk.setBlocks(x, (int)(highest/2.0), (int)(highest/2.0+height), z, byteAir);
+						chunk.setBlocks(x, (int)(highest/2.0), (int)(highest/2.0+height), z, Material.AIR);
 //						for(int y=highest/2; y<highest/2+height; y++) {
 //							result[xyzToByte(x,y,z)] = 0;
 //						}

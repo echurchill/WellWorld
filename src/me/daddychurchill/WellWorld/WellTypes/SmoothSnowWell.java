@@ -1,6 +1,7 @@
 package me.daddychurchill.WellWorld.WellTypes;
 
-import me.daddychurchill.WellWorld.Support.ByteChunk;
+import me.daddychurchill.WellWorld.Support.BlackMagic;
+import me.daddychurchill.WellWorld.Support.InitialBlocks;
 
 import org.bukkit.Chunk;
 import org.bukkit.Material;
@@ -10,34 +11,34 @@ import org.bukkit.util.noise.NoiseGenerator;
 
 public class SmoothSnowWell extends StandardWellArchetype {
 
-	int intSnowBase = Material.SNOW_BLOCK.getId();
-	int intSnow = Material.SNOW.getId();
-	int intPumpkin = Material.PUMPKIN.getId();
+	private static Material materialSnowBase = Material.SNOW_BLOCK;
+	private static Material materialSnow = Material.SNOW;
+	private static Material materialPumpkin = Material.PUMPKIN;
 	int oddsSnowMan = 1; // % of the time it shows up
 	
 	public SmoothSnowWell(World world, long seed, int wellX, int wellZ) {
 		super(world, seed, wellX, wellZ);
 		
-		bottomMaterial = Material.STONE;
-		middleMaterial = Material.SNOW_BLOCK;
-		topMaterial = middleMaterial;
-		liquidMaterial = Material.ICE;
+		materialBottom = Material.STONE;
+		materialMiddle = Material.SNOW_BLOCK;
+		materialTop = materialMiddle;
+		materialLiquid = Material.ICE;
 		
 		vScale = calcRandomRange(3.0, 7.0);
 	}
 
 	@Override
-	public void generateChunk(ByteChunk chunk, int chunkX, int chunkZ) {
+	public void generateChunk(InitialBlocks chunk, int chunkX, int chunkZ) {
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
 				double doubleY = getGenerator().noise((chunkX * 16 + x) / xFactor, (chunkZ * 16 + z) / zFactor, frequency, amplitude) * vScale + bottomLevel;
 				int y = NoiseGenerator.floor(doubleY);
-				chunk.setBlocks(x, 1, y - middleThickness, z, bottomMaterial);
-				chunk.setBlocks(x, y - middleThickness, y, z, middleMaterial);
+				chunk.setBlocks(x, 1, y - middleThickness, z, materialBottom);
+				chunk.setBlocks(x, y - middleThickness, y, z, materialMiddle);
 				if (y < liquidLevel) {
-					chunk.setBlocks(x, y, liquidLevel, z, liquidMaterial);
+					chunk.setBlocks(x, y, liquidLevel, z, materialLiquid);
 				} else
-					chunk.setBlock(x, y, z, topMaterial);
+					chunk.setBlock(x, y, z, materialTop);
 			}
 		}
 	}
@@ -52,13 +53,13 @@ public class SmoothSnowWell extends StandardWellArchetype {
 				double doubleY = getGenerator().noise((chunkX * 16 + x) / xFactor, (chunkZ * 16 + z) / zFactor, frequency, amplitude) * vScale + bottomLevel;
 				int y = NoiseGenerator.floor(doubleY);
 				Block block = chunk.getBlock(x, y, z);
-				if (block.getTypeId() == intSnowBase) {
+				if (block.getType() == materialSnowBase) {
 					byte amount = (byte) NoiseGenerator.floor((doubleY - y) * 8);
-					block.setTypeIdAndData(intSnow, amount, false);
+					BlackMagic.setBlock(chunk, x, y, z, materialSnow, amount);
 					if (!madeSnowMan && amount == 0 && random.nextInt(100) < oddsSnowMan) {
-						chunk.getBlock(x, y    , z).setTypeId(intSnowBase, false);
-						chunk.getBlock(x, y + 1, z).setTypeId(intSnowBase, false);
-						chunk.getBlock(x, y + 2, z).setTypeId(intPumpkin, true);
+						chunk.getBlock(x, y    , z).setType(materialSnowBase, false);
+						chunk.getBlock(x, y + 1, z).setType(materialSnowBase, false);
+						chunk.getBlock(x, y + 2, z).setType(materialPumpkin, true);
 						madeSnowMan = true;
 					}
 				}
