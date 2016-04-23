@@ -96,7 +96,7 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 		
 		// figure out what everything looks like
 		WellArchetype well = getWellManager(world, random, chunkX, chunkZ);
-		if (well != null) {
+//		if (well != null) {
 			
 			// well centric chunkX/Z
 			int adjustedX = chunkX - well.getX();
@@ -110,8 +110,8 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 			generateWalls(well, initialBlocks, adjustedX, adjustedZ);
 			
 			return initialBlocks.chunkData;
-		} else
-			return null;
+//		} else
+//			return null;
 	}
 	
 	public void generateWalls(WellArchetype well, InitialBlocks source, int wellChunkX, int wellChunkZ) {
@@ -255,7 +255,7 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 //		return result;
 //	}
 	
-	private final int wellTypeCount = 17;
+	private static final int wellTypeCount = 17;
 	private WellArchetype chooseWellManager(double noise, World world, long seed, int wellX, int wellZ) {
 		
 		int index = NoiseGenerator.floor(noise * wellTypeCount);
@@ -352,7 +352,7 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 		}
 	}
 	
-	private class HighQualityRandom extends Random {
+	private static class HighQualityRandom extends Random {
 		
 		private static final long serialVersionUID = 1L;
 		// private Lock l = new ReentrantLock();

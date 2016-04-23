@@ -34,7 +34,7 @@ public abstract class StandardWellArchetype extends WellArchetype {
 	
 	protected Material materialMineral; // for later use in the populator
 	protected Material materialFertile;
-	protected int airId; 
+//	protected int airId; 
 	
 	protected int octives = 3;
 	protected double xFactor = 1.0;

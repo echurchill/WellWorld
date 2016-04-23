@@ -164,7 +164,7 @@ public class WellWorld extends JavaPlugin {
 	
     // prime world support (loosely based on CityWorld which in turn was loosely based on ExpansiveTerrain)
 	public final static String WORLD_NAME = "WellWorld";
-	private static World primeWellWorld = null;
+	private World primeWellWorld = null;
 	public World getWellWorld() {
 		
 		// created yet?

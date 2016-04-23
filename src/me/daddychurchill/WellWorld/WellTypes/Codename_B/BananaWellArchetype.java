@@ -22,7 +22,7 @@ public abstract class BananaWellArchetype extends WellArchetype {
 	protected Material materialTreeTrunk = materialLog;
 	protected Material materialTreeLeaves = materialLeaves;
 	
-	protected byte byteTreeData = 0;
+//	protected byte byteTreeData = 0;
 	protected int minTreeHeight = 5;
 	protected int maxTreeHeight = 5;
 	
@@ -52,7 +52,7 @@ public abstract class BananaWellArchetype extends WellArchetype {
 			materialGrass = Material.SAND;
 			materialTreeTrunk = Material.HUGE_MUSHROOM_1;
 			materialTreeLeaves = Material.AIR;
-			byteTreeData = (byte) (random.nextInt(2) == 0 ? 10 : 1);
+//			byteTreeData = (byte) (random.nextInt(2) == 0 ? 10 : 1);
 			break;
 		case 1:
 			// air, sand/sandstone/stone, cactus
@@ -76,7 +76,7 @@ public abstract class BananaWellArchetype extends WellArchetype {
 			break;
 		default:
 			// water, grass/dirt/stone, normal trees are the default
-			byteTreeData = (byte) random.nextInt(3);
+//			byteTreeData = (byte) random.nextInt(3);
 			break;
 		}
 	}

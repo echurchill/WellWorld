@@ -8,7 +8,7 @@ public class InitialBlocks {
 	public int chunkX;
 	public int chunkZ;
 	public int width;
-	public int height;
+//	public int height;
 	public ChunkData chunkData;
 	
 	public static final int chunksBlockWidth = 16;
@@ -18,7 +18,7 @@ public class InitialBlocks {
 		chunkX = aChunkX;
 		chunkZ = aChunkZ;
 		width = chunksBlockWidth;
-		height = aWorld.getMaxHeight();
+//		height = aWorld.getMaxHeight();
 		chunkData = data;
 	}
 	

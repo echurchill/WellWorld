@@ -44,7 +44,7 @@ public class MineralPlatWell extends WellArchetype {
 				for (int blockY = 0; blockY <= streetLevel; blockY++) {
 					double mineralLevel = noiseMineral.noise(blockX / xMineralFactor, blockY / yMineralFactor, blockZ / zMineralFactor);
 					if (mineralLevel > threshholdMineral)
-						chunk.setBlock(x, blockY, z, RandomMineralAt(blockY));
+						chunk.setBlock(x, blockY, z, randomMineralAt(blockY));
 				}
 			}
 		}
@@ -57,7 +57,7 @@ public class MineralPlatWell extends WellArchetype {
 	private int yRedstone;
 	private int yDiamond;
 	
-	protected Material RandomMineralAt(int y) {
+	protected Material randomMineralAt(int y) {
 		if (y < yDiamond)
 			return Material.DIAMOND_ORE;
 		else if (y < yRedstone)
