@@ -33,35 +33,35 @@ public class AlienWorldWell extends WellArchetype {
 		switch (random.nextInt(7)) {
 		case 1:
 			stoneMaterial = Material.CLAY;
-			liquidMaterial = Material.STATIONARY_LAVA;
+			liquidMaterial = Material.LAVA;
 			break;
 		case 2:
 			stoneMaterial = Material.SPONGE;
-			liquidMaterial = Material.STATIONARY_WATER;
+			liquidMaterial = Material.WATER;
 			break;
 		case 3:
 			stoneMaterial = Material.ICE;
-			liquidMaterial = Material.STATIONARY_WATER;
+			liquidMaterial = Material.WATER;
 			break;
 		case 4:
 			stoneMaterial = Material.NETHERRACK;
-			liquidMaterial = Material.STATIONARY_LAVA;
+			liquidMaterial = Material.LAVA;
 			break;
 		case 5:
 			stoneMaterial = Material.OBSIDIAN;
-			liquidMaterial = Material.STATIONARY_LAVA;
+			liquidMaterial = Material.LAVA;
 			break;
 		case 6:
 			stoneMaterial = Material.LAPIS_BLOCK;
-			liquidMaterial = Material.STATIONARY_WATER;
+			liquidMaterial = Material.WATER;
 			break;
 		case 7:
-			stoneMaterial = Material.ENDER_STONE;
+			stoneMaterial = Material.END_STONE;
 			liquidMaterial = Material.ICE;
 			break;
 		default:
 			stoneMaterial = Material.STONE;
-			liquidMaterial = Material.STATIONARY_WATER;
+			liquidMaterial = Material.WATER;
 			break;
 		}
 		

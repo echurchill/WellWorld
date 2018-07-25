@@ -29,7 +29,7 @@ public class BananaTrigWell extends BananaWellArchetype {
 				chunk.setBlocks(x, 1, surfaceAt, z, materialLiquid);
 //				chunk.setBlocks(x, 1, surfaceAt, z, 64);
 //				for(int y=0; y<64; y++)
-//					result[xyzToByte(x,y,z)] = (byte) Material.STATIONARY_WATER.getId();
+//					result[xyzToByte(x,y,z)] = (byte) Material.WATER.getId();
 
 				double h = BananaTrigFunction.get(trueX, trueZ)*50+surfaceAt;
 //				double h = BananaTrigFunction.get(trueX, trueZ)*77+50;
@@ -40,7 +40,7 @@ public class BananaTrigWell extends BananaWellArchetype {
 					h = h-6;
 					chunk.setBlocks(x, (int)h, (int)h+4, z, materialLiquid);
 //					for(int y=(int) h; y<h+4; y++)
-//						result[xyzToByte(x,y,z)] = (byte) Material.STATIONARY_WATER.getId();
+//						result[xyzToByte(x,y,z)] = (byte) Material.WATER.getId();
 				}
 				
 				if (!river) {

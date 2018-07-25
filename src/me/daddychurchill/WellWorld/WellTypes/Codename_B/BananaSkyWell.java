@@ -76,7 +76,7 @@ public class BananaSkyWell extends BananaWellArchetype {
 					highest = 18+Math.abs(py*5);
 					for(int i=18; i<highest; i++)
 						if(i == 18)
-							chunk.setBlock(x, i + yOffset, z, Material.SMOOTH_BRICK);
+							chunk.setBlock(x, i + yOffset, z, Material.STONE_BRICKS);
 						else if(random.nextInt(10) > 7)
 							chunk.setBlock(x, i + yOffset, z, Material.SANDSTONE);
 						else

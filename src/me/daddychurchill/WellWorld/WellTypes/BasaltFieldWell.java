@@ -20,7 +20,7 @@ public class BasaltFieldWell extends WellArchetype {
 	private int solidLevel;
 	private int liquidLevel;
 	private Material solid = Material.OBSIDIAN;
-	private Material liquid = Material.STATIONARY_LAVA;
+	private Material liquid = Material.LAVA;
 	private Material backfill;
 	
 	private SimplexOctaveGenerator generator;
@@ -35,10 +35,10 @@ public class BasaltFieldWell extends WellArchetype {
 		liquidLevel = solidLevel - random.nextInt(32);
 		vScale = calcRandomRange(20.0, 30.0);
 		if (random.nextBoolean()) {
-			liquid = Material.STATIONARY_LAVA;
+			liquid = Material.LAVA;
 			backfill = random.nextBoolean() ? liquid : Material.GLASS;
 		} else {
-			liquid = Material.STATIONARY_WATER;
+			liquid = Material.WATER;
 			backfill = random.nextBoolean() ? liquid : Material.ICE;
 		}
 	}

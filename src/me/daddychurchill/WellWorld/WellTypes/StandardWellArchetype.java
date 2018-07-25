@@ -10,7 +10,6 @@ import org.bukkit.util.noise.NoiseGenerator;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 import me.daddychurchill.WellWorld.WellArchetype;
-import me.daddychurchill.WellWorld.Support.BlackMagic;
 import me.daddychurchill.WellWorld.Support.InitialBlocks;
 
 public abstract class StandardWellArchetype extends WellArchetype {
@@ -65,11 +64,11 @@ public abstract class StandardWellArchetype extends WellArchetype {
 		
 		materialBottom = Material.STONE;
 		materialMiddle = Material.DIRT;
-		materialTop = Material.GRASS;
+		materialTop = Material.GRASS_BLOCK;
 		materialLiquidBase = Material.SAND;
-		materialLiquid = Material.STATIONARY_WATER;
-		materialBlades = Material.LONG_GRASS;
-		materialFlower = random.nextBoolean() ? Material.RED_ROSE : Material.YELLOW_FLOWER;
+		materialLiquid = Material.WATER;
+		materialBlades = Material.GRASS;
+		materialFlower = random.nextBoolean() ? Material.POPPY : Material.DANDELION;
 		
 		materialMineral = materialBottom;
 		materialFertile = materialTop;
@@ -139,7 +138,7 @@ public abstract class StandardWellArchetype extends WellArchetype {
 		if (random.nextInt(flowerOdds) == 0)
 			world.getBlockAt(foliageAt).setType(materialFlower);
 		else {
-			BlackMagic.setBlock(world.getBlockAt(foliageAt), materialBlades, (byte) 1);
+			world.getBlockAt(foliageAt).setType(materialBlades);
 		}
 	}
 	

@@ -56,7 +56,7 @@ public class RealisticMoonWell extends WellArchetype {
 				floodMaterial = Material.LAVA;
 			break;
 		case 2: // callisto
-			interiorMaterial = Material.ENDER_STONE;
+			interiorMaterial = Material.END_STONE;
 			surfaceMaterial = Material.OBSIDIAN;
 			if (random.nextInt(100) <= WATER_CHANCE)
 				floodMaterial = Material.ICE;

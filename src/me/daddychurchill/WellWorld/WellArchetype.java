@@ -2,7 +2,6 @@ package me.daddychurchill.WellWorld;
 
 import java.util.Random;
 
-import me.daddychurchill.WellWorld.Support.BlackMagic;
 import me.daddychurchill.WellWorld.Support.InitialBlocks;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -11,6 +10,7 @@ import org.bukkit.TreeType;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.util.Vector;
 
 public abstract class WellArchetype {
@@ -194,46 +194,46 @@ public abstract class WellArchetype {
         }
 	}
 	
-	protected void sprinkleGoodness(Chunk chunk, 
-			int specialBlockOdds, int specialsPerLayer, 
-			Material transmutable, Material plantable,
-			int flowerOdds, Material flowerMaterial, Material bladesMaterial) {
-		
-		// sprinkle minerals for each y layer, one of millions of ways to do this!
-		for (int y = 1; y < 127; y++) {
-			if (random.nextInt(specialBlockOdds) == 0) {
-				for (int i = 0; i < specialsPerLayer; i++) {
-					Block block = chunk.getBlock(random.nextInt(16), y, random.nextInt(16));
-					Material blockMaterial = block.getType();
-					
-					// Transmutation?
-					if (blockMaterial == transmutable)
-						block.setType(pickRandomMineralAt(y), false);
-					
-					// If the block supports foliage, then what type will go here?
-					else if (blockMaterial == plantable) {
-						Location foliageAt = block.getLocation().add(0, 1, 0);
-						if (random.nextInt(flowerOdds) == 0)
-							world.getBlockAt(foliageAt).setType(flowerMaterial);
-						else {
-							BlackMagic.setBlock(world.getBlockAt(foliageAt), bladesMaterial, (byte) 1);
-						}
-					}
-				}
-			}
-		}
-	}
-	
-	protected void sprinkleGoodness(Chunk chunk, 
-			int specialBlockOdds, int specialsPerLayer, 
-			int flowerOdds, Material flowerMaterial, Material bladesMaterial) {
-		sprinkleGoodness(chunk, specialBlockOdds, specialsPerLayer, Material.STONE, Material.GRASS, flowerOdds, flowerMaterial, bladesMaterial);
-	}
-	
-	protected void sprinkleGoodness(Chunk chunk, 
-			int specialBlockOdds, int specialsPerLayer) {
-		sprinkleGoodness(chunk, specialBlockOdds, specialsPerLayer, Material.STONE, Material.CAKE, 1000, Material.AIR, Material.AIR);
-	}
+//	protected void sprinkleGoodness(Chunk chunk, 
+//			int specialBlockOdds, int specialsPerLayer, 
+//			Material transmutable, Material plantable,
+//			int flowerOdds, Material flowerMaterial, Material bladesMaterial) {
+//		
+//		// sprinkle minerals for each y layer, one of millions of ways to do this!
+//		for (int y = 1; y < 127; y++) {
+//			if (random.nextInt(specialBlockOdds) == 0) {
+//				for (int i = 0; i < specialsPerLayer; i++) {
+//					Block block = chunk.getBlock(random.nextInt(16), y, random.nextInt(16));
+//					Material blockMaterial = block.getType();
+//					
+//					// Transmutation?
+//					if (blockMaterial == transmutable)
+//						block.setType(pickRandomMineralAt(y), false);
+//					
+//					// If the block supports foliage, then what type will go here?
+//					else if (blockMaterial == plantable) {
+//						Location foliageAt = block.getLocation().add(0, 1, 0);
+//						if (random.nextInt(flowerOdds) == 0)
+//							world.getBlockAt(foliageAt).setType(flowerMaterial);
+//						else {
+//							BlackMagic.setBlock(world.getBlockAt(foliageAt), bladesMaterial, (byte) 1);
+//						}
+//					}
+//				}
+//			}
+//		}
+//	}
+//	
+//	protected void sprinkleGoodness(Chunk chunk, 
+//			int specialBlockOdds, int specialsPerLayer, 
+//			int flowerOdds, Material flowerMaterial, Material bladesMaterial) {
+//		sprinkleGoodness(chunk, specialBlockOdds, specialsPerLayer, Material.STONE, Material.GRASS, flowerOdds, flowerMaterial, bladesMaterial);
+//	}
+//	
+//	protected void sprinkleGoodness(Chunk chunk, 
+//			int specialBlockOdds, int specialsPerLayer) {
+//		sprinkleGoodness(chunk, specialBlockOdds, specialsPerLayer, Material.STONE, Material.CAKE, 1000, Material.AIR, Material.AIR);
+//	}
 	
 	protected void sprinkleTrees(Chunk chunk, int treesPerChunk, TreeType treeType) {
 
@@ -252,20 +252,23 @@ public abstract class WellArchetype {
 		}
 	}
 	
-	protected void setBlock(int x, int y, int z, Material material, byte data) {
-		Block block = world.getBlockAt(x, y, z);
-		if (block.getType() == Material.AIR)
-			BlackMagic.setBlock(block, material, data);
+//	protected void setBlock(int x, int y, int z, Material material, byte data) {
+//		Block block = world.getBlockAt(x, y, z);
+//		if (block.getType() == Material.AIR)
+//			BlackMagic.setBlock(block, material, data);
+//	}
+	
+	protected BlockData setBlock(int x, int y, int z, Material material) {
+		return setBlock(x, y, z, material, false);
 	}
 	
-	protected void setBlock(int x, int y, int z, Material material) {
-		setBlock(x, y, z, material, false);
-	}
-	
-	protected void setBlock(int x, int y, int z, Material material, boolean physics) {
+	protected BlockData setBlock(int x, int y, int z, Material material, boolean physics) {
 		Block block = world.getBlockAt(x, y, z);
-		if (block.getType() == Material.AIR)
+		if (block.getType() == Material.AIR) {
 			block.setType(material, physics);
+			return block.getBlockData();
+		} else
+			return null;
 	}
 	
 //	protected void setBlock(int x, int y, int z, int blockId, byte blockData, boolean blockPhysics) {

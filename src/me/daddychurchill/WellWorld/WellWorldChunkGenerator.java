@@ -210,31 +210,15 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 			long wellseed = wellpos ^ world.getSeed();
 			
 			// make sure the initial spawn location is "safe-ish"
-			if (wellX == 0 && wellZ == 0)
+			if (wellX == 0 && wellZ == 0) {
+//				wellmanager = new AlienWorldWell(world, wellseed, wellX, wellZ);
 				wellmanager = new KnollsWell(world, wellseed, wellX, wellZ);
-			else {
+			} else {
 				
 				// noise please
 				if (generator == null)
 					generator = new SimplexNoiseGenerator(world.getSeed());
-//				Random wellrand = new Random(wellseed);
-//				double noise = (generator.noise(wellrand.nextDouble() * wellX, 
-//												wellrand.nextDouble() * wellZ, 
-//												wellrand.nextDouble() * 23.0,
-//												wellrand.nextGaussian() * 71.0) + 1) / 2;
-//				double noise = (generator.noise(wellX / ByteChunk.Width, wellZ / ByteChunk.Width) + 1) / 2;
-//				double noise = ((generator.noise(wellX, wellZ) + 1) / 2 + 
-//								 getWellFactor(wellX) + 
-//								 getWellFactor(wellZ) + 
-//								 new Random(wellseed).nextDouble()) / 4;
-//				double noise = new Random(wellseed).nextDouble();
-//				double doubleNoise = wellrand.nextDouble();
-//				double gaussianNoise = wellrand.nextGaussian();
-//				double noise = (doubleNoise + gaussianNoise) / 2.0;
-//				double noise = (wellrand.nextGaussian() + 1.0) / 2.0;
 				double noise = new HighQualityRandom(wellseed).nextDouble();
-				
-//				WellWorld.log.info("Well: " + wellX + ", " + wellZ + " Noise = " + noise);
 				
 				// pick one from the list
 				wellmanager = chooseWellManager(noise, world, wellseed, wellX, wellZ);
@@ -248,21 +232,17 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 		return wellmanager;
 	}
 	
-//	private String getSums() {
-//		String result = "Spread:";
-//		for (int i = 0; i < wellTypeCount; i++)
-//			result = result + " " + sums[i];
-//		return result;
-//	}
-	
 	private static final int wellTypeCount = 17;
 	private WellArchetype chooseWellManager(double noise, World world, long seed, int wellX, int wellZ) {
 		
-		int index = NoiseGenerator.floor(noise * wellTypeCount);
-//		sums[index]++;
-//		WellWorld.log.info(getSums());
-		
+//		int index = NoiseGenerator.floor(noise * wellTypeCount);
+		int index = Math.abs(wellZ) % wellTypeCount;
 		switch (index) {
+		// The generic world
+		case 0:
+		default:
+			return new KnollsWell(world, seed, wellX, wellZ);
+			
 		case 1:
 			return new AlienWorldWell(world, seed, wellX, wellZ);
 		case 2:
@@ -276,7 +256,7 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 		case 6:
 			return new VolcanoWell(world, seed, wellX, wellZ);
 		case 7:
-			return new ForestWell(world, seed, wellX, wellZ);
+			return new ForestWell(world, seed, wellX, wellZ); // DEAD_BUSH
 		case 8:
 			return new SmoothSnowWell(world, seed, wellX, wellZ);
 			
@@ -322,11 +302,7 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 //		case 18:
 //			return new DinnerboneMoonWell(seed, wellX, wellZ);
 			
-		// The generic world
-		default:
-			return new KnollsWell(world, seed, wellX, wellZ);
-			
-// not enabled as they are kind of boring :-)
+// 		not enabled as they are kind of boring :-)
 //		case 4:
 //			return new VeryEmptyWell(world, seed, wellX, wellZ);
 //		case 5:

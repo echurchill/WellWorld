@@ -38,35 +38,35 @@ public class AlienCavernWell extends WellArchetype {
 		switch (random.nextInt(7)) {
 		case 1:
 			solidMaterial = Material.CLAY;
-			liquidMaterial = Material.STATIONARY_LAVA;
+			liquidMaterial = Material.LAVA;
 			break;
 		case 2:
 			solidMaterial = Material.SPONGE;
-			liquidMaterial = Material.STATIONARY_WATER;
+			liquidMaterial = Material.WATER;
 			break;
 		case 3:
 			solidMaterial = Material.ICE;
-			liquidMaterial = Material.STATIONARY_WATER;
+			liquidMaterial = Material.WATER;
 			break;
 		case 4:
 			solidMaterial = Material.NETHERRACK;
-			liquidMaterial = Material.STATIONARY_LAVA;
+			liquidMaterial = Material.LAVA;
 			break;
 		case 5:
 			solidMaterial = Material.OBSIDIAN;
-			liquidMaterial = Material.STATIONARY_LAVA;
+			liquidMaterial = Material.LAVA;
 			break;
 		case 6:
 			solidMaterial = Material.LAPIS_BLOCK;
-			liquidMaterial = Material.STATIONARY_WATER;
+			liquidMaterial = Material.WATER;
 			break;
 		case 7:
-			solidMaterial = Material.ENDER_STONE;
+			solidMaterial = Material.END_STONE;
 			liquidMaterial = Material.ICE;
 			break;
 		default:
 			solidMaterial = Material.STONE;
-			liquidMaterial = Material.STATIONARY_WATER;
+			liquidMaterial = Material.WATER;
 			break;
 		}
 		

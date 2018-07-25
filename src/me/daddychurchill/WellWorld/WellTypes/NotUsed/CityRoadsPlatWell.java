@@ -82,9 +82,9 @@ public class CityRoadsPlatWell extends WellArchetype {
 				chunk.setBlocks(x, 0, 98, z, Material.GOLD_BLOCK);
 				
 				if (isLake(blockX, blockZ))
-					chunk.setBlocks(x, 98, 100, z, Material.STATIONARY_WATER);
+					chunk.setBlocks(x, 98, 100, z, Material.WATER);
 				else if (isRiver(blockX, blockZ))
-					chunk.setBlocks(x, 98, 100, z, Material.STATIONARY_WATER);
+					chunk.setBlocks(x, 98, 100, z, Material.WATER);
 				else 
 					chunk.setBlocks(x, 98, 100, z, Material.DIRT);
 
@@ -159,7 +159,7 @@ public class CityRoadsPlatWell extends WellArchetype {
 		case 4:
 			return Material.NETHERRACK;
 		default:
-			return Material.SMOOTH_BRICK;
+			return Material.STONE_BRICKS;
 		}
 	}
 	
@@ -171,7 +171,7 @@ public class CityRoadsPlatWell extends WellArchetype {
 		case 2:
 			return Material.COBBLESTONE;
 		default:
-			return Material.SMOOTH_BRICK;
+			return Material.STONE_BRICKS;
 		}
 	}
 	

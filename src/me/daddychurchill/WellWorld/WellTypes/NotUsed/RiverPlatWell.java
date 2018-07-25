@@ -58,14 +58,14 @@ public class RiverPlatWell extends WellArchetype {
 				chunk.setBlocks(x, 98, 100, z, Material.STONE);
 				
 //				if (blockX % 5 == 0 || blockZ % 5 == 0)
-//					chunk.setBlocks(x, 100, 101, z, Material.SMOOTH_BRICK);
+//					chunk.setBlocks(x, 100, 101, z, Material.STONE_BRICKS);
 //				
 //				else 
 				if (noiseWater < maxWaterFactor)
-					chunk.setBlocks(x, 100, 101, z, Material.STATIONARY_WATER);
+					chunk.setBlocks(x, 100, 101, z, Material.WATER);
 				
 				else if (noiseRiver > minRiverFactor && noiseRiver < maxRiverFactor)
-					chunk.setBlocks(x, 100, 101, z, Material.STATIONARY_WATER);
+					chunk.setBlocks(x, 100, 101, z, Material.WATER);
 
 				else if (noiseUrban > 0)
 //					if (noiseUnfinished > )

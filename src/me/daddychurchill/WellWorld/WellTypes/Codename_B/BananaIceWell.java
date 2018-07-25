@@ -28,7 +28,7 @@ public class BananaIceWell extends BananaWellArchetype {
 		// pretty much a direct port of codename_B's PM on DevBukkit
 		// http://dev.bukkit.org/home/private-messages/29092-well-world/#m10
 		
-		chunk.setBlocksAt(1, 60, Material.STATIONARY_WATER);
+		chunk.setBlocksAt(1, 60, Material.WATER);
 		chunk.setBlocksAt(60, 64, Material.ICE);
 		
 		// Layers?

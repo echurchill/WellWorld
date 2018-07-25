@@ -83,9 +83,9 @@ public class PlanningZonesPlatWell extends WellArchetype {
 				chunk.setBlocks(x, 0, 98, z, Material.GOLD_BLOCK);
 				
 				if (isLake(blockX, blockZ))
-					chunk.setBlocks(x, 98, 100, z, Material.STATIONARY_WATER);
+					chunk.setBlocks(x, 98, 100, z, Material.WATER);
 				else if (isRiver(blockX, blockZ))
-					chunk.setBlocks(x, 98, 100, z, Material.STATIONARY_WATER);
+					chunk.setBlocks(x, 98, 100, z, Material.WATER);
 				else 
 					chunk.setBlocks(x, 98, 100, z, Material.DIRT);
 
@@ -103,7 +103,7 @@ public class PlanningZonesPlatWell extends WellArchetype {
 						if (isUrban(blockX, blockZ))
 							chunk.setBlocks(x, 100, 103, z, Material.IRON_BLOCK);
 						else if (isResidential(blockX, blockZ))
-							chunk.setBlocks(x, 100, 102, z, Material.WOOD);
+							chunk.setBlocks(x, 100, 102, z, Material.BIRCH_WOOD);
 						else if (isFarms(blockX, blockZ))
 							chunk.setBlocks(x, 100, 101, z, Material.GRASS);
 					}

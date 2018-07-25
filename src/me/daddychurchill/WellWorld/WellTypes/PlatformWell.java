@@ -18,7 +18,7 @@ public class PlatformWell extends WellArchetype {
 	private Material materialFloor = Material.IRON_BLOCK;
 	private Material materialColumn = Material.IRON_BLOCK;
 	private Material materialPlatform = Material.IRON_BLOCK;
-	private Material materialLiquid = Material.STATIONARY_WATER;
+	private Material materialLiquid = Material.WATER;
 
 	private boolean hasFloor;
 	private boolean hasLiquid;
@@ -34,7 +34,7 @@ public class PlatformWell extends WellArchetype {
 		
 		// swizzle things around
 		if (calcOdds(oddsLava))
-			materialLiquid = Material.STATIONARY_LAVA;
+			materialLiquid = Material.LAVA;
 		if (random.nextBoolean())
 			materialColumn = Material.GLASS;
 		if (random.nextBoolean())

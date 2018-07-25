@@ -52,7 +52,7 @@ public class TypePickerWell extends WellArchetype {
 		case 9:
 			return Material.DIAMOND_ORE; 
 		case 10:
-			return Material.ENDER_STONE; 
+			return Material.END_STONE; 
 		case 11:
 			return Material.GLOWSTONE; 
 		case 12:

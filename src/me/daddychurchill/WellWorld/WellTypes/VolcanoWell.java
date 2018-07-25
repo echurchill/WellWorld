@@ -48,7 +48,7 @@ public class VolcanoWell extends WellArchetype {
 		materialInterior = Material.STONE;
 		materialSurface = Material.COBBLESTONE;
 		materialFlood = Material.LAVA;
-		materialLiquid = Material.STATIONARY_WATER;
+		materialLiquid = Material.WATER;
 		
         generator = new SimplexNoiseGenerator(randseed);
 	}

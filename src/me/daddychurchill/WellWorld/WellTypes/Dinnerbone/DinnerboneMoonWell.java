@@ -133,13 +133,13 @@ public class DinnerboneMoonWell extends WellArchetype {
 
             for (int y = centerY; y < centerY + FLAG_HEIGHT; y++) {
                 top = world.getBlockAt(centerX, y, centerZ);
-                top.setType(Material.FENCE);
+                top.setType(Material.BIRCH_FENCE);
             }
 
             //EC: replaced the deprecated getFace with the new getRelative
             //EC: for some reason, sometimes the relative block is not a fence post... maybe it is a Minecraft/Bukkit issue
 			Block signBlock = top.getRelative(direction);
-			if (signBlock.getType() == Material.FENCE) {
+			if (signBlock.getType() == Material.BIRCH_FENCE) {
 				signBlock.setType(Material.WALL_SIGN);
 	            BlockState state = signBlock.getState();
 	
