@@ -13,7 +13,7 @@ public abstract class BananaWellArchetype extends WellArchetype {
 	protected Material materialLiquid = Material.WATER;
 	protected Material materialStone = Material.STONE;
 	protected Material materialDirt = Material.DIRT;
-	protected Material materialGrass = Material.GRASS;
+	protected Material materialGrass = Material.GRASS_BLOCK;
 	protected Material materialLog = Material.BIRCH_LOG;
 	protected Material materialLeaves = Material.BIRCH_LEAVES;
 	protected Material materialOre = materialStone;

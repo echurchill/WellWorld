@@ -9,7 +9,7 @@ import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 public class BananaIceWell extends BananaWellArchetype {
 
-	private static final int oddsSnowmen = 30; // n out of 100
+	private static final int oddsSnowmen = 15; // n out of 100
 	
 	private SimplexOctaveGenerator noisegen;
 	private SimplexOctaveGenerator layergen;
@@ -50,13 +50,13 @@ public class BananaIceWell extends BananaWellArchetype {
                     if(y >= noiz-1 && y>=64)
                     	chunk.setBlock(x, y, z, Material.SNOW);
                     else if (y >= noiz-2 && y>=64)
-                    	chunk.setBlock(x, y, z, Material.GRASS);
-                    else if(y >= noiz-4 && y>=64)
-                    	chunk.setBlock(x, y, z, Material.DIRT);
-                    else if(y >= noiz-5 && y>=63)
                     	chunk.setBlock(x, y, z, Material.SNOW_BLOCK);
+                    else if(y >= noiz-4 && y>=64)
+//                    	chunk.setBlock(x, y, z, Material.DIORITE);
+//                    else if(y >= noiz-5 && y>=63)
+                    	chunk.setBlock(x, y, z, materialDirt);
                     else
-                    	chunk.setBlock(x, y, z, Material.STONE);
+                    	chunk.setBlock(x, y, z, materialStone);
                 }
             }
         }
@@ -81,9 +81,9 @@ public class BananaIceWell extends BananaWellArchetype {
 			int centerX = (chunk.getX() << 4) + 8;
 			int centerZ = (chunk.getZ() << 4) + 8;
 			int centerY = world.getHighestBlockYAt(centerX, centerZ);
-			setBlock(centerX, centerY + 1, centerZ, Material.SNOW_BLOCK);
-			setBlock(centerX, centerY + 2, centerZ, Material.SNOW_BLOCK);
-			setBlock(centerX, centerY + 3, centerZ, Material.PUMPKIN, true);
+			setBlock(centerX, centerY + 1, centerZ, Material.SNOW_BLOCK, false);
+			setBlock(centerX, centerY + 2, centerZ, Material.SNOW_BLOCK, false);
+			setBlock(centerX, centerY + 3, centerZ, Material.JACK_O_LANTERN, true);
 		} //else 
 		//TODO: add a way to decorate the trees with snow
 		//	populateFoliage(chunk);

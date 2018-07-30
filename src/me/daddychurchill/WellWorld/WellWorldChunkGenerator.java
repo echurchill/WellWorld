@@ -48,6 +48,7 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 	Material wallNegativeMaterial;
 	boolean wallDoorways;
 	boolean hexishWells;
+	boolean wellMarkers;
 //	private int[] sums;
 	
 	private SimplexNoiseGenerator generator;
@@ -62,6 +63,8 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 		wallNegativeMaterial = plugin.getNegativeWallMaterial();
 		wallDoorways = plugin.isWallDoorways();
 		hexishWells = plugin.isHexishWells();
+		wellMarkers = plugin.isWellMarkers();
+		
 //		sums = new int[wellTypeCount];
 	}
 	
@@ -211,7 +214,6 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 			
 			// make sure the initial spawn location is "safe-ish"
 			if (wellX == 0 && wellZ == 0) {
-//				wellmanager = new AlienWorldWell(world, wellseed, wellX, wellZ);
 				wellmanager = new KnollsWell(world, wellseed, wellX, wellZ);
 			} else {
 				
@@ -235,8 +237,8 @@ public class WellWorldChunkGenerator extends ChunkGenerator {
 	private static final int wellTypeCount = 17;
 	private WellArchetype chooseWellManager(double noise, World world, long seed, int wellX, int wellZ) {
 		
-//		int index = NoiseGenerator.floor(noise * wellTypeCount);
-		int index = Math.abs(wellZ) % wellTypeCount;
+		int index = NoiseGenerator.floor(noise * wellTypeCount);
+//		int index = Math.abs(wellZ) % wellTypeCount;
 		switch (index) {
 		// The generic world
 		case 0:

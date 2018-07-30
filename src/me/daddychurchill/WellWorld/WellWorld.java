@@ -64,6 +64,7 @@ public class WellWorld extends JavaPlugin {
 	private Material negativeMaterial;
 	private boolean wallDoorways;
 	private boolean hexishWells;
+	private boolean wellMarkers;
    	
 	public WellWorld() {
 		super();
@@ -71,6 +72,7 @@ public class WellWorld extends JavaPlugin {
 		setBedrockWalls(false); // default to obsidian for prettiness
 		setWallDoorways(true); // assume we want ways through
 		setHexishWells(true); // assume we are hexagonally laying out the wells
+		setWellMarkers(false);
 		negativeMaterial = Material.AIR;
 	}
 
@@ -100,6 +102,14 @@ public class WellWorld extends JavaPlugin {
 	
 	public void setHexishWells(boolean doit) {
 		hexishWells = doit;
+	}
+	
+	public boolean isWellMarkers() {
+		return wellMarkers;
+	}
+	
+	public void setWellMarkers(boolean doit) {
+		wellMarkers = doit;
 	}
 	
 	@Override
@@ -141,6 +151,7 @@ public class WellWorld extends JavaPlugin {
 		config.addDefault("Global.BedrockWalls", false);
 		config.addDefault("Global.WallDoorways", true);
 		config.addDefault("Global.HexishWells", true);
+		config.addDefault("Global.WellMarkers", true);
 		config.options().copyDefaults(true);
 		saveConfig();
 		
@@ -148,6 +159,7 @@ public class WellWorld extends JavaPlugin {
 		setBedrockWalls(config.getBoolean("Global.BedrockWalls"));
 		setWallDoorways(config.getBoolean("Global.WallDoorways"));
 		setHexishWells(config.getBoolean("Global.HexishWells"));
+		setWellMarkers(config.getBoolean("Global.WellMarkers"));
 		
 		// announce our happiness
 		log.info(getDescription().getFullName() + " is enabled" );
