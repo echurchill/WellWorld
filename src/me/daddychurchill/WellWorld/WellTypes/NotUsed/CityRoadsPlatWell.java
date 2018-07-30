@@ -102,7 +102,7 @@ public class CityRoadsPlatWell extends WellArchetype {
 						}
 //						chunk.setBlocks(x, 100, 101 + getUrbanHeight(blockX, blockZ), z, Material.IRON_BLOCK);
 					} else if (isRural(blockX, blockZ))
-						chunk.setBlocks(x, 100, 101, z, Material.GRASS);
+						chunk.setBlocks(x, 100, 101, z, Material.GRASS_BLOCK);
 					else //isSuburban
 						chunk.setBlocks(x, 100, 101, z, Material.SANDSTONE);
 //				else

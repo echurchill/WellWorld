@@ -60,7 +60,7 @@ public class TypePickerWell extends WellArchetype {
 		case 13:
 			return Material.GOLD_ORE; 
 		case 14:
-			return Material.GRASS; 
+			return Material.GRASS_BLOCK; 
 		case 15:
 			return Material.DIRT;
 		case 16:

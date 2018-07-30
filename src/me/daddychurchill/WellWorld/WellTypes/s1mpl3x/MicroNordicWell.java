@@ -40,7 +40,7 @@ public class MicroNordicWell extends WellArchetype {
 //                    else
 //                        ret[(x * 16 + z) * 128 + y] = 1;
                     if (y >= noiz-1)
-                    	chunk.setBlock(x, y, z, Material.GRASS);
+                    	chunk.setBlock(x, y, z, Material.GRASS_BLOCK);
                     else
                     	chunk.setBlock(x, y, z, Material.STONE);
                 }

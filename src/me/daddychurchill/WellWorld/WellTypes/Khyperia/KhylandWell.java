@@ -14,7 +14,7 @@ public class KhylandWell extends StandardWellArchetype {
 //	private byte byteBedrock = (byte) Material.BEDROCK.getId();
 //	private byte byteStone = (byte) Material.STONE.getId();
 //	private byte byteDirt = (byte) Material.DIRT.getId();
-//	private byte byteGrass = (byte) Material.GRASS.getId();
+//	private byte byteGrass = (byte) Material.GRASS_BLOCK.getId();
 //	private byte byteAir = (byte) Material.AIR.getId();
 	private SimplexNoiseGenerator simplex;
 	
@@ -52,13 +52,13 @@ public class KhylandWell extends StandardWellArchetype {
 			for (int z = 0; z < 16; z++) {
 				for (int y = 5; y < 127; y++) {
 					if (chunk.isBlock(x, y, z, Material.STONE) && chunk.isBlock(x, y + 1, z, Material.AIR)) {
-						chunk.setBlock(x, y, z, Material.GRASS);
+						chunk.setBlock(x, y, z, Material.GRASS_BLOCK);
 						for (int height = 1; height < 5; height++)
 							if (!chunk.isBlock(x, y - height, z, Material.AIR))
 								chunk.setBlock(x, y - height, z, Material.DIRT);
 					}
 					//if (blocks[x][y][z].equals(Material.STONE) && blocks[x][y + 1][z].equals(Material.AIR)) {
-					//	blocks[x][y][z] = Material.GRASS;
+					//	blocks[x][y][z] = Material.GRASS_BLOCK;
 					//	for (int height = 1; height < 5; height++)
 					//		if (blocks[x][y - height][z].equals(Material.AIR) == false)
 					//			blocks[x][y - height][z] = Material.DIRT;
@@ -95,9 +95,9 @@ public class KhylandWell extends StandardWellArchetype {
 			for (int z = 0; z < 16; z++) {
 				for (int y = 0; y < 127; y++) {
 					if (chunk.isBlock(x, y, z, Material.STONE) && chunk.isBlock(x, y + 1, z, Material.AIR)) 
-						chunk.setBlock(x, y, z, Material.GRASS);
+						chunk.setBlock(x, y, z, Material.GRASS_BLOCK);
 					//if (blocks[x][y][z].equals(Material.DIRT) && blocks[x][y + 1][z].equals(Material.AIR))
-					//	blocks[x][y][z] = Material.GRASS;
+					//	blocks[x][y][z] = Material.GRASS_BLOCK;
 				}
 			}
 		}

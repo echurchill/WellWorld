@@ -71,7 +71,7 @@ public class RiverPlatWell extends WellArchetype {
 //					if (noiseUnfinished > )
 					chunk.setBlocks(x, 100, 101 + (int)(noiseHeight * 5), z, Material.IRON_BLOCK);
 				else
-					chunk.setBlocks(x, 100, 101, z, Material.GRASS);
+					chunk.setBlocks(x, 100, 101, z, Material.GRASS_BLOCK);
 				
 //				if (noiseSelect < 1.0 && noiseRiver > minRiverFactor && noiseRiver < maxRiverFactor)
 //					noiseSelect = 1.0;

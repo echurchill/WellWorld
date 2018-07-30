@@ -77,7 +77,7 @@ public class CityPlatWell extends WellArchetype {
 			break;
 		case 8:
 			// park
-			chunk.setBlocks(x, 100, 101, z, Material.GRASS);
+			chunk.setBlocks(x, 100, 101, z, Material.GRASS_BLOCK);
 			break;
 		case 9:
 		case 10:

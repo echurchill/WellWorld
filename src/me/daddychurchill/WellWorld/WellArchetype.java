@@ -227,7 +227,7 @@ public abstract class WellArchetype {
 //	protected void sprinkleGoodness(Chunk chunk, 
 //			int specialBlockOdds, int specialsPerLayer, 
 //			int flowerOdds, Material flowerMaterial, Material bladesMaterial) {
-//		sprinkleGoodness(chunk, specialBlockOdds, specialsPerLayer, Material.STONE, Material.GRASS, flowerOdds, flowerMaterial, bladesMaterial);
+//		sprinkleGoodness(chunk, specialBlockOdds, specialsPerLayer, Material.STONE, Material.GRASS_BLOCK, flowerOdds, flowerMaterial, bladesMaterial);
 //	}
 //	
 //	protected void sprinkleGoodness(Chunk chunk, 
@@ -245,7 +245,7 @@ public abstract class WellArchetype {
 			int centerZ = worldZ + random.nextInt(16);
 			int centerY = world.getHighestBlockYAt(centerX, centerZ);
 			Block rootBlock = world.getBlockAt(centerX, centerY - 1, centerZ);
-			if (rootBlock.getType() == Material.GRASS) {
+			if (rootBlock.getType() == Material.GRASS_BLOCK) {
 				Location treeAt = rootBlock.getLocation().add(0, 1, 0);
 				world.generateTree(treeAt, treeType);
 			}

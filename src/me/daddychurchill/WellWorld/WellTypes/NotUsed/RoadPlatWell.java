@@ -27,7 +27,7 @@ public class RoadPlatWell extends WellArchetype {
 	public void generateChunk(InitialBlocks chunk, int chunkX, int chunkZ) {
 		
 		// general fill
-		Material materialGround = Material.GRASS;
+		Material materialGround = Material.GRASS_BLOCK;
 		if ((chunkX % 2 == 0 && chunkZ % 2 != 0) || (chunkX % 2 != 0 && chunkZ % 2 == 0))
 			materialGround = Material.NETHERRACK;
 		chunk.setBlocks(0, 16, 100, 102, 0, 16, materialGround);

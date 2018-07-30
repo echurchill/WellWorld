@@ -105,7 +105,7 @@ public class PlanningZonesPlatWell extends WellArchetype {
 						else if (isResidential(blockX, blockZ))
 							chunk.setBlocks(x, 100, 102, z, Material.BIRCH_WOOD);
 						else if (isFarms(blockX, blockZ))
-							chunk.setBlocks(x, 100, 101, z, Material.GRASS);
+							chunk.setBlocks(x, 100, 101, z, Material.GRASS_BLOCK);
 					}
 //				else
 //					chunk.setBlocks(x, 100, 101, z, Material.GLOWSTONE);

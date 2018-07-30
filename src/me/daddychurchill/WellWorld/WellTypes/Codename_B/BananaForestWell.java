@@ -50,7 +50,7 @@ public class BananaForestWell extends BananaWellArchetype {
 //					else
 //						data[GenUtil.xyzToByte(x, i, z)] = (byte) Material.DIRT.getId();
 //				}
-//				data[GenUtil.xyzToByte(x, ht, z)] = (byte) Material.GRASS.getId();
+//				data[GenUtil.xyzToByte(x, ht, z)] = (byte) Material.GRASS_BLOCK.getId();
 
 				int dx = (int) (y * 100) / 20;
 				int dsh = (int) (sh * 100) / 10;
