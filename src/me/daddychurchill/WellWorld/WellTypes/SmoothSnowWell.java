@@ -61,9 +61,9 @@ public class SmoothSnowWell extends StandardWellArchetype {
 					// to make a snowman or not?
 					int amount = NoiseGenerator.floor((doubleY - y) * 8);
 					if (!madeSnowMan && amount == 0 && random.nextInt(100) < oddsSnowMan) {
-//						chunk.getBlock(x, y   , z).setType(materialSnowBase, false);
-						chunk.getBlock(x, y + 1, z).setType(materialSnowBase, false);
-						chunk.getBlock(x, y + 2, z).setType(materialPumpkin, true);
+						chunk.getBlock(x, y + 1  , z).setType(materialSnowBase, false);
+						chunk.getBlock(x, y + 2, z).setType(materialSnowBase, false);
+						chunk.getBlock(x, y + 3, z).setType(materialPumpkin, true);
 						madeSnowMan = true;
 					} else {
 						block.setType(materialSnow);
