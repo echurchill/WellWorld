@@ -45,7 +45,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 //TODO Four/Two castles facing each other
 //TODO Single castle for storming purposes
 //TODO Dungeon crawler
-//TODO Ocean world with “floating islands”
+//TODO Ocean world with "floating islands"
 
 //DONE Basalt field (http://www.flickr.com/photos/golfie88/3712377542/)
 //DONE Desert with cactus
