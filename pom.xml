@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>me.daddychurchill</groupId>
+    <artifactId>WellWorld</artifactId>
+    <version>1.00</version>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+    <repositories>
+        <repository>
+            <id>paper-repo</id>
+            <url>https://repo.destroystokyo.com/repository/maven-public/</url>
+        </repository>
+    </repositories>
+    <build>
+        <sourceDirectory>${basedir}/src</sourceDirectory>
+        <testSourceDirectory>${basedir}/tests/java</testSourceDirectory>
+        <testResources>
+          <testResource>
+            <directory>${basedir}/tests/resources</directory>
+          </testResource>
+        </testResources>
+        <finalName>${project.name}</finalName>
+        <resources>
+            <resource>
+                <directory>${basedir}</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>plugin.yml</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+    <dependencies>
+        <dependency>
+                <groupId>com.destroystokyo.paper</groupId>
+                <artifactId>paper-api</artifactId>
+                <version>1.13.1-R0.1-SNAPSHOT</version>
+                <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+</project>
