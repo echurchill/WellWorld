@@ -151,11 +151,11 @@ public class CityRoadsPlatWell extends WellArchetype {
 		double noiseLevel = (noiseUrbanMaterial.noise(x / xUrbanMaterialFactor, 0, z / zUrbanMaterialFactor) + 1) / 2;
 		switch (NoiseGenerator.floor(noiseLevel * 5)) {
 		case 1:
-			return Material.BRICK;
+			return Material.BRICKS;
 		case 2:
 			return Material.COBBLESTONE;
 		case 3:
-			return Material.NETHER_BRICK;
+			return Material.NETHER_BRICKS;
 		case 4:
 			return Material.NETHERRACK;
 		default:
@@ -167,7 +167,7 @@ public class CityRoadsPlatWell extends WellArchetype {
 		double noiseLevel = (noiseUrbanMaterial.noise(x / xUrbanMaterialFactor, 1, z / zUrbanMaterialFactor) + 1) / 2;
 		switch (NoiseGenerator.floor(noiseLevel * 3)) {
 		case 1:
-			return Material.BRICK;
+			return Material.BRICKS;
 		case 2:
 			return Material.COBBLESTONE;
 		default:

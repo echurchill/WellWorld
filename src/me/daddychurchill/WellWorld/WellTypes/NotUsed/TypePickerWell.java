@@ -32,13 +32,13 @@ public class TypePickerWell extends WellArchetype {
 	private Material getWellType(double noise) {
 		switch (NoiseGenerator.floor(noise * 17)) {
 		case 0:
-			return Material.NETHER_BRICK; 
+			return Material.NETHER_BRICKS; 
 		case 1:
 			return Material.BEDROCK; 
 		case 2:
 			return Material.BOOKSHELF; 
 		case 3:
-			return Material.BRICK; 
+			return Material.BRICKS; 
 		case 4:
 			return Material.IRON_BLOCK; 
 		case 5:
