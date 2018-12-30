@@ -12,11 +12,11 @@ public class CityPlatWell extends WellArchetype {
 
 	private double xFactor = 25.0;
 	private double zFactor = 25.0;
-	
+
 	private SimplexNoiseGenerator generatorUrban;
 	private SimplexNoiseGenerator generatorWater;
 	private SimplexNoiseGenerator generatorUnfinished;
-	
+
 	public CityPlatWell(World world, long seed, int wellX, int wellZ) {
 		super(world, seed, wellX, wellZ);
 
@@ -29,15 +29,18 @@ public class CityPlatWell extends WellArchetype {
 	public void generateChunk(InitialBlocks chunk, int chunkX, int chunkZ) {
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
-				double noiseUrban = (generatorUrban.noise((chunkX * 16 + x) / xFactor, (chunkZ * 16 + z) / zFactor) + 1) / 2;
-				double noiseRural = (generatorWater.noise((chunkX * 16 + x) / xFactor, (chunkZ * 16 + z) / zFactor) + 1) / 2;
-				double noiseUnfinished = (generatorUnfinished.noise((chunkX * 16 + x) / (xFactor / 10), (chunkZ * 16 + z) / (zFactor / 10)) + 1) / 2;
-				double noiseSelect = noiseRural > 0.3 ? noiseUrban : 1.0; 
+				double noiseUrban = (generatorUrban.noise((chunkX * 16 + x) / xFactor, (chunkZ * 16 + z) / zFactor) + 1)
+						/ 2;
+				double noiseRural = (generatorWater.noise((chunkX * 16 + x) / xFactor, (chunkZ * 16 + z) / zFactor) + 1)
+						/ 2;
+				double noiseUnfinished = (generatorUnfinished.noise((chunkX * 16 + x) / (xFactor / 10),
+						(chunkZ * 16 + z) / (zFactor / 10)) + 1) / 2;
+				double noiseSelect = noiseRural > 0.3 ? noiseUrban : 1.0;
 				drawPlat(noiseSelect, noiseUnfinished > 0.3, chunk, x, z);
 			}
 		}
 	}
-	
+
 	private void drawPlat(double noise, boolean finished, InitialBlocks chunk, int x, int z) {
 //		chunk.setBlocks(x, 100, 100 + (int) Math.round(noise * 10), z, Material.IRON_BLOCK);
 		switch ((int) Math.round(noise * 13)) {

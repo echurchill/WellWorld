@@ -57,18 +57,18 @@ import org.bukkit.plugin.java.JavaPlugin;
 //DONE Included Khyperia's wells
 
 public class WellWorld extends JavaPlugin {
-    public static final Logger log = Logger.getLogger("Minecraft.CityWorld");
-	public static final int wellWidthInChunks = 8; 
-	
+	public static final Logger log = Logger.getLogger("Minecraft.CityWorld");
+	public static final int wellWidthInChunks = 8;
+
 	private Material wallMaterial;
 	private Material negativeMaterial;
 	private boolean wallDoorways;
 	private boolean hexishWells;
 	private boolean wellMarkers;
-   	
+
 	public WellWorld() {
 		super();
-		
+
 		setBedrockWalls(false); // default to obsidian for prettiness
 		setWallDoorways(true); // assume we want ways through
 		setHexishWells(true); // assume we are hexagonally laying out the wells
@@ -83,68 +83,68 @@ public class WellWorld extends JavaPlugin {
 	public Material getWallMaterial() {
 		return wallMaterial;
 	}
-	
+
 	public Material getNegativeWallMaterial() {
 		return negativeMaterial;
 	}
-	
+
 	public boolean isWallDoorways() {
 		return wallDoorways;
 	}
-	
+
 	public void setWallDoorways(boolean doit) {
 		wallDoorways = doit;
 	}
-	
+
 	public boolean isHexishWells() {
 		return hexishWells;
 	}
-	
+
 	public void setHexishWells(boolean doit) {
 		hexishWells = doit;
 	}
-	
+
 	public boolean isWellMarkers() {
 		return wellMarkers;
 	}
-	
+
 	public void setWellMarkers(boolean doit) {
 		wellMarkers = doit;
 	}
-	
+
 	@Override
-	public ChunkGenerator getDefaultWorldGenerator(String name, String style){
+	public ChunkGenerator getDefaultWorldGenerator(String name, String style) {
 		return new WellWorldChunkGenerator(this, name, style);
 	}
 
-	//TODO prevent people from climbing over the walls
-	
+	// TODO prevent people from climbing over the walls
+
 	@Override
 	public void onDisable() {
 		// remember for the next time
 		saveConfig();
-		
+
 		// goodbye cruel world
-		log.info(getDescription().getFullName() + " has been disabled" );
+		log.info(getDescription().getFullName() + " has been disabled");
 	}
 
 	@Override
 	public void onEnable() {
-		//PluginManager pm = getServer().getPluginManager();
-		
+		// PluginManager pm = getServer().getPluginManager();
+
 		// add the commands
 		addCommand("wellworld", new WellWorldCreateCMD(this));
 		// wellworld:
-		//    description: create/goto/leave WellWorld
-		//    usage: /wellworld [leave]
-		
+		// description: create/goto/leave WellWorld
+		// usage: /wellworld [leave]
+
 //		addCommand("well", new WellWorldWellCMD(this));
 		// well:
-		//    description: modify the current well
-		//    usage: /well regenerate
+		// description: modify the current well
+		// usage: /well regenerate
 
 //		addCommand("wellcalc", new WellWorldWellCalcCMD(this));
-		
+
 		// add/get the configuration
 		FileConfiguration config = getConfig();
 		config.options().header("WellWorld Global Options");
@@ -154,17 +154,17 @@ public class WellWorld extends JavaPlugin {
 		config.addDefault("Global.WellMarkers", true);
 		config.options().copyDefaults(true);
 		saveConfig();
-		
+
 		// now read out the bits for real
 		setBedrockWalls(config.getBoolean("Global.BedrockWalls"));
 		setWallDoorways(config.getBoolean("Global.WallDoorways"));
 		setHexishWells(config.getBoolean("Global.HexishWells"));
 		setWellMarkers(config.getBoolean("Global.WellMarkers"));
-		
+
 		// announce our happiness
-		log.info(getDescription().getFullName() + " is enabled" );
+		log.info(getDescription().getFullName() + " is enabled");
 	}
-	
+
 	private void addCommand(String keyword, CommandExecutor exec) {
 		PluginCommand cmd = getCommand(keyword);
 		if (cmd == null || exec == null) {
@@ -173,19 +173,21 @@ public class WellWorld extends JavaPlugin {
 			cmd.setExecutor(exec);
 		}
 	}
-	
-    // prime world support (loosely based on CityWorld which in turn was loosely based on ExpansiveTerrain)
+
+	// prime world support (loosely based on CityWorld which in turn was loosely
+	// based on ExpansiveTerrain)
 	public final static String WORLD_NAME = "WellWorld";
 	private World primeWellWorld = null;
+
 	public World getWellWorld() {
-		
+
 		// created yet?
 		if (primeWellWorld == null) {
-			
+
 			// built yet?
 			primeWellWorld = Bukkit.getServer().getWorld(WORLD_NAME);
 			if (primeWellWorld == null) {
-				
+
 				// if neither then create/build it!
 				WorldCreator worldcreator = new WorldCreator(WORLD_NAME);
 				worldcreator.environment(World.Environment.NORMAL);
@@ -195,5 +197,5 @@ public class WellWorld extends JavaPlugin {
 		}
 		return primeWellWorld;
 	}
-	
+
 }

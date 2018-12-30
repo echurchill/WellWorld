@@ -17,15 +17,15 @@ public class MineralPlatWell extends WellArchetype {
 	private double zMineralFactor = 8.0;
 	private double threshholdMineral = 0.90;
 	private SimplexNoiseGenerator noiseMineral;
-	
-	//private byte byteMineral = Material.STONE;
-	
+
+	// private byte byteMineral = Material.STONE;
+
 	public MineralPlatWell(World world, long seed, int wellX, int wellZ) {
 		super(world, seed, wellX, wellZ);
 		noiseMineral = new SimplexNoiseGenerator(seed);
-		
+
 		streetLevel = 64;
-		
+
 		int mineralStratas = streetLevel / 5;
 		yCoal = (chunkHeight - streetLevel / 2) + streetLevel;
 		yIron = mineralStratas * 5;
@@ -42,21 +42,22 @@ public class MineralPlatWell extends WellArchetype {
 				int blockX = chunkX * 16 + x;
 				int blockZ = chunkZ * 16 + z;
 				for (int blockY = 0; blockY <= streetLevel; blockY++) {
-					double mineralLevel = noiseMineral.noise(blockX / xMineralFactor, blockY / yMineralFactor, blockZ / zMineralFactor);
+					double mineralLevel = noiseMineral.noise(blockX / xMineralFactor, blockY / yMineralFactor,
+							blockZ / zMineralFactor);
 					if (mineralLevel > threshholdMineral)
 						chunk.setBlock(x, blockY, z, randomMineralAt(blockY));
 				}
 			}
 		}
 	}
-	
+
 	private int yCoal;
 	private int yIron;
 	private int yGold;
 	private int yLapis;
 	private int yRedstone;
 	private int yDiamond;
-	
+
 	protected Material randomMineralAt(int y) {
 		if (y < yDiamond)
 			return Material.DIAMOND_ORE;

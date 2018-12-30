@@ -16,24 +16,24 @@ public class AlienCavernWell extends WellArchetype {
 	private int liquidLevel; // how thick is the water bit
 	private Material solidMaterial; // what is the stone made of?
 	private Material liquidMaterial; // what is the liquid made of?
-	//private int leakOdds; // 1/n chance, how often does liquid leak down
-	
+	// private int leakOdds; // 1/n chance, how often does liquid leak down
+
 	private double xFactor;
 	private double yFactor;
 	private double zFactor;
 	private SimplexNoiseGenerator generator;
-	
+
 	public AlienCavernWell(World world, long seed, int wellX, int wellZ) {
 		super(world, seed, wellX, wellZ);
 		mineralOdds = random.nextInt(5) + 1;
 		mineralsPerLayer = random.nextInt(10);
 		liquidLevel = random.nextInt(32) + 48;
-		
+
 		// spice it up
 		xFactor = calcRandomRange(35, 55);
 		yFactor = calcRandomRange(15, 35);
 		zFactor = calcRandomRange(35, 55);
-		
+
 		// pick some materials
 		switch (random.nextInt(7)) {
 		case 1:
@@ -69,7 +69,7 @@ public class AlienCavernWell extends WellArchetype {
 			liquidMaterial = Material.WATER;
 			break;
 		}
-		
+
 		generator = new SimplexNoiseGenerator(randseed);
 	}
 
@@ -78,8 +78,9 @@ public class AlienCavernWell extends WellArchetype {
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
 				for (int y = 1; y < 128; y++) {
-					double noise = generator.noise((chunkX * 16 + x) / xFactor, y / yFactor, (chunkZ * 16 + z) / zFactor);
-					
+					double noise = generator.noise((chunkX * 16 + x) / xFactor, y / yFactor,
+							(chunkZ * 16 + z) / zFactor);
+
 					if (noise >= 0)
 						chunk.setBlock(x, y, z, solidMaterial);
 					else if (y < liquidLevel)
@@ -88,10 +89,10 @@ public class AlienCavernWell extends WellArchetype {
 			}
 		}
 	}
-	
+
 	@Override
 	public void populateBlocks(Chunk chunk, int chunkX, int chunkZ) {
-		
+
 		// sprinkle minerals for each y layer, one of millions of ways to do this!
 		for (int y = 1; y < 127; y++) {
 			if (random.nextInt(mineralOdds) == 0) {

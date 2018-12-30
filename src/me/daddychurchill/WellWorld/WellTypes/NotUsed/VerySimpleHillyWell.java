@@ -17,7 +17,7 @@ public class VerySimpleHillyWell extends WellArchetype {
 	private int liquidLevel; // how thick is the water bit
 	private final static Material stoneMaterial = Material.STONE; // what is the stone made of?
 	private final static Material liquidMaterial = Material.WATER; // what is the liquid made of?
-	
+
 	private int octives = 3;
 	private double xFactor = 1.0;
 	private double zFactor = 1.0;
@@ -26,14 +26,14 @@ public class VerySimpleHillyWell extends WellArchetype {
 	private double hScale = 1.0 / 64.0;
 	private double vScale = 16.0;
 	private SimplexOctaveGenerator generator;
-	
+
 	public VerySimpleHillyWell(World world, long seed, int wellX, int wellZ) {
 		super(world, seed, wellX, wellZ);
 		mineralOdds = random.nextInt(5) + 1;
 		mineralsPerLayer = random.nextInt(10);
 		height = random.nextInt(32) + 48;
 		liquidLevel = random.nextInt(height / 2) + height / 2;
-		
+
 		generator = new SimplexOctaveGenerator(randseed, octives);
 		generator.setScale(hScale);
 	}
@@ -42,8 +42,9 @@ public class VerySimpleHillyWell extends WellArchetype {
 	public void generateChunk(InitialBlocks chunk, int chunkX, int chunkZ) {
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
-				double noise = generator.noise((chunkX * 16 + x) / xFactor, (chunkZ * 16 + z) / zFactor, fequency, amplitude) * vScale;
-				int y = height + (int)noise;
+				double noise = generator.noise((chunkX * 16 + x) / xFactor, (chunkZ * 16 + z) / zFactor, fequency,
+						amplitude) * vScale;
+				int y = height + (int) noise;
 				chunk.setBlocks(x, 1, y, z, stoneMaterial);
 				if (y < liquidLevel)
 					chunk.setBlocks(x, y, liquidLevel, z, liquidMaterial);

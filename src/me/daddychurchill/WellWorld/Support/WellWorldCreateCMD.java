@@ -8,15 +8,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 public class WellWorldCreateCMD implements CommandExecutor {
-    private final WellWorld plugin;
+	private final WellWorld plugin;
 
-    public WellWorldCreateCMD(WellWorld plugin)
-    {
-        this.plugin = plugin;
-    }
+	public WellWorldCreateCMD(WellWorld plugin) {
+		this.plugin = plugin;
+	}
 
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] split) 
-    {
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] split) {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
 			if (player.hasPermission("wellworld.command")) {
@@ -31,5 +29,5 @@ public class WellWorldCreateCMD implements CommandExecutor {
 			sender.sendMessage("This command is only usable by a player");
 			return false;
 		}
-    }
+	}
 }

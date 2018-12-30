@@ -7,7 +7,7 @@ public class ForestWell extends StandardWellArchetype {
 
 	public ForestWell(World world, long seed, int wellX, int wellZ) {
 		super(world, seed, wellX, wellZ);
-		
+
 		// no water please
 		liquidLevel = -1;
 

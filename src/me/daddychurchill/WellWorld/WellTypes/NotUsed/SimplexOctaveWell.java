@@ -18,9 +18,9 @@ public class SimplexOctaveWell extends WellArchetype {
 	private double hScale = 1.0 / 64.0;
 	private double vScale = 16.0;
 	private int yLevel = 64;
-	
+
 	private SimplexOctaveGenerator generator;
-	
+
 	public SimplexOctaveWell(World world, long seed, int wellX, int wellZ) {
 		super(world, seed, wellX, wellZ);
 
@@ -32,8 +32,9 @@ public class SimplexOctaveWell extends WellArchetype {
 	public void generateChunk(InitialBlocks chunk, int chunkX, int chunkZ) {
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
-				double noise = generator.noise((chunkX * 16 + x) / xFactor, (chunkZ * 16 + z) / zFactor, fequency, amplitude) * vScale;
-				chunk.setBlocks(x, 1, yLevel + (int)noise, z, Material.STONE);
+				double noise = generator.noise((chunkX * 16 + x) / xFactor, (chunkZ * 16 + z) / zFactor, fequency,
+						amplitude) * vScale;
+				chunk.setBlocks(x, 1, yLevel + (int) noise, z, Material.STONE);
 			}
 		}
 	}

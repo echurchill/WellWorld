@@ -12,7 +12,7 @@ import me.daddychurchill.WellWorld.Support.InitialBlocks;
 public class TypePickerWell extends WellArchetype {
 
 	private SimplexNoiseGenerator generator;
-	
+
 	public TypePickerWell(World world, long seed, int wellX, int wellZ) {
 		super(world, seed, wellX, wellZ);
 
@@ -28,39 +28,39 @@ public class TypePickerWell extends WellArchetype {
 			}
 		}
 	}
-	
+
 	private Material getWellType(double noise) {
 		switch (NoiseGenerator.floor(noise * 17)) {
 		case 0:
-			return Material.NETHER_BRICKS; 
+			return Material.NETHER_BRICKS;
 		case 1:
-			return Material.BEDROCK; 
+			return Material.BEDROCK;
 		case 2:
-			return Material.BOOKSHELF; 
+			return Material.BOOKSHELF;
 		case 3:
-			return Material.BRICKS; 
+			return Material.BRICKS;
 		case 4:
-			return Material.IRON_BLOCK; 
+			return Material.IRON_BLOCK;
 		case 5:
-			return Material.CLAY; 
+			return Material.CLAY;
 		case 6:
-			return Material.COAL_ORE; 
+			return Material.COAL_ORE;
 		case 7:
-			return Material.COBBLESTONE; 
+			return Material.COBBLESTONE;
 		case 8:
-			return Material.DIAMOND_BLOCK; 
+			return Material.DIAMOND_BLOCK;
 		case 9:
-			return Material.DIAMOND_ORE; 
+			return Material.DIAMOND_ORE;
 		case 10:
-			return Material.END_STONE; 
+			return Material.END_STONE;
 		case 11:
-			return Material.GLOWSTONE; 
+			return Material.GLOWSTONE;
 		case 12:
-			return Material.GOLD_BLOCK; 
+			return Material.GOLD_BLOCK;
 		case 13:
-			return Material.GOLD_ORE; 
+			return Material.GOLD_ORE;
 		case 14:
-			return Material.GRASS_BLOCK; 
+			return Material.GRASS_BLOCK;
 		case 15:
 			return Material.DIRT;
 		case 16:

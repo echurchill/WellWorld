@@ -14,9 +14,9 @@ public class RoadPlatWell extends WellArchetype {
 	private double zFactor = 25.0;
 	private double chanceOfCompleteOuterRoad = 0.50;
 	private double chanceOfCompleteInnerRoad = 0.33;
-	
+
 	private SimplexNoiseGenerator generatorRoad;
-	
+
 	public RoadPlatWell(World world, long seed, int wellX, int wellZ) {
 		super(world, seed, wellX, wellZ);
 
@@ -25,7 +25,7 @@ public class RoadPlatWell extends WellArchetype {
 
 	@Override
 	public void generateChunk(InitialBlocks chunk, int chunkX, int chunkZ) {
-		
+
 		// general fill
 		Material materialGround = Material.GRASS_BLOCK;
 		if ((chunkX % 2 == 0 && chunkZ % 2 != 0) || (chunkX % 2 != 0 && chunkZ % 2 == 0))
@@ -36,9 +36,9 @@ public class RoadPlatWell extends WellArchetype {
 		drawIntersection(chunk, 0, 0, true);
 		drawIntersection(chunk, 8, 0, true);
 		drawIntersection(chunk, 0, 8, true);
-		
+
 		double roadOdds;
-		
+
 		// outer roads
 		roadOdds = checkRoadOdds(chunkX, chunkZ, 0);
 		drawEWRoad(chunk, 2, 0, true);
@@ -61,7 +61,7 @@ public class RoadPlatWell extends WellArchetype {
 //		drawEWRoad(chunk, 10, 0, !drawOtherRoad || checkRoad(chunkX, chunkZ, 1));
 //		drawOtherRoad = drawNSRoad(chunk, 0, 2, checkRoad(chunkX, chunkZ, 2));
 //		drawNSRoad(chunk, 0, 10, !drawOtherRoad || checkRoad(chunkX, chunkZ, 3));
-		
+
 		// inner roads
 		roadOdds = checkRoadOdds(chunkX, chunkZ, 2);
 		if (roadOdds < 0.5 + chanceOfCompleteInnerRoad / 2.0)
@@ -74,7 +74,7 @@ public class RoadPlatWell extends WellArchetype {
 		if (roadOdds > 0.5 - chanceOfCompleteInnerRoad / 2.0)
 			drawNSRoad(chunk, 8, 10, true);
 		drawIntersection(chunk, 8, 8, true);
-		
+
 //		boolean drawCenter = false;
 //		drawCenter = drawNSRoad(chunk, 8, 2, checkInnerRoad(chunkX, chunkZ, 2)) || drawCenter;
 //		drawCenter = drawEWRoad(chunk, 2, 8, checkInnerRoad(chunkX, chunkZ, 3)) || drawCenter;
@@ -82,11 +82,11 @@ public class RoadPlatWell extends WellArchetype {
 //		drawCenter = drawEWRoad(chunk, 10, 8, checkInnerRoad(chunkX, chunkZ, 5)) || drawCenter;
 //		drawIntersection(chunk, 8, 8, drawCenter);
 	}
-	
+
 	private double checkRoadOdds(int chunkX, int chunkZ, int n) {
 		return (generatorRoad.noise((chunkX * 16 + n) / xFactor, (chunkZ * 16 + n) / zFactor) + 1) / 2;
 	}
-	
+
 	private void drawIntersection(InitialBlocks chunk, int x, int z, boolean drawRoad) {
 		if (drawRoad)
 			chunk.setBlocks(x, x + 2, 100, 102, z, z + 2, Material.STONE);

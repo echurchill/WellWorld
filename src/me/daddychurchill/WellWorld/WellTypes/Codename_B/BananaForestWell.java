@@ -4,7 +4,8 @@ import me.daddychurchill.WellWorld.Support.InitialBlocks;
 
 import org.bukkit.Chunk;
 import org.bukkit.World;
-import org.bukkit.util.noise.*;
+import org.bukkit.util.noise.OctaveGenerator;
+import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 public class BananaForestWell extends BananaWellArchetype {
 
@@ -34,7 +35,7 @@ public class BananaForestWell extends BananaWellArchetype {
 			int noiseX = getNoiseValue(chunkX, x);
 			for (int z = 0; z < 16; z++) {
 				int noiseZ = getNoiseValue(chunkZ, z);
-					
+
 				y = l1.noise(noiseX, noiseZ, 7, 1);
 				double my = l1.noise(noiseX / 2.0, noiseZ / 2.0, 7, 1);
 				sh = l2.noise(noiseX, noiseZ, 7, 1);
@@ -106,9 +107,8 @@ public class BananaForestWell extends BananaWellArchetype {
 //					double rr = l1.noise(getBlockLocation(chunkX, x),
 //							getBlockLocation(chunkZ, z - 2), 7, 1);
 
-					if (u > 0.6 || d > 0.6 || l > 0.6 || r > 0.6 || ul > 0.6
-							|| ur > 0.6 || dl > 0.6 || dr > 0.6 || uu > 0.6
-							|| dd > 0.6 || ll > 0.6 || rr > 0.6) {
+					if (u > 0.6 || d > 0.6 || l > 0.6 || r > 0.6 || ul > 0.6 || ur > 0.6 || dl > 0.6 || dr > 0.6
+							|| uu > 0.6 || dd > 0.6 || ll > 0.6 || rr > 0.6) {
 						for (int i = 80 - Math.abs(80 - highest) / 2; i < highest; i++)
 							chunk.setBlock(x, i, z, materialLeaves);
 //							data[GenUtil.xyzToByte(x, i, z)] = (byte) Material.LEAVES.getId();

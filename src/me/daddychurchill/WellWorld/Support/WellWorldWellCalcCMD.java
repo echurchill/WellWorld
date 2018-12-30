@@ -9,14 +9,13 @@ import org.bukkit.command.CommandSender;
 public class WellWorldWellCalcCMD implements CommandExecutor {
 //    private final WellWorld plugin;
 
-    public WellWorldWellCalcCMD(WellWorld plugin)
-    {
+	public WellWorldWellCalcCMD(WellWorld plugin) {
 //        this.plugin = plugin;
-    }
+	}
 
 	int wellWidthInChunks = 4;
 //	int halfWellWidth = wellWidthInChunks / 2;
-	
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] split) {
 //		for (int chunkX = -wellWidthInChunks * 2; chunkX < wellWidthInChunks * 2; chunkX++) {
@@ -55,16 +54,15 @@ public class WellWorldWellCalcCMD implements CommandExecutor {
 			return -((Math.abs(i + 1) / wellWidthInChunks * wellWidthInChunks) + wellWidthInChunks);
 		}
 	}
-	
+
 	public String generateWalls(int wellChunkX, int wellChunkZ) {
-		
+
 		// sides?
 		boolean wallNorth = wellChunkX == 0;
 		boolean wallSouth = wellChunkX == wellWidthInChunks - 1;
 		boolean wallWest = wellChunkZ == 0;
 		boolean wallEast = wellChunkZ == wellWidthInChunks - 1;
-		
-		return (wallNorth ? "N" : "-") + (wallSouth ? "S" : "-") +
-			   (wallWest ? "W" : "-") + (wallEast ? "E" : "-");
+
+		return (wallNorth ? "N" : "-") + (wallSouth ? "S" : "-") + (wallWest ? "W" : "-") + (wallEast ? "E" : "-");
 	}
 }

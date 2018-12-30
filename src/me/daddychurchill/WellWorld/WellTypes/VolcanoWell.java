@@ -13,25 +13,25 @@ import me.daddychurchill.WellWorld.Support.InitialBlocks;
 
 public class VolcanoWell extends WellArchetype {
 
-	//TODO need to add a chamber
-	//TODO need to add a vent from the chamber to crater
-	//TODO need to add partially filled crater
+	// TODO need to add a chamber
+	// TODO need to add a vent from the chamber to crater
+	// TODO need to add partially filled crater
 	private int mineralOdds; // 1/n chance that there is minerals on this level
 	private int mineralsPerLayer; // number of minerals per layer
-    private Material materialInterior;
-    private Material materialSurface;
-    private Material materialFlood;
-    private Material materialLiquid;
-    private int baseAt;
-    private int liquidAt;
-    private int coneScale;
-    private int craterAt;
-    private int surfaceThickness;
-    private double surfaceVariance;
-    private NoiseGenerator generator;
-    
-    private final static double noiseTweak = 0.0625;
-    
+	private Material materialInterior;
+	private Material materialSurface;
+	private Material materialFlood;
+	private Material materialLiquid;
+	private int baseAt;
+	private int liquidAt;
+	private int coneScale;
+	private int craterAt;
+	private int surfaceThickness;
+	private double surfaceVariance;
+	private NoiseGenerator generator;
+
+	private final static double noiseTweak = 0.0625;
+
 	public VolcanoWell(World world, long seed, int wellX, int wellZ) {
 		super(world, seed, wellX, wellZ);
 
@@ -41,55 +41,55 @@ public class VolcanoWell extends WellArchetype {
 		craterAt = baseAt + coneScale - calcRandomRange(2, 6);
 		surfaceThickness = random.nextInt(3) + 1;
 		surfaceVariance = calcRandomRange(4.0, 7.0);
-		
+
 		mineralOdds = random.nextInt(5) + 1;
 		mineralsPerLayer = random.nextInt(10);
-		
+
 		materialInterior = Material.STONE;
 		materialSurface = Material.COBBLESTONE;
 		materialFlood = Material.LAVA;
 		materialLiquid = Material.WATER;
-		
-        generator = new SimplexNoiseGenerator(randseed);
+
+		generator = new SimplexNoiseGenerator(randseed);
 	}
 
-    private int getSurfaceNoise(double x, double z) {
-        return NoiseGenerator.floor(generator.noise(x, z) * surfaceVariance);
-    }
-    
-    private final static double TwoPi = Math.PI * 2.0;
-    private final static double HalfPi = Math.PI / 2.0;
+	private int getSurfaceNoise(double x, double z) {
+		return NoiseGenerator.floor(generator.noise(x, z) * surfaceVariance);
+	}
+
+	private final static double TwoPi = Math.PI * 2.0;
+	private final static double HalfPi = Math.PI / 2.0;
 
 	@Override
 	public void generateChunk(InitialBlocks chunk, int chunkX, int chunkZ) {
-        for (int x = 0; x < 16; x++) {
-            for (int z = 0; z < 16; z++) {
-            	double blockX = chunkX * 16 + x;
-            	double blockZ = chunkZ * 16 + z;
-            	double floatX = blockX / (WellWorld.wellWidthInChunks * chunk.width);
-            	double floatZ = blockZ / (WellWorld.wellWidthInChunks * chunk.width);
-            	double heightX = (Math.sin(floatX * TwoPi - HalfPi) + 1) / 2;
-            	double heightZ = (Math.sin(floatZ * TwoPi - HalfPi) + 1) / 2;
-            	int height = baseAt + (int) (heightX * heightZ * coneScale) + 
-            			getSurfaceNoise((chunkX * 16 + x) * noiseTweak, (chunkZ * 16 + z) * noiseTweak);
-            	if (height < liquidAt) {
-                    chunk.setBlocks(x, 1, height, z, materialInterior);
-                    chunk.setBlocks(x, height, liquidAt, z, materialLiquid);
-            	} else if (height > craterAt) {
-            		int craterDepth = height - (int) (heightX * heightZ * coneScale);
-                    chunk.setBlocks(x, 1, height - craterDepth, z, materialInterior);
-                    chunk.setBlocks(x, height - craterDepth, craterAt + 1, z, materialFlood);
-            	} else {
-            		chunk.setBlocks(x, 1, height - surfaceThickness, z, materialInterior);
-            		chunk.setBlocks(x, height - surfaceThickness, height, z, materialSurface);
-            	}
-            }
-        }
+		for (int x = 0; x < 16; x++) {
+			for (int z = 0; z < 16; z++) {
+				double blockX = chunkX * 16 + x;
+				double blockZ = chunkZ * 16 + z;
+				double floatX = blockX / (WellWorld.wellWidthInChunks * chunk.width);
+				double floatZ = blockZ / (WellWorld.wellWidthInChunks * chunk.width);
+				double heightX = (Math.sin(floatX * TwoPi - HalfPi) + 1) / 2;
+				double heightZ = (Math.sin(floatZ * TwoPi - HalfPi) + 1) / 2;
+				int height = baseAt + (int) (heightX * heightZ * coneScale)
+						+ getSurfaceNoise((chunkX * 16 + x) * noiseTweak, (chunkZ * 16 + z) * noiseTweak);
+				if (height < liquidAt) {
+					chunk.setBlocks(x, 1, height, z, materialInterior);
+					chunk.setBlocks(x, height, liquidAt, z, materialLiquid);
+				} else if (height > craterAt) {
+					int craterDepth = height - (int) (heightX * heightZ * coneScale);
+					chunk.setBlocks(x, 1, height - craterDepth, z, materialInterior);
+					chunk.setBlocks(x, height - craterDepth, craterAt + 1, z, materialFlood);
+				} else {
+					chunk.setBlocks(x, 1, height - surfaceThickness, z, materialInterior);
+					chunk.setBlocks(x, height - surfaceThickness, height, z, materialSurface);
+				}
+			}
+		}
 	}
 
 	@Override
 	public void populateBlocks(Chunk chunk, int chunkX, int chunkZ) {
-		
+
 		// sprinkle minerals for each y layer, one of millions of ways to do this!
 		for (int y = 1; y < 127; y++) {
 			if (random.nextInt(mineralOdds) == 0) {
